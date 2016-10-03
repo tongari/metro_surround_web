@@ -1,10 +1,10 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+// import HtmlWebpackPlugin from 'html-webpack-plugin';
+//import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 module.exports = [
 {
   entry: {
-    'app' : './src/js/app.js'
+    'app': './src/js/app.js'
   },
   output: {
     path: './dist/js',
@@ -16,29 +16,33 @@ module.exports = [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loader: 'babel'
+        loaders: ['babel-loader','eslint-loader']
       },
       {
         test: /\.css$/,
         loaders: ['style', 'css?modules']
       }
     ]
-  }
-
-},
-{
-  output: {
-    path: './dist',
-    filename: "[name].html"
   },
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/html/index.html',
-      filename: 'index.html'
-    })
-  ]
+  eslint: {
+    configFile: './.eslintrc'
+  }
+
 }
+// {
+//   output: {
+//     path: './dist',
+//     filename: "[name].html"
+//   },
+//
+//   plugins: [
+//     new HtmlWebpackPlugin({
+//       template: './src/html/index.html',
+//       filename: 'index.html'
+//     })
+//   ]
+// }
 // {
 //   entry: {
 //     app: './src/css/app.css'
