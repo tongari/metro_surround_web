@@ -1,6 +1,7 @@
 // import HtmlWebpackPlugin from 'html-webpack-plugin';
 //import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
+import WebpackStrip from 'strip-loader';
 
 module.exports = [
 {
@@ -17,7 +18,7 @@ module.exports = [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loaders: ['babel-loader','eslint-loader']
+        loaders: ['babel-loader','eslint-loader',WebpackStrip.loader('debug','console.log')]
       },
       {
         test: /\.css$/,
