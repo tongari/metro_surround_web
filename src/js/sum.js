@@ -11,6 +11,7 @@ export default () => {
     return total;
   }
 
-  console.log(sum(list));
-  console.log('1');
+  sum(list);
+  // console.log(sum( list));
+  // console.log('1');
 };

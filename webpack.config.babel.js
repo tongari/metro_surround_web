@@ -1,5 +1,6 @@
 // import HtmlWebpackPlugin from 'html-webpack-plugin';
 //import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 
 module.exports = [
 {
@@ -27,7 +28,10 @@ module.exports = [
 
   eslint: {
     configFile: './.eslintrc'
-  }
+  },
+  plugins: [
+    new WebpackBuildNotifierPlugin()
+  ]
 
 }
 // {
