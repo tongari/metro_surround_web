@@ -1,4 +1,4 @@
-// import HtmlWebpackPlugin from 'html-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 //import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 import WebpackStrip from 'strip-loader';
@@ -18,7 +18,8 @@ module.exports = [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loaders: ['babel-loader','eslint-loader',WebpackStrip.loader('debug','console.log')]
+        // loaders: ['babel-loader','eslint-loader',WebpackStrip.loader('debug', 'console.log')]
+        loaders: ['babel-loader','eslint-loader']
       },
       {
         test: /\.css$/,
@@ -34,20 +35,20 @@ module.exports = [
     new WebpackBuildNotifierPlugin()
   ]
 
+},
+{
+  output: {
+    path: './dist',
+    filename: "[name].html"
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/html/index.html',
+      filename: 'index.html'
+    })
+  ]
 }
-// {
-//   output: {
-//     path: './dist',
-//     filename: "[name].html"
-//   },
-//
-//   plugins: [
-//     new HtmlWebpackPlugin({
-//       template: './src/html/index.html',
-//       filename: 'index.html'
-//     })
-//   ]
-// }
 // {
 //   entry: {
 //     app: './src/css/app.css'

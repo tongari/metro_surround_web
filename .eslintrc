@@ -2,7 +2,6 @@
   "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "no-multiple-empty-lines": [1, { "max": 999 }]
+    "no-trailing-spaces":["off"]
   }
 }
