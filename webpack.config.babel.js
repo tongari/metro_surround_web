@@ -1,14 +1,26 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import WebpackStrip from 'strip-loader';
+import path from 'path';
+import colors from 'colors';
+
+colors.setTheme({
+  custom: ['green', 'bold']
+});
+
+const PATH = {
+  src: './src',
+  dist: './dist'
+};
 
 const jsConfig = ((env)=> {
   const entry = {
-    'app': './src/js/app.js'
+    'app': `${PATH.src}/js/app.js`
   };
   const output = {
-    path: './dist/js',
+    path: `${PATH.dist}/js`,
     filename: "[name].js"
   };
   const module = ((env)=> {
@@ -23,6 +35,10 @@ const jsConfig = ((env)=> {
     };
 
     if(env === 'prod'){
+      console.info('      ******************************************************************'.green);
+      console.info('                      deploy start!!  '.custom);
+      console.info('                      remove console.log  '.custom);
+      console.info('      ******************************************************************'.green);
       jsModule.loaders.unshift(
         WebpackStrip.loader('console.log')
       );
@@ -34,36 +50,25 @@ const jsConfig = ((env)=> {
   })(env);
 
   const eslint = {
-    configFile: './.eslintrc'
+    configFile: '.eslintrc'
   };
 
   const plugins = [
-    new WebpackBuildNotifierPlugin()
+    new WebpackBuildNotifierPlugin(),
+    new CopyWebpackPlugin([
+      {from: `${PATH.src}/html`, to: path.join(__dirname, 'dist')}
+    ])
   ];
 
   return {entry, output, module, eslint, plugins}
 })(process.env.NODE_ENV);
 
 const cssConfig = {
-  output: {
-    path: './dist',
-    filename: "[name].html"
-  },
-
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/html/index.html',
-      filename: 'index.html'
-    })
-  ]
-}
-
-const htmlConfig = {
   entry: {
-    app: './src/css/app.css'
+    app: `${PATH.src}/css/app.css`
   },
   output: {
-    path: './dist/css/',
+    path: `${PATH.dist}/css/`,
     filename: '[name].css',
   },
   module: {
@@ -77,6 +82,20 @@ const htmlConfig = {
   plugins: [
     new ExtractTextPlugin('[name].css')
   ]
-}
+};
 
-module.exports = [jsConfig, cssConfig];
+const htmlConfig = {
+  output: {
+    path: PATH.dist,
+    filename: "[name].html"
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: `${PATH.src}/html/index.html`,
+      filename: 'index.html'
+    })
+  ]
+};
+
+module.exports = [jsConfig];
