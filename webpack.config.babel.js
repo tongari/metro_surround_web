@@ -24,6 +24,16 @@ const jsConfig = ((env)=> {
     filename: "[name].js"
   };
   const module = ((env)=> {
+
+    const jsReplaceModule = {
+      test: /\.jsx?$/,
+      exclude: /(node_modules)/,
+      loader: 'string-replace',
+      query: {
+        search: 'console.log',
+        replace: 'alert'
+      }
+    };
     const jsModule = {
       test: /\.jsx?$/,
       exclude: /(node_modules)/,
@@ -45,7 +55,7 @@ const jsConfig = ((env)=> {
     };
 
     return {
-      loaders: [jsModule, cssModule]
+      loaders: [jsReplaceModule , jsModule, cssModule]
     };
   })(env);
 
