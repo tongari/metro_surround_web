@@ -21,17 +21,18 @@ const jsConfig = ((env)=> {
   };
   const output = {
     path: `${PATH.dist}/js`,
+    // filename:  (env === 'prod') ? '[name].min.js': "[name].js"
     filename: "[name].js"
   };
   const module = ((env)=> {
 
-    const jsReplaceModule = {
+    const rp = {
       test: /\.jsx?$/,
       exclude: /(node_modules)/,
-      loader: 'string-replace',
+      loader:'string-replace',
       query: {
-        search: 'console.log',
-        replace: 'alert'
+        search: '{JS_PATH}',
+        replace: (env === 'prod') ? '/': "../"
       }
     };
     const jsModule = {
@@ -45,17 +46,17 @@ const jsConfig = ((env)=> {
     };
 
     if(env === 'prod'){
-      console.info('      ******************************************************************'.green);
-      console.info('                      deploy start!!  '.custom);
-      console.info('                      remove console.log  '.custom);
-      console.info('      ******************************************************************'.green);
+      console.log('      ******************************************************************'.green);
+      console.log('                      deploy start!!  '.custom);
+      console.log('                      remove console.log  '.custom);
+      console.log('      ******************************************************************'.green);
       jsModule.loaders.unshift(
         WebpackStrip.loader('console.log')
       );
     };
 
     return {
-      loaders: [jsReplaceModule , jsModule, cssModule]
+      loaders: [rp, jsModule, cssModule]
     };
   })(env);
 
@@ -73,39 +74,82 @@ const jsConfig = ((env)=> {
   return {entry, output, module, eslint, plugins}
 })(process.env.NODE_ENV);
 
-const cssConfig = {
-  entry: {
-    app: `${PATH.src}/css/app.css`
-  },
-  output: {
+const cssConfig = ((env)=>{
+  const entry = {
+    app: `${PATH.src}/css/index.css`
+  };
+  const output = {
     path: `${PATH.dist}/css/`,
     filename: '[name].css',
-  },
-  module: {
+  };
+  const replace = (env === 'prod') ? '/': '../';
+  const module = {
     loaders: [
+      // {
+      //   test: /\.css$/,
+      //   loader:`string-replace?search={CSS_PATH}&replace=${replace}`,
+      //   // query: {
+      //   //   search: '{CSS_PATH}',
+      //   //   replace: replace
+      //   // }
+      // },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+        loaders: [`string-replace?search={CSS_PATH}&replace=${replace}`,ExtractTextPlugin.extract('style-loader', 'css-loader')]
       }
     ]
-  },
-  plugins: [
+  };
+  const plugins = [
     new ExtractTextPlugin('[name].css')
-  ]
-};
+  ];
 
-const htmlConfig = {
-  output: {
-    path: PATH.dist,
-    filename: "[name].html"
-  },
+  return {entry, output, module, plugins}
+})(process.env.NODE_ENV);
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: `${PATH.src}/html/index.html`,
-      filename: 'index.html'
-    })
-  ]
-};
+// const htmlConfig = ((env) => {
+//
+//   const output = {
+//     path: PATH.dist,
+//     filename: "[name].html"
+//   };
+//
+//   const plugins = [
+//     new HtmlWebpackPlugin({
+//       template: `${PATH.src}/html/index.html`,
+//       filename: 'index.html'
+//     })
+//   ];
+//
+//   return {output, plugins}
+// })(process.env.NODE_ENV);
+//
+// const copyHtmlConfig = ((env) => {
+//
+//   const entry = {
+//     'index': `${PATH.src}/html/index.html`
+//   };
+//
+//   const output = {
+//     path: PATH.dist,
+//     filename: "[name].html"
+//   };
+//
+//   const modules = {
+//     test: /\.html?$/,
+//     loaders:['string-replace','html-loader'],
+//     query: {
+//       search: '{ENV_SUFFIX}',
+//       replace: (env === 'prod') ? '.min': ""
+//     }
+//   };
+//
+//   const plugins = [
+//     new CopyWebpackPlugin([
+//       {from: `${PATH.src}/html`, to: path.join(__dirname, 'dist')}
+//     ])
+//   ];
+//
+//   return {entry, output, modules, plugins}
+// })(process.env.NODE_ENV);
 
-module.exports = [jsConfig];
+module.exports = [jsConfig, cssConfig];
