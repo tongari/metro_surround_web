@@ -67,7 +67,9 @@ const jsConfig = ((env)=> {
   const plugins = [
     new WebpackBuildNotifierPlugin(),
     new CopyWebpackPlugin([
-      {from: `${PATH.src}/html`, to: path.join(__dirname, 'dist')}
+      {from: `${PATH.src}/html`, to: path.join(__dirname, 'dist')},
+      {from: `${PATH.src}/img`, to: path.join(__dirname, 'dist/img')},
+      {from: `${PATH.src}/img`, to: path.join(__dirname, 'dist/images')},
     ])
   ];
 
@@ -80,23 +82,26 @@ const cssConfig = ((env)=>{
   };
   const output = {
     path: `${PATH.dist}/css/`,
+    publicPath: '',
     filename: '[name].css',
   };
   const replace = (env === 'prod') ? '/': '../';
   const module = {
     loaders: [
-      // {
-      //   test: /\.css$/,
-      //   loader:`string-replace?search={CSS_PATH}&replace=${replace}`,
-      //   // query: {
-      //   //   search: '{CSS_PATH}',
-      //   //   replace: replace
-      //   // }
-      // },
       {
         test: /\.css$/,
-        loaders: [`string-replace?search={CSS_PATH}&replace=${replace}`,ExtractTextPlugin.extract('style-loader', 'css-loader')]
-      }
+        loader: ExtractTextPlugin.extract('style-loader','css-loader?resolve-url')
+      },
+      { test: /(png|jpg|gif)$/, loader: 'url-loader?limit=10000&name=[name].[ext]'},
+      { test: /(png|jpg|gif)$/, loader: "file?limit=10000&name=[name].[ext]" },
+      {
+        test: /\.css$/,
+        loader: 'string-replace',
+        query: {
+          search:'img',
+          replace: '/yahoo.co.jp/img/asset'
+        }
+      },
     ]
   };
   const plugins = [
