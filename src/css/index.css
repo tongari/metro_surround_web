@@ -1,6 +1,6 @@
 @charset "utf-8";
 
 .test{
-  background-image: url('/img/hoge.png');
+  background-image: url(./../img/hoge.png);
   color: #f00;
 }

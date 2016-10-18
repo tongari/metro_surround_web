@@ -38,7 +38,6 @@
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
-    "resolve-url-loader": "^1.6.0",
     "rimraf": "^2.5.2",
     "string-replace-loader": "^1.0.5",
     "strip-loader": "^0.1.2",

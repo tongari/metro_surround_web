@@ -78,30 +78,22 @@ const jsConfig = ((env)=> {
 
 const cssConfig = ((env)=>{
   const entry = {
-    app: `${PATH.src}/css/index.css`
+    app: `${PATH.src}/css/index.css`,
+    child: `${PATH.src}/css/child/index.css`
   };
   const output = {
     path: `${PATH.dist}/css/`,
     publicPath: '',
     filename: '[name].css',
   };
-  const replace = (env === 'prod') ? '/': '../';
+  const cssPath = (env === 'prod') ? '/img/': './../img/';
   const module = {
     loaders: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader','css-loader?resolve-url')
+        loader: ExtractTextPlugin.extract('style-loader','css-loader')
       },
-      { test: /(png|jpg|gif)$/, loader: 'url-loader?limit=10000&name=[name].[ext]'},
-      { test: /(png|jpg|gif)$/, loader: "file?limit=10000&name=[name].[ext]" },
-      {
-        test: /\.css$/,
-        loader: 'string-replace',
-        query: {
-          search:'img',
-          replace: '/yahoo.co.jp/img/asset'
-        }
-      },
+      { test: /\.(jpe?g|png|gif)$/i, loaders: [ `file-loader?limit=10000&name=${cssPath}[name].[ext]`] }
     ]
   };
   const plugins = [

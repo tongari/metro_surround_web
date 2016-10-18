@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+.child-test{
+  background-image: url(./../../img/hoge.png);
+  color: #f00;
+}
