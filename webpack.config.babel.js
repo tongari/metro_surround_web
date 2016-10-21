@@ -76,32 +76,32 @@ const jsConfig = ((env)=> {
   return {entry, output, module, eslint, plugins}
 })(process.env.NODE_ENV);
 
-const cssConfig = ((env)=>{
-  const entry = {
-    app: `${PATH.src}/css/index.css`,
-    child: `${PATH.src}/css/child/index.css`
-  };
-  const output = {
-    path: `${PATH.dist}/css/`,
-    publicPath: '',
-    filename: '[name].css',
-  };
-  const cssPath = (env === 'prod') ? '/img/': './../img/';
-  const module = {
-    loaders: [
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader','css-loader')
-      },
-      { test: /\.(jpe?g|png|gif)$/i, loaders: [ `file-loader?limit=10000&name=${cssPath}[name].[ext]`] }
-    ]
-  };
-  const plugins = [
-    new ExtractTextPlugin('[name].css')
-  ];
-
-  return {entry, output, module, plugins}
-})(process.env.NODE_ENV);
+// const cssConfig = ((env)=>{
+//   const entry = {
+//     app: `${PATH.src}/css/index.css`,
+//     child: `${PATH.src}/css/child/index.css`
+//   };
+//   const output = {
+//     path: `${PATH.dist}/css/`,
+//     publicPath: '',
+//     filename: '[name].css',
+//   };
+//   const cssPath = (env === 'prod') ? '/img/': './../img/';
+//   const module = {
+//     loaders: [
+//       {
+//         test: /\.css$/,
+//         loader: ExtractTextPlugin.extract('style-loader','css-loader')
+//       },
+//       { test: /\.(jpe?g|png|gif)$/i, loaders: [ `file-loader?limit=10000&name=${cssPath}[name].[ext]`] }
+//     ]
+//   };
+//   const plugins = [
+//     new ExtractTextPlugin('[name].css')
+//   ];
+//
+//   return {entry, output, module, plugins}
+// })(process.env.NODE_ENV);
 
 // const htmlConfig = ((env) => {
 //
@@ -149,4 +149,4 @@ const cssConfig = ((env)=>{
 //   return {entry, output, modules, plugins}
 // })(process.env.NODE_ENV);
 
-module.exports = [jsConfig, cssConfig];
+module.exports = [jsConfig];
