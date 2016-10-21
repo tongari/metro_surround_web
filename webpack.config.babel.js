@@ -17,7 +17,7 @@ const PATH = {
 
 const jsConfig = ((env)=> {
   const entry = {
-    'app': `${PATH.src}/js/app.js`
+    'app': `${PATH.src}/js/app.jsx`
   };
   const output = {
     path: `${PATH.dist}/js`,
@@ -73,7 +73,11 @@ const jsConfig = ((env)=> {
     ])
   ];
 
-  return {entry, output, module, eslint, plugins}
+  const resolve = {
+    extensions: ['', '.js', '.jsx']
+  }
+
+  return {entry, output, module, eslint, plugins, resolve}
 })(process.env.NODE_ENV);
 
 // const cssConfig = ((env)=>{
