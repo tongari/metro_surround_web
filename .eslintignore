@@ -1,4 +1,5 @@
 node_modules/
 webpack.config.babel.js
 bs-config.js
+gulpfile.babel.js
 dist/

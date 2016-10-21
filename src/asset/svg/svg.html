@@ -1,0 +1,19 @@
+<html>
+<head>
+  <title>SVG Sprite List</title>
+</head>
+<body>
+<div class="container">
+  <%= inlineSvg %>
+  <h1 class="title">SVG Sprite List</h1>
+  <div class="items">
+    <% _.each(symbols, function(symbol) { %>
+    <div class="items__inner">
+      <p class='items__id'><%= symbol.id %></p>
+      <svg><use xlink:href="#<%= symbol.id %>"></use></svg>
+    </div>
+    <% }); %>
+  </div>
+</div>
+</body>
+</html>

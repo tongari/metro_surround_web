@@ -68,8 +68,7 @@ const jsConfig = ((env)=> {
     new WebpackBuildNotifierPlugin(),
     new CopyWebpackPlugin([
       {from: `${PATH.src}/html`, to: path.join(__dirname, 'dist')},
-      {from: `${PATH.src}/img`, to: path.join(__dirname, 'dist/img')},
-      {from: `${PATH.src}/img`, to: path.join(__dirname, 'dist/images')},
+      {from: `${PATH.src}/asset/img`, to: path.join(__dirname, 'dist/img')}
     ])
   ];
 
@@ -80,77 +79,35 @@ const jsConfig = ((env)=> {
   return {entry, output, module, eslint, plugins, resolve}
 })(process.env.NODE_ENV);
 
-// const cssConfig = ((env)=>{
-//   const entry = {
-//     app: `${PATH.src}/css/index.css`,
-//     child: `${PATH.src}/css/child/index.css`
-//   };
-//   const output = {
-//     path: `${PATH.dist}/css/`,
-//     publicPath: '',
-//     filename: '[name].css',
-//   };
-//   const cssPath = (env === 'prod') ? '/img/': './../img/';
-//   const module = {
-//     loaders: [
-//       {
-//         test: /\.css$/,
-//         loader: ExtractTextPlugin.extract('style-loader','css-loader')
-//       },
-//       { test: /\.(jpe?g|png|gif)$/i, loaders: [ `file-loader?limit=10000&name=${cssPath}[name].[ext]`] }
-//     ]
-//   };
-//   const plugins = [
-//     new ExtractTextPlugin('[name].css')
-//   ];
-//
-//   return {entry, output, module, plugins}
-// })(process.env.NODE_ENV);
+const cssConfig = ((env)=>{
+  const entry = {
+    app: `${PATH.src}/css/index.css`,
+  };
+  const output = {
+    path: `${PATH.dist}/css/`,
+    filename: '[name].css',
+  };
 
-// const htmlConfig = ((env) => {
-//
-//   const output = {
-//     path: PATH.dist,
-//     filename: "[name].html"
-//   };
-//
-//   const plugins = [
-//     new HtmlWebpackPlugin({
-//       template: `${PATH.src}/html/index.html`,
-//       filename: 'index.html'
-//     })
-//   ];
-//
-//   return {output, plugins}
-// })(process.env.NODE_ENV);
-//
-// const copyHtmlConfig = ((env) => {
-//
-//   const entry = {
-//     'index': `${PATH.src}/html/index.html`
-//   };
-//
-//   const output = {
-//     path: PATH.dist,
-//     filename: "[name].html"
-//   };
-//
-//   const modules = {
-//     test: /\.html?$/,
-//     loaders:['string-replace','html-loader'],
-//     query: {
-//       search: '{ENV_SUFFIX}',
-//       replace: (env === 'prod') ? '.min': ""
-//     }
-//   };
-//
-//   const plugins = [
-//     new CopyWebpackPlugin([
-//       {from: `${PATH.src}/html`, to: path.join(__dirname, 'dist')}
-//     ])
-//   ];
-//
-//   return {entry, output, modules, plugins}
-// })(process.env.NODE_ENV);
+  const cssLoaderQuery = {
+    modules: true,
+    sourceMap: (env === 'prod') ? true : false,
+    localIdentName: '[name]-[local]-[hash:base64:5]',
+    importLoaders: 1
+  };
+  const module = {
+    loaders: [
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract([`css?${cssLoaderQuery}`, 'postcss'])
+      }
+    ]
+  };
+  const plugins = [
+    new ExtractTextPlugin('[name].css')
+  ];
 
-module.exports = [jsConfig];
+  return {entry, output, module, plugins}
+})(process.env.NODE_ENV);
+
+
+module.exports = [jsConfig, cssConfig];
