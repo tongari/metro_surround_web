@@ -1,0 +1,11 @@
+:root {
+  --base-font-family: sans-serif;
+}
+
+:root {
+  --font-size-SS: 0.625rem;
+  --font-size-S: 0.75rem;
+  --font-size-M: 1rem;
+  --font-size-L: 1.125rem;
+  --font-size-LL: 1.375rem;
+}

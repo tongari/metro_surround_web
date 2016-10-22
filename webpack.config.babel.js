@@ -103,7 +103,8 @@ const cssConfig = ((env)=>{
     loaders: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract([`css?${cssLoaderQuery}`, 'postcss'])
+        // loader: ExtractTextPlugin.extract([`css?${cssLoaderQuery}`, 'postcss'])
+        loader: ExtractTextPlugin.extract('style-loader','css-loader!postcss-loader')
       }
     ]
   };
@@ -111,7 +112,18 @@ const cssConfig = ((env)=>{
     new ExtractTextPlugin('[name].css')
   ];
 
-  return {entry, output, module, plugins}
+  const postcss = (() => {
+    let config = [];
+    config = config.concat([
+      require('postcss-cssnext')({ browsers: [
+        'last 2 versions'
+      ]})
+    ]);
+
+    return config;
+  })();
+
+  return {entry, output, module, plugins, postcss}
 })(process.env.NODE_ENV);
 
 

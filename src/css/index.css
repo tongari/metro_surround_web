@@ -1,1 +1,3 @@
-@import "~normalize.css";
+@import url("./foundation/sanitaize.css");
+@import url("./foundation/config.css");
+@import url("./foundation/base.css");
