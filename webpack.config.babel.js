@@ -55,8 +55,13 @@ const jsConfig = ((env)=> {
       );
     };
 
+    const svgModule = {
+      // test: /\.svg$/, loader: 'svg-loader'
+      test: /\.(png|svg)$/i, loaders: [ 'url?name=[path][name].[ext]' ]
+    };
+
     return {
-      loaders: [rp, jsModule, cssModule]
+      loaders: [rp, svgModule, jsModule, cssModule]
     };
   })(env);
 

@@ -5,12 +5,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "webpack --progress --optimize-minimize",
-    "svg": "gulp svg",
     "watch": "webpack --progress --watch",
     "server": "browser-sync start --config bs-config.js",
     "prod": "NODE_ENV=prod npm run deploy",
-    "dev": "npm run svg && npm run watch & npm run server",
-    "clean": "rimraf ./dist"
+    "dev": "npm run watch & npm run server",
+    "clean": "rimraf ./dist",
+    "svg": "rimraf ./src/asset/svg && gulp svg"
   },
   "dependencies": {},
   "devDependencies": {
@@ -47,11 +47,13 @@
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
+    "react-svg-use": "^1.0.2",
     "redux": "^3.5.2",
     "rimraf": "^2.5.2",
     "string-replace-loader": "^1.0.5",
     "strip-loader": "^0.1.2",
     "style-loader": "^0.13.1",
+    "svg-loader": "0.0.2",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
     "webpack-build-notifier": "^0.1.12"
