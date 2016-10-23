@@ -4,12 +4,51 @@ import svgstore from 'gulp-svgstore';
 import cheerio from 'gulp-cheerio';
 import template from 'gulp-template';
 import rename from 'gulp-rename';
+import glob from 'glob';
+import footer from 'gulp-footer';
+
+const trimFileName = (str) => {
+  const result = str.split('').reduce((prev, cur, index)=>{
+    const prevText = (index === 1) ? prev.toUpperCase() : prev;
+    return prevText+cur;
+  });
+  return result.toString().replace(/-/g, '');
+};
+
+const createIconComponents = (list)=> {
+  return list.reduce((prev,cur)=>{
+    return prev+ '\n'+ "const "+ trimFileName(cur) +" = props => <Icon iconName={'"+ cur +"'}{...props} />;"
+  },'');
+};
+
+const createExportComponents = (list) => {
+  const addExport = list.reduce((prev, cur, index, array)=>{
+    const curObj = (index === array.length-1)? cur: `${cur}, `;
+    return `${prev}${trimFileName(curObj)}`;
+  },'');
+  return `export { ${addExport} };`;
+};
 
 gulp.task('svg',()=>{
+
+  glob('./src/resource/svg/*.svg', (err, files) => {
+    const list = files.map( (entry) => {
+      const paths = entry.split('/');
+      return paths[paths.length-1].replace(/\.svg/,'');
+    });
+
+    const addIconComponent = `${createIconComponents(list)}\n${createExportComponents(list)}`;
+
+    gulp.src('./src/resource/svg/template.jsx')
+      .pipe(footer(`${addIconComponent}\n`))
+      .pipe(rename('Icon.jsx'))
+      .pipe(gulp.dest('./src/js/components/icon/'));
+  });
+
   gulp.src('./src/resource/svg/*.svg')
     .pipe(svgmin())
     .pipe(cheerio({
-      run: ($) => {
+      run: ($,file) => {
         // $('style,title,defs').remove();
         $('[id]:not(symbol)').removeAttr('id');
         // $('[class^="st"],[class^="cls"]').removeAttr('class');
@@ -24,6 +63,7 @@ gulp.task('svg',()=>{
     .pipe(gulp.dest('./src/asset/svg/'));
 });
 
+/*
 gulp.task('svgSprite', () => {
   gulp.src('./src/asset/svg/*.svg')
     .pipe(svgmin())
@@ -79,3 +119,4 @@ gulp.task('svgSprite', () => {
 gulp.task('watch', () => {
   gulp.watch('./src/html/*.html', ['svg']);
 });
+*/

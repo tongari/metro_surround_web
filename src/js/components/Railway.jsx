@@ -1,5 +1,5 @@
 import React from 'react';
-import * as icons from './icon/Icon';
+import { Arrownext, Arrowprev, ToLink } from './icon/Icon';
 import { PrimaryButton } from './button/Button';
 
 const Railway = (props) => {
@@ -14,8 +14,9 @@ const Railway = (props) => {
   return (
     <div>
       <ul>
-        <li style={style}><icons.ArrowNext /></li>
-        <li style={style}><icons.ArrowPrev /></li>
+        <li style={style}><Arrownext /></li>
+        <li style={style}><Arrowprev /></li>
+        <li style={style}><ToLink /></li>
         <li>
           <PrimaryButton onClick={() => { alert('hit'); }}>
             Primary Button
