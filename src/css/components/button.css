@@ -1,0 +1,22 @@
+:root{
+  --baseButton: {
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.5rem;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset, 0 1px 2px 0 rgba(0, 0, 0, 0.38);
+  }
+}
+
+.primary {
+  @apply --baseButton;
+  color: #fff;
+  background-image: linear-gradient(to bottom, #fe5142 0%, #df3332 100%);
+  border-color: #e55044;
+
+  &:hover {
+    background-image: linear-gradient(to bottom, #df3332 0%, #fe5142 100%);
+  }
+}

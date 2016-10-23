@@ -2,10 +2,12 @@
   --base-font-family: sans-serif;
 }
 
+/* htmt font-size: 62.5%; */
 :root {
-  --font-size-SS: 0.625rem;
-  --font-size-S: 0.75rem;
-  --font-size-M: 1rem;
-  --font-size-L: 1.125rem;
-  --font-size-LL: 1.375rem;
+  --font-size-XS: 1.0rem;/* 10px */
+  --font-size-S: 1.2rem;/* 12px */
+  --font-size-M: 1.4rem;/* 14px */
+  --font-size-L: 1.6rem;/* 16px */
+  --font-size-LL: 1.8rem;/* 18px */
+  --font-size-XL: 2.0rem;/* 20px */
 }

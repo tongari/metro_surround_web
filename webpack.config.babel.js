@@ -1,3 +1,4 @@
+import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
@@ -109,19 +110,20 @@ const cssConfig = ((env)=>{
     ]
   };
   const plugins = [
-    new ExtractTextPlugin('[name].css')
+    new ExtractTextPlugin('[name].css'),
+    new WebpackBuildNotifierPlugin()
   ];
 
-  const postcss = (() => {
+  const postcss = ((webpack) => {
     let config = [];
     config = config.concat([
-      require('postcss-cssnext')({ browsers: [
-        'last 2 versions'
-      ]})
+      require('postcss-import')({ addDependencyTo: webpack }),
+      require('postcss-cssnext')({
+        browsers: ['last 2 versions']
+      })
     ]);
-
     return config;
-  })();
+  })(webpack);
 
   return {entry, output, module, plugins, postcss}
 })(process.env.NODE_ENV);
