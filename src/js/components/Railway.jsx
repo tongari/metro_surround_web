@@ -1,6 +1,7 @@
 import React from 'react';
 import { Arrownext, Arrowprev, ToLink } from './icon/Icon';
 import { PrimaryButton } from './button/Button';
+import typoStyle from '../../css/components/typography.css';
 
 const Railway = (props) => {
   const {
@@ -21,6 +22,9 @@ const Railway = (props) => {
           <PrimaryButton onClick={() => { alert('hit'); }}>
             Primary Button
           </PrimaryButton>
+        </li>
+        <li>
+          <p className={`${typoStyle.sizeLL} ${typoStyle.lineLL}`} >aaa<br />bbb</p>
         </li>
       </ul>
     </div>

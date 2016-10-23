@@ -1,0 +1,50 @@
+@import "../foundation/config.css";
+
+.sizeXS{
+  font-size: var(--font-size-XS);
+}
+
+.sizeS{
+  font-size: var(--font-size-S);
+}
+
+.sizeM{
+  font-size: var(--font-size-M);
+}
+
+.sizeL{
+  font-size: var(--font-size-L);
+}
+
+.sizeLL{
+  font-size: var(--font-size-LL);
+}
+
+.sizeXL{
+  font-size: var(--font-size-XL);
+}
+
+.lineS{
+  line-height: var(--font-size-XS);
+}
+
+.lineXS{
+  line-height: var(--font-size-S);
+}
+
+.lineM{
+  line-height: var(--font-size-M);
+}
+
+.lineL{
+  line-height: var(--font-size-L);
+}
+
+.lineLL{
+  line-height: var(--font-size-LL);
+}
+
+.lineXL{
+  line-height: var(--font-size-XL);
+}
+
