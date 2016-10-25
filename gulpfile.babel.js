@@ -17,19 +17,19 @@ const trimFileName = (str) => {
 
 const createIconImport = (list) => {
   return list.reduce((prev,cur)=>{
-    return prev+ '\n'+ "import Icon"+ trimFileName(cur) +" from '../../../asset/svg/"+cur+".svg';"
+    return prev+ '\n'+ "import "+ trimFileName(cur) +" from '../../../asset/svg/"+cur+".svg';"
   },'');
 };
 
 const createIconComponents = (list) => {
   return list.reduce((prev,cur)=>{
-    return prev+ '\n'+ "const "+ trimFileName(cur) +" = () => <Icon"+ trimFileName(cur) +" />;"
+    return prev+ '\n'+ "const "+ trimFileName(cur) +"Icon = () => <"+ trimFileName(cur) +" />;"
   },'');
 };
 
 const createExportComponents = (list) => {
   const addExport = list.reduce((prev, cur, index, array)=>{
-    const curObj = (index === array.length-1)? cur: `${cur}, `;
+    const curObj = (index === array.length-1)? `${cur}Icon`: `${cur}Icon, `;
     return `${prev}${trimFileName(curObj)}`;
   },'');
   return `export { ${addExport} };`;
