@@ -15,9 +15,15 @@ const trimFileName = (str) => {
   return result.toString().replace(/-/g, '');
 };
 
-const createIconComponents = (list)=> {
+const createIconImport = (list) => {
   return list.reduce((prev,cur)=>{
-    return prev+ '\n'+ "const "+ trimFileName(cur) +" = props => <Icon iconName={'"+ cur +"'}{...props} />;"
+    return prev+ '\n'+ "import Icon"+ trimFileName(cur) +" from '../../../asset/svg/"+cur+".svg';"
+  },'');
+};
+
+const createIconComponents = (list) => {
+  return list.reduce((prev,cur)=>{
+    return prev+ '\n'+ "const "+ trimFileName(cur) +" = () => <Icon"+ trimFileName(cur) +" />;"
   },'');
 };
 
@@ -37,7 +43,7 @@ gulp.task('svg',()=>{
       return paths[paths.length-1].replace(/\.svg/,'');
     });
 
-    const addIconComponent = `${createIconComponents(list)}\n${createExportComponents(list)}`;
+    const addIconComponent = `${createIconImport(list)}\n${createIconComponents(list)}\n\n${createExportComponents(list)}`;
 
     gulp.src('./src/resource/svg/template.jsx')
       .pipe(footer(`${addIconComponent}\n`))
@@ -49,9 +55,10 @@ gulp.task('svg',()=>{
     .pipe(svgmin())
     .pipe(cheerio({
       run: ($,file) => {
-        // $('style,title,defs').remove();
+        $('title').remove();
+        $('svg').removeAttr('width');
+        $('svg').removeAttr('height');
         $('[id]:not(symbol)').removeAttr('id');
-        // $('[class^="st"],[class^="cls"]').removeAttr('class');
         $('[style]:not(svg)').removeAttr('style');
         $('[data-name]').removeAttr('data-name');
         $('[fill]').removeAttr('fill');

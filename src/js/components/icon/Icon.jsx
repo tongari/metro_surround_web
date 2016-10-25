@@ -1,33 +1,41 @@
 import React from 'react';
 
-const Icon = (props) => {
-  const {
-    iconName,
-    width = '100%',
-    alt = '',
-  } = props;
+import IconArrownext from '../../../asset/svg/arrow-next.svg';
+import IconArrowprev from '../../../asset/svg/arrow-prev.svg';
+import IconClubs from '../../../asset/svg/clubs.svg';
+import IconContrast from '../../../asset/svg/contrast.svg';
+import IconCurrent from '../../../asset/svg/current.svg';
+import IconDiamonds from '../../../asset/svg/diamonds.svg';
+import IconDirection from '../../../asset/svg/direction.svg';
+import IconHeart from '../../../asset/svg/heart.svg';
+import IconHelp from '../../../asset/svg/help.svg';
+import IconList from '../../../asset/svg/list.svg';
+import IconMap from '../../../asset/svg/map.svg';
+import IconNavigation from '../../../asset/svg/navigation.svg';
+import IconNumbering from '../../../asset/svg/numbering.svg';
+import IconRailway from '../../../asset/svg/railway.svg';
+import IconSpades from '../../../asset/svg/spades.svg';
+import IconSwipe from '../../../asset/svg/swipe.svg';
+import IconTap from '../../../asset/svg/tap.svg';
+import IconToLink from '../../../asset/svg/toLink.svg';
 
-  return (
-    <img src={require(`../../../asset/svg/${iconName}.svg`)} width={width} alt={alt} />
-  );
-};
+const Arrownext = () => <IconArrownext />;
+const Arrowprev = () => <IconArrowprev />;
+const Clubs = () => <IconClubs />;
+const Contrast = () => <IconContrast />;
+const Current = () => <IconCurrent />;
+const Diamonds = () => <IconDiamonds />;
+const Direction = () => <IconDirection />;
+const Heart = () => <IconHeart />;
+const Help = () => <IconHelp />;
+const List = () => <IconList />;
+const Map = () => <IconMap />;
+const Navigation = () => <IconNavigation />;
+const Numbering = () => <IconNumbering />;
+const Railway = () => <IconRailway />;
+const Spades = () => <IconSpades />;
+const Swipe = () => <IconSwipe />;
+const Tap = () => <IconTap />;
+const ToLink = () => <IconToLink />;
 
-const Arrownext = props => <Icon iconName={'arrow-next'}{...props} />;
-const Arrowprev = props => <Icon iconName={'arrow-prev'}{...props} />;
-const Clubs = props => <Icon iconName={'clubs'}{...props} />;
-const Contrast = props => <Icon iconName={'contrast'}{...props} />;
-const Current = props => <Icon iconName={'current'}{...props} />;
-const Diamonds = props => <Icon iconName={'diamonds'}{...props} />;
-const Direction = props => <Icon iconName={'direction'}{...props} />;
-const Heart = props => <Icon iconName={'heart'}{...props} />;
-const Help = props => <Icon iconName={'help'}{...props} />;
-const List = props => <Icon iconName={'list'}{...props} />;
-const Map = props => <Icon iconName={'map'}{...props} />;
-const Navigation = props => <Icon iconName={'navigation'}{...props} />;
-const Numbering = props => <Icon iconName={'numbering'}{...props} />;
-const Railway = props => <Icon iconName={'railway'}{...props} />;
-const Spades = props => <Icon iconName={'spades'}{...props} />;
-const Swipe = props => <Icon iconName={'swipe'}{...props} />;
-const Tap = props => <Icon iconName={'tap'}{...props} />;
-const ToLink = props => <Icon iconName={'toLink'}{...props} />;
 export { Arrownext, Arrowprev, Clubs, Contrast, Current, Diamonds, Direction, Heart, Help, List, Map, Navigation, Numbering, Railway, Spades, Swipe, Tap, ToLink };

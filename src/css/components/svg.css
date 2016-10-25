@@ -1,0 +1,24 @@
+@import "../foundation/config.css";
+
+:root{
+  --svgPath: {
+    & svg path {
+      fill: currentColor;
+      stroke: currentColor;
+    }
+  }
+}
+
+.colorOverride {
+  @apply --svgPath;
+};
+
+.red {
+  color: #f00;
+  @apply --svgPath;
+};
+
+.blue {
+  color: #00f;
+  @apply --svgPath;
+};
