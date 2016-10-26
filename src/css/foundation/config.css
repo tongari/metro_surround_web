@@ -21,5 +21,9 @@
   --color-def : #333;
   --color-white : #fff;
 
-  --border-color: #ccc;
+  --border-color: #ddd;
+
+  --color-ginza: rgba(255,144,0,1);
+  --color-marunouchi: rgba(246,46,54,1);
+  --color-hibiya: rgba(246,46,54,1);
 }

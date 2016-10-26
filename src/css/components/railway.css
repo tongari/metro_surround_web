@@ -1,8 +1,8 @@
 @import "../foundation/config.css";
 
 .title{
-  padding: var(--margin-M);
-  font-size: var(--font-size-LL);
+  padding: var(--margin-LL);
+  font-size: var(--font-size-M);
   color: var(--color-white);
   text-align: center;
 }
@@ -25,7 +25,8 @@
 
 .stationEn {
   display: inline-block;
-  font-size: var(--font-size-S);
+  font-size: var(--font-size-XS);
+  font-weight: bold;
   text-indent: 0.5rem;
 }
 

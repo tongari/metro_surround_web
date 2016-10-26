@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../actions/index';
 import RailwayContainer from './RailwayContainer';
+import GlobalMenuContainer from './GlobalMenuContainer';
 
 // export class Root extends React.Component {
 
@@ -11,6 +12,7 @@ const Root = (props) => {
 
   return (
     <div>
+      <GlobalMenuContainer />
       <RailwayContainer apiData={store_.apiData} />
     </div>
   );
