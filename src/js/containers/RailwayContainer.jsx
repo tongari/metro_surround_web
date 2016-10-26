@@ -6,7 +6,6 @@ const RailwayContainer = (props) => {
 
   return (
     <div>
-      RailWayContainer
       <Railway apiData={apiData} />
     </div>
   );

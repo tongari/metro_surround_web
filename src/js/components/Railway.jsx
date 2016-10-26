@@ -1,35 +1,28 @@
 import React from 'react';
-import { ArrownextIcon, ArrowprevIcon, ClubsIcon } from './icon/Icon';
-import { PrimaryButton } from './button/Button';
+import { NumberingIcon } from './icon/Icon';
 import typoCss from '../../css/components/typography.css';
 import svgCss from '../../css/components/svg.css';
+import railwayCss from '../../css/components/railway.css';
 
 const Railway = (props) => {
   const {
     apiData,
   } = props;
 
-  const style = {
-    width: '40px',
-  };
-  const style2 = {
-    width: '40px',
-    color: '#0f0',
-  };
-
   return (
     <div>
+      <h1 className={`${railwayCss.title} ${railwayCss.ginzaBackground}`}>
+        駅を選んでください
+      </h1>
       <ul>
-        <li style={style2} className={svgCss.colorOverride}><ArrownextIcon /></li>
-        <li style={style} className={svgCss.red}><ArrowprevIcon /></li>
-        <li style={style} className={svgCss.blue}><ClubsIcon /></li>
-        <li>
-          <PrimaryButton onClick={() => { alert('hit'); }}>
-            Primary Button
-          </PrimaryButton>
-        </li>
-        <li>
-          <p className={`${typoCss.sizeLL} ${typoCss.lineLL}`} >aaa<br />bbb</p>
+        <li className={railwayCss.list}>
+          <a href="">
+            <i className={`${railwayCss.icon} ${svgCss.red}`}>
+              <NumberingIcon />
+            </i>
+            <span className={`${typoCss.sizeL} ${typoCss.bold}`}>渋谷</span>
+            <span className={railwayCss.stationEn}>Shibuya</span>
+          </a>
         </li>
       </ul>
     </div>

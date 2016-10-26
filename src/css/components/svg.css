@@ -6,6 +6,10 @@
       fill: currentColor;
       stroke: currentColor;
     }
+
+    & svg circle{
+      stroke: currentColor;
+    }
   }
 }
 

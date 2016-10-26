@@ -1,0 +1,37 @@
+@import "../foundation/config.css";
+
+.title{
+  padding: var(--margin-M);
+  font-size: var(--font-size-LL);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.ginzaBackground{
+  background-color: #f00;
+}
+
+.list{
+  border-bottom: 1px solid var(--border-color);
+
+  & > a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-def);
+    padding: var(--margin-L);
+  }
+}
+
+.stationEn {
+  display: inline-block;
+  font-size: var(--font-size-S);
+  text-indent: 0.5rem;
+}
+
+.icon{
+  display: inline-block;
+  width: 32px;
+  padding-right: var(--margin-S);
+}
+

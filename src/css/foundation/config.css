@@ -10,4 +10,16 @@
   --font-size-L: 1.6rem;/* 16px */
   --font-size-LL: 1.8rem;/* 18px */
   --font-size-XL: 2.0rem;/* 20px */
+
+  --margin-XS: 4px;
+  --margin-S: 8px;
+  --margin-M: 12px;
+  --margin-L: 16px;
+  --margin-LL: 20px;
+  --margin-XL: 24px;
+
+  --color-def : #333;
+  --color-white : #fff;
+
+  --border-color: #ccc;
 }

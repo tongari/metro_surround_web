@@ -11,7 +11,6 @@ const Root = (props) => {
 
   return (
     <div>
-      <h1>どこチカ？ Web版</h1>
       <RailwayContainer apiData={store_.apiData} />
     </div>
   );
