@@ -12,8 +12,18 @@ const apiData = (state = {}, action) => {
   }
 };
 
+const getRailwayId = (state = 0, action) => {
+  switch (action.type) {
+    case actions.CHANGE_RAILWAY_ID:
+      return action.id;
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   apiData,
+  getRailwayId,
 });
 
 export default rootReducer;
