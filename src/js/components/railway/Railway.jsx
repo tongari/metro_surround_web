@@ -3,10 +3,11 @@ import RailwayItem from './RailwayItem';
 import railwayCss from '../../../css/components/railway.css';
 import railwayConfig from '../../config/railway';
 
-const stubList = () => {
+const stubList = (params) => {
   let index = 0;
   const result = [];
-  while (index < 10) {
+  const max = (params === 0) ? 10 : 20;
+  while (index < max) {
     result.push(index);
     index += 1;
   }
@@ -19,19 +20,28 @@ const titleColor = index => (
   }
 );
 
+const visibleStyle = (index, current) => (
+  {
+    height: (index === current) ? 'auto' : '1px',
+  }
+);
+
 const Railway = (props) => {
   const {
     index,
+    current,
     apiData,
   } = props;
 
   return (
-    <div>
+    <div style={visibleStyle(index, current)}>
       <h1 className={`${railwayCss.title}`} style={titleColor(index)}>
         駅を選んでください
       </h1>
       <ul>
-        {stubList().map(index_ => <RailwayItem key={index_} index={index} apiData={apiData} />)}
+        {stubList(index).map(index_ => (
+          <RailwayItem key={index_} index={index} apiData={apiData} />)
+        )}
       </ul>
     </div>
   );

@@ -2,7 +2,7 @@
 
 .container{
   overflow: hidden;
-  padding-top: 53px;
+  padding-top: 61px;
 }
 
 .slider{
@@ -10,13 +10,12 @@
   & > * {
     min-width: 100%;
   }
-
   transition: all 0.3s ease;
 }
 
 .title{
-  padding: var(--margin-LL);
-  font-size: var(--font-size-M);
+  padding: var(--margin-XL);
+  font-size: var(--font-size-L);
   color: var(--color-white);
   text-align: center;
 }
@@ -47,7 +46,7 @@
 
 .icon{
   display: inline-block;
-  width: 32px;
-  padding-right: var(--margin-S);
+  width: 40px;
+  padding-right: var(--margin-M);
 }
 

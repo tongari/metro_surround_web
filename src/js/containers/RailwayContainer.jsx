@@ -32,7 +32,12 @@ const RailwayContainer = (props) => {
       <div className={railwayCss.slider} style={slide(store.getRailwayId)}>
         {
           railwayConfig.map((elm, index) => (
-            <Railway key={index} index={index} apiData={store.apiData} />
+            <Railway
+              key={index}
+              index={index}
+              current={store.getRailwayId}
+              apiData={store.apiData}
+            />
           ))
         }
       </div>

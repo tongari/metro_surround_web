@@ -6,21 +6,23 @@
   z-index: 999;
   padding-top: var(--margin-XS);
   overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
   background-color: #000;
 
   & > ul{
     white-space: nowrap;
-    display:flex;
   }
 
   & > ul > li{
+    display: inline-block;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
   }
 
   & > ul > li a {
-    display:block;
-    padding: var(--margin-M);
+    display: block;
+    font-weight: bold;
+    padding: var(--margin-L);
     text-decoration: none;
     color: var(--color-white);
   }

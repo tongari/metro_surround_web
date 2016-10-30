@@ -45,6 +45,7 @@ const clickHandler = (tabId_, cb_) => {
   const cb = cb_;
   return (e) => {
     cb(tabId);
+    window.scrollTo(0, 0);
     e.preventDefault();
   };
 };

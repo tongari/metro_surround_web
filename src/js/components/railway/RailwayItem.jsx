@@ -23,7 +23,7 @@ const RailwayItem = (props) => {
         <i className={`${railwayCss.icon} ${svgCss.colorInherit}`} style={svgColor(index)}>
           <NumberingIcon />
         </i>
-        <span className={`${typoCss.sizeL} ${typoCss.bold}`}>渋谷</span>
+        <span className={`${typoCss.sizeLL} ${typoCss.bold}`}>渋谷</span>
         <span className={railwayCss.stationEn}>Shibuya</span>
       </a>
     </li>
