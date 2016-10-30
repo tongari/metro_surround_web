@@ -13,7 +13,7 @@
   }
 }
 
-.colorOverride {
+.colorInherit {
   @apply --svgPath;
 };
 

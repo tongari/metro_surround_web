@@ -1,5 +1,17 @@
 @import "../foundation/config.css";
 
+.container{
+  overflow: hidden;
+  padding-top: 53px;
+}
+
+.slider{
+  display: flex;
+  & > * {
+    min-width: 100%;
+  }
+}
+
 .title{
   padding: var(--margin-LL);
   font-size: var(--font-size-M);

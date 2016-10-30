@@ -1,6 +1,9 @@
 @import "../foundation/config.css";
 
 .menuArea{
+  width: 100%;
+  position: fixed;
+  z-index: 999;
   padding-top: var(--margin-XS);
   overflow-x: scroll;
   background-color: #000;
