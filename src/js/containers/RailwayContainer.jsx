@@ -7,50 +7,48 @@ import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
 
 let dragStart = 0;
-let dragEnd = 0;
-const setNavChangeSlide = (elm_, railwayId) => {
+let railwayId = 0;
+let dragStartY = 0;
+const getPrevPos = () => -1 * railwayId * window.innerWidth;
+
+const onChangeNavSlide = (elm_) => {
   const elm = elm_;
-  console.log(railwayId);
-  dragEnd = -1 * railwayId * window.innerWidth;
-  // elm.style.transform = `translateX(${dragEnd}px)`;
+  elm.style.transform = `translateX(${getPrevPos()}px)`;
 };
 
-/**
- * set style slide
- * @param railwayId
- */
-const slide = () => (
-  {
-    transform: `translateX(${dragEnd}px)`,
-    border: '1px solid',
-  }
-);
+const calcSlideIndex = (currentX_) => {
+  const tmp = getPrevPos() + (currentX_ - dragStart);
+  let slideIndex = -1 * Math.round(tmp / window.innerWidth);
+  if (slideIndex < 0) slideIndex = 0;
+  if (slideIndex >= railwayConfig.length) slideIndex = railwayConfig.length - 1;
+  return slideIndex;
+};
 
 const addEvent = (elm_, onChangeRailwayId_) => {
   const elm = elm_;
   const onChangeRailwayId = onChangeRailwayId_;
 
   elm.addEventListener('touchstart', (e) => {
-    dragStart = e.touches[0].clientX;
+    dragStart = e.touches[0].pageX;
+    dragStartY = e.touches[0].pageY;
   });
 
   elm.addEventListener('touchmove', (e) => {
-    const currentX = e.touches[0].clientX;
-    const calc = dragEnd + (currentX - dragStart);
-    elm.style.transform = `translateX(${calc}px)`;
+    const draggingY = e.changedTouches[0].pageY;
+    const draggDiffY = Math.abs(draggingY - dragStartY);
+    if (draggDiffY < 15) e.preventDefault();
+
+    const currentX = e.changedTouches[0].clientX;
+    const movePos = getPrevPos() + (currentX - dragStart);
+    elm.style.transform = `translateX(${movePos}px)`;
   });
 
   elm.addEventListener('touchend', (e) => {
-    const currentX = e.changedTouches[0].clientX;
-    const tmp = dragEnd + (currentX - dragStart);
-    const slideIndex = Math.round(tmp / window.innerWidth);
-    dragEnd = slideIndex * window.innerWidth;
-    const maxId = railwayConfig.length - 1;
-    const lastPos = -1 * maxId * window.innerWidth;
-    if (dragEnd > 0) dragEnd = 0;
-    if (dragEnd < lastPos) dragEnd = lastPos;
-    elm.style.transform = `translateX(${dragEnd}px)`;
-    onChangeRailwayId(Math.abs(slideIndex));
+    const currentX = e.changedTouches[0].pageX;
+    const index = calcSlideIndex(currentX);
+    onChangeNavSlide(elm, index);
+    onChangeRailwayId(index);
+    // window.scrollTo(0, 0);
   });
 };
 
@@ -60,31 +58,25 @@ const addEvent = (elm_, onChangeRailwayId_) => {
  * @returns {XML}
  * @constructor
  */
-
-
 class RailwayContainer extends React.Component {
   componentDidMount() {
-    console.log('componentDidMount');
     const { store, bActions } = this.props;
-    setNavChangeSlide(this.sliderNode, store.getRailwayId);
+    railwayId = store.getRailwayId;
     addEvent(this.sliderNode, bActions.onChangeRailwayId);
   }
 
-  componentWillReceiveProps() {
+  componentDidUpdate() {
     const { store } = this.props;
-    setNavChangeSlide(this.sliderNode, store.getRailwayId);
-    this.render();
+    railwayId = store.getRailwayId;
+    onChangeNavSlide(this.sliderNode);
   }
 
   render() {
-    console.log('render!!!!');
     const { store } = this.props;
-
     return (
       <div className={railwayCss.container}>
         <div
           className={railwayCss.slider}
-          style={slide()}
           ref={node => (this.sliderNode = node)}
         >
           {
@@ -102,39 +94,6 @@ class RailwayContainer extends React.Component {
     );
   }
 }
-
-/*
-const RailwayContainer = (props) => {
-  const {
-    store,
-    bActions,
-  } = props;
-
-  setNavChangeSlide(store.getRailwayId);
-
-
-  return (
-    <div className={railwayCss.container}>
-      <div
-        className={railwayCss.slider}
-        style={slide()}
-        ref={addEvent(bActions.onChangeRailwayId)}
-      >
-        {
-          railwayConfig.map((elm, index) => (
-            <Railway
-              key={index}
-              index={index}
-              current={store.getRailwayId}
-              apiData={store.apiData}
-            />
-          ))
-        }
-      </div>
-    </div>
-  );
-};
-*/
 
 const mapStateToProps = state => ({
   store: state,
