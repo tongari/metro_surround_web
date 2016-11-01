@@ -6,50 +6,61 @@ import Railway from '../components/railway/Railway';
 import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
 
-let dragStart = 0;
-let railwayId = 0;
+let dragStartX = 0;
 let dragStartY = 0;
-const getPrevPos = () => -1 * railwayId * window.innerWidth;
+const getPrevPos = railwayId => -1 * railwayId * window.innerWidth;
 
-const onChangeNavSlide = (elm_) => {
+const onChangeNavSlide = (elm_, railwayId) => {
   const elm = elm_;
-  elm.style.transform = `translateX(${getPrevPos()}px)`;
+  elm.style.transform = `translateX(${getPrevPos(railwayId)}px)`;
 };
 
-const calcSlideIndex = (currentX_) => {
-  const tmp = getPrevPos() + (currentX_ - dragStart);
+const calcSlideIndex = (currentX_, railwayId) => {
+  const tmp = getPrevPos(railwayId) + (currentX_ - dragStartX);
   let slideIndex = -1 * Math.round(tmp / window.innerWidth);
   if (slideIndex < 0) slideIndex = 0;
   if (slideIndex >= railwayConfig.length) slideIndex = railwayConfig.length - 1;
   return slideIndex;
 };
 
-const addEvent = (elm_, onChangeRailwayId_) => {
-  const elm = elm_;
-  const onChangeRailwayId = onChangeRailwayId_;
+const slide = (railwayId_) => {
+  const railwayId = railwayId_;
+  return {
+    transform: `translateX(${getPrevPos(railwayId)}px)`,
+  };
+};
 
-  elm.addEventListener('touchstart', (e) => {
-    dragStart = e.touches[0].pageX;
-    dragStartY = e.touches[0].pageY;
-  });
+const touchStartHandler = (e) => {
+  dragStartX = e.touches[0].pageX;
+  dragStartY = e.touches[0].pageY;
+};
 
-  elm.addEventListener('touchmove', (e) => {
-    const draggingY = e.changedTouches[0].pageY;
-    const draggDiffY = Math.abs(draggingY - dragStartY);
-    if (draggDiffY < 15) e.preventDefault();
-
-    const currentX = e.changedTouches[0].clientX;
-    const movePos = getPrevPos() + (currentX - dragStart);
-    elm.style.transform = `translateX(${movePos}px)`;
-  });
-
-  elm.addEventListener('touchend', (e) => {
+const touchMoveHandler = (railwayId_) => {
+  const railwayId = railwayId_;
+  return (e) => {
     const currentX = e.changedTouches[0].pageX;
-    const index = calcSlideIndex(currentX);
-    onChangeNavSlide(elm, index);
-    onChangeRailwayId(index);
-    // window.scrollTo(0, 0);
-  });
+    const currentY = e.changedTouches[0].pageY;
+    const moveX = Math.abs(currentX - dragStartX);
+    const moveY = Math.abs(currentY - dragStartY);
+    // if (moveX > moveY) e.preventDefault();
+    e.preventDefault();
+
+    const movePos = (getPrevPos(railwayId) + (currentX - dragStartX)) * 1.5;
+    const tgt = e.currentTarget;
+    tgt.style.transform = `translateX(${movePos}px)`;
+  };
+};
+
+const touchEndHandler = (railwayId_, cb_) => {
+  const railwayId = railwayId_;
+  const cb = cb_;
+  return (e) => {
+    const currentX = e.changedTouches[0].pageX;
+    const index = calcSlideIndex(currentX, railwayId);
+    const tgt = e.currentTarget;
+    onChangeNavSlide(tgt, railwayId);
+    cb(index);
+  };
 };
 
 /**
@@ -58,42 +69,36 @@ const addEvent = (elm_, onChangeRailwayId_) => {
  * @returns {XML}
  * @constructor
  */
-class RailwayContainer extends React.Component {
-  componentDidMount() {
-    const { store, bActions } = this.props;
-    railwayId = store.getRailwayId;
-    addEvent(this.sliderNode, bActions.onChangeRailwayId);
-  }
 
-  componentDidUpdate() {
-    const { store } = this.props;
-    railwayId = store.getRailwayId;
-    onChangeNavSlide(this.sliderNode);
-  }
+const RailwayContainer = (props) => {
+  const {
+    store,
+    bActions,
+  } = props;
 
-  render() {
-    const { store } = this.props;
-    return (
-      <div className={railwayCss.container}>
-        <div
-          className={railwayCss.slider}
-          ref={node => (this.sliderNode = node)}
-        >
-          {
-            railwayConfig.map((elm, index) => (
-              <Railway
-                key={index}
-                index={index}
-                current={store.getRailwayId}
-                apiData={store.apiData}
-              />
-            ))
-          }
-        </div>
+  return (
+    <div className={railwayCss.container}>
+      <div
+        className={railwayCss.slider}
+        style={slide(store.getRailwayId)}
+        onTouchStart={touchStartHandler}
+        onTouchMove={touchMoveHandler(store.getRailwayId)}
+        onTouchEnd={touchEndHandler(store.getRailwayId, bActions.onChangeRailwayId)}
+      >
+        {
+          railwayConfig.map((elm, index) => (
+            <Railway
+              key={index}
+              index={index}
+              current={store.getRailwayId}
+              apiData={store.apiData}
+            />
+          ))
+        }
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   store: state,
