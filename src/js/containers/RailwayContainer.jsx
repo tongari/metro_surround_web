@@ -128,7 +128,6 @@ const RailwayContainer = (props) => {
               key={index}
               index={index}
               current={store.railwayId.current}
-              apiData={store.apiData}
             />
           ))
         }

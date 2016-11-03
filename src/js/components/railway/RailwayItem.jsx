@@ -14,7 +14,7 @@ const svgColor = index => (
 const RailwayItem = (props) => {
   const {
     index,
-    apiData,
+    info,
   } = props;
 
   return (
@@ -23,8 +23,8 @@ const RailwayItem = (props) => {
         <i className={`${railwayCss.icon} ${svgCss.colorInherit}`} style={svgColor(index)}>
           <NumberingIcon />
         </i>
-        <span className={`${typoCss.sizeLL} ${typoCss.bold}`}>渋谷</span>
-        <span className={railwayCss.stationEn}>Shibuya</span>
+        <span className={`${typoCss.sizeLL} ${typoCss.bold}`}>{info.name}</span>
+        <span className={railwayCss.stationEn}>{info.id}</span>
       </a>
     </li>
   );
