@@ -10,6 +10,8 @@ import { debounce, clear } from '../domain/utils/debounce';
 let dragStartX = 0;
 let dragStartY = 0;
 let isSlideNone = false;
+let isDrag = false;
+let isVectY = false;
 
 const getPrevPos = currentId => -1 * currentId * window.innerWidth;
 
@@ -37,7 +39,6 @@ const slide = currentId => (
   {
     transform: `translate3d(${getPrevPos(currentId)}px, 0, 0)`,
     transitionProperty: 'transform',
-    // transitionTimingFunction: 'cubic-bezier(0, 0, 0.25, 1)',
     transitionTimingFunction: 'ease',
     transitionDuration: '0.3s',
   }
@@ -52,8 +53,6 @@ const touchStartHandler = (e) => {
   }, 250);
 };
 
-let isDrag = false;
-let isVectY = false;
 const touchMoveHandler = (currentId_) => {
   const currentId = currentId_;
   return (e) => {
