@@ -18,6 +18,7 @@ const tabColor = (index, current) => (
   {
     backgroundColor: (index === current) ? `rgba(${railwayConfig[index].color},1)` : 'transparent',
     borderBottom: `4px solid rgba(${railwayConfig[index].color},1)`,
+    opacity: 1,
   }
 );
 
@@ -75,13 +76,13 @@ const GlobalMenuContainer = (props) => {
   } = props;
 
   return (
-    <div className={globalNavCss.menuArea} ref={slide(store.getRailwayId.current)}>
+    <div className={globalNavCss.menuArea} ref={slide(store.railwayId.current)}>
       <ul>
         {
           railwayConfig.map(
             (elm, index) => list(
               index,
-              store.getRailwayId.current,
+              store.railwayId.current,
               bActions.onChangeRailwayId
             )
           )

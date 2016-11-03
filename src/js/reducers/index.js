@@ -12,7 +12,7 @@ const apiData = (state = {}, action) => {
   }
 };
 
-const getRailwayId = (state_ = { prev: 0, current: 0 }, action) => {
+const railwayId = (state_ = { prev: 0, current: 0 }, action) => {
   let state = state_;
   switch (action.type) {
     case actions.CHANGE_RAILWAY_ID: {
@@ -31,7 +31,7 @@ const getRailwayId = (state_ = { prev: 0, current: 0 }, action) => {
 
 const rootReducer = combineReducers({
   apiData,
-  getRailwayId,
+  railwayId,
 });
 
 export default rootReducer;
