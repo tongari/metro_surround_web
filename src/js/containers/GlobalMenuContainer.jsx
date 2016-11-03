@@ -75,13 +75,13 @@ const GlobalMenuContainer = (props) => {
   } = props;
 
   return (
-    <div className={globalNavCss.menuArea} ref={slide(store.getRailwayId)}>
+    <div className={globalNavCss.menuArea} ref={slide(store.getRailwayId.current)}>
       <ul>
         {
           railwayConfig.map(
             (elm, index) => list(
               index,
-              store.getRailwayId,
+              store.getRailwayId.current,
               bActions.onChangeRailwayId
             )
           )

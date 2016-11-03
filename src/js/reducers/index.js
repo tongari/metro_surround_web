@@ -12,13 +12,21 @@ const apiData = (state = {}, action) => {
   }
 };
 
-const getRailwayId = (state = 0, action) => {
+const getRailwayId = (state_ = { prev: 0, current: 0 }, action) => {
+  let state = state_;
   switch (action.type) {
-    case actions.CHANGE_RAILWAY_ID:
-      return action.id;
-    default:
-      return state;
+    case actions.CHANGE_RAILWAY_ID: {
+      state = Object.assign({}, state, {
+        prev: state.current,
+        current: action.id,
+      });
+    }
+      break;
+    default: {
+      break;
+    }
   }
+  return state;
 };
 
 const rootReducer = combineReducers({
