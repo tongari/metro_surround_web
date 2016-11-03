@@ -5,20 +5,27 @@ import * as actions from './../actions/index';
 import Railway from '../components/railway/Railway';
 import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
+import { debounce, clear } from '../domain/utils/debounce';
 
 let dragStartX = 0;
 let dragStartY = 0;
+let isSlideNone = false;
 
 const getPrevPos = currentId => -1 * currentId * window.innerWidth;
 
 const calcSlideIndex = (currentX_, currentId) => {
+  clear();
   const tmp = getPrevPos(currentId) + (currentX_ - dragStartX);
   const tmpPer = (tmp / window.innerWidth) + currentId;
 
   let tmpId;
-  if (tmpPer < -0.1) tmpId = currentId + 1;
-  else if (tmpPer > 0.1) tmpId = currentId - 1;
+  if (!isSlideNone && tmpPer < -0.1) tmpId = currentId + 1;
+  else if (!isSlideNone && tmpPer > 0.1) tmpId = currentId - 1;
+  else if (isSlideNone && tmpPer < -0.5) tmpId = currentId + 1;
+  else if (isSlideNone && tmpPer > 0.5) tmpId = currentId - 1;
   else tmpId = currentId;
+
+  isSlideNone = false;
 
   let slideIndex = tmpId;
   if (slideIndex < 0) slideIndex = 0;
@@ -30,14 +37,19 @@ const slide = currentId => (
   {
     transform: `translate3d(${getPrevPos(currentId)}px, 0, 0)`,
     transitionProperty: 'transform',
-    transitionTimingFunction: 'cubic-bezier(0, 0, 0.25, 1)',
-    transitionDuration: '0.35s',
+    // transitionTimingFunction: 'cubic-bezier(0, 0, 0.25, 1)',
+    transitionTimingFunction: 'ease',
+    transitionDuration: '0.3s',
   }
 );
 
 const touchStartHandler = (e) => {
   dragStartX = e.touches[0].pageX;
   dragStartY = e.touches[0].pageY;
+
+  debounce(() => {
+    isSlideNone = true;
+  }, 250);
 };
 
 let isDrag = false;
@@ -59,8 +71,6 @@ const touchMoveHandler = (currentId_) => {
       const tgt = e.currentTarget;
       tgt.style.transform = `translate3d(${movePos}px, 0, 0)`;
       tgt.style.transitionDuration = '0s';
-      const body = document.querySelector('body');
-      body.style.overflowY = 'hidden';
     }
   };
 };
@@ -77,12 +87,10 @@ const touchEndHandler = (currentId_, cb_) => {
     const slideStyle = slide(index);
     tgt.style.transform = slideStyle.transform;
     tgt.style.transitionProperty = slideStyle.transitionProperty;
-    tgt.style.transitionTimingFunction = slideStyle.transitionTimingFunction;
+    tgt.style.transitionTimingFunction = 'ease-in-out'; // slideStyle.transitionTimingFunction;
     tgt.style.transitionDuration = slideStyle.transitionDuration;
     cb(index);
     isDrag = false;
-    const body = document.querySelector('body');
-    body.style.overflowY = 'visible';
     window.scrollTo(0, 0);
   };
 };
