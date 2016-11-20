@@ -22,6 +22,10 @@ const tabColor = (index, current) => (
   }
 );
 
+const menuAreaStyleClass = isShow => (
+  (isShow) ? globalNavCss.menuAreaHidden : globalNavCss.menuArea
+);
+
 /**
  * slide global navigation
  * @param index_
@@ -76,7 +80,10 @@ const GlobalMenuContainer = (props) => {
   } = props;
 
   return (
-    <div className={globalNavCss.menuArea} ref={slide(store.railwayId.current)}>
+    <div
+      className={menuAreaStyleClass(store.railwayDetail.isShow)}
+      ref={slide(store.railwayId.current)}
+    >
       <ul>
         {
           railwayConfig.map(

@@ -6,6 +6,7 @@ import Railway from '../components/railway/Railway';
 import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
 import { debounce, clear } from '../domain/utils/debounce';
+import fetchRailwayApi from '../domain/api/railwayApi';
 
 let dragStartX = 0;
 let dragStartY = 0;
@@ -100,6 +101,27 @@ const bgColor = index => (
   }
 );
 
+const containerStyleClass = isShow => (
+  (isShow) ? railwayCss.containerHidden : railwayCss.container
+);
+
+const showDetail = (store, bActions) => (
+  (index) => {
+    const conf = railwayConfig[store.railwayId.current];
+    fetchRailwayApi({
+      railway: conf.id,
+      station: conf.station[index].id,
+      ready: () => {
+        console.log('action loading');
+      },
+      success: (res) => {
+        bActions.onFetchApiSuccess(res);
+        bActions.onGoTransitRailwayDetail();
+      },
+    });
+  }
+);
+
 /**
  * RailwayContainer
  * @param props
@@ -114,7 +136,10 @@ const RailwayContainer = (props) => {
   } = props;
 
   return (
-    <div className={railwayCss.container} style={bgColor(store.railwayId.current)}>
+    <div
+      className={containerStyleClass(store.railwayDetail.isShow)}
+      style={bgColor(store.railwayId.current)}
+    >
       <div
         className={railwayCss.slider}
         style={slide(store.railwayId.current)}
@@ -128,6 +153,7 @@ const RailwayContainer = (props) => {
               key={index}
               index={index}
               current={store.railwayId.current}
+              showStationDetail={showDetail(store, bActions, index)}
             />
           ))
         }

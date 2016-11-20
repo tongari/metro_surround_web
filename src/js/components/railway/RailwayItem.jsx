@@ -11,16 +11,25 @@ const svgColor = index => (
   }
 );
 
+const clickHandler = (showStationDetail, index) => (
+  (e) => {
+    e.preventDefault();
+    showStationDetail(index);
+  }
+);
+
 const RailwayItem = (props) => {
   const {
+    railwayIndex,
     index,
     info,
+    showStationDetail,
   } = props;
 
   return (
     <li className={railwayCss.list}>
-      <a href="">
-        <i className={`${railwayCss.icon} ${svgCss.colorInherit}`} style={svgColor(index)}>
+      <a href="" onClick={clickHandler(showStationDetail, index)}>
+        <i className={`${railwayCss.icon} ${svgCss.colorInherit}`} style={svgColor(railwayIndex)}>
           <NumberingIcon />
         </i>
         <span className={`${typoCss.sizeLL} ${typoCss.bold}`}>{info.name}</span>

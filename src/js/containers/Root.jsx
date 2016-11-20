@@ -1,5 +1,4 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import RailwayContainer from './RailwayContainer';
 import GlobalMenuContainer from './GlobalMenuContainer';

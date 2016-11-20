@@ -12,7 +12,9 @@
     "clean": "rimraf ./dist",
     "svg": "rimraf ./src/asset/svg && gulp svg"
   },
-  "dependencies": {},
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  },
   "devDependencies": {
     "autoprefixer": "^6.5.1",
     "babel-core": "^6.9.1",

@@ -19,6 +19,7 @@ const Railway = (props) => {
   const {
     index,
     current,
+    showStationDetail,
   } = props;
 
   return (
@@ -28,7 +29,13 @@ const Railway = (props) => {
       </h1>
       <ul>
         {railwayConfig[index].station && railwayConfig[index].station.map((info, index_) => (
-          <RailwayItem key={index_} index={index} info={info} />)
+          <RailwayItem
+            key={index_}
+            railwayIndex={index}
+            index={index_}
+            info={info}
+            showStationDetail={showStationDetail}
+          />)
         )}
       </ul>
     </div>

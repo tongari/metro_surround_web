@@ -1,8 +1,19 @@
 @import "../foundation/config.css";
 
+:root{
+  --baseContainer: {
+    overflow: hidden;
+    padding-top: 61px;
+  }
+}
+
 .container{
-  overflow: hidden;
-  padding-top: 61px;
+  @apply --baseContainer;
+}
+
+.containerHidden{
+  @apply --baseContainer;
+  display: none;
 }
 
 .slider{
@@ -17,10 +28,6 @@
   font-size: var(--font-size-L);
   color: var(--color-white);
   text-align: center;
-}
-
-.ginzaBackground{
-  background-color: #f00;
 }
 
 .list{

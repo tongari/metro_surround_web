@@ -1,13 +1,19 @@
 @import "../foundation/config.css";
 
+:root{
+  --baseMenuArea: {
+    width: 100%;
+    position: fixed;
+    z-index: 999;
+    padding-top: var(--margin-XS);
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    background-color: #000;
+  }
+}
+
 .menuArea{
-  width: 100%;
-  position: fixed;
-  z-index: 999;
-  padding-top: var(--margin-XS);
-  overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
-  background-color: #000;
+  @apply --baseMenuArea;
 
   & > ul{
     white-space: nowrap;
@@ -28,4 +34,9 @@
     text-decoration: none;
     color: var(--color-white);
   }
+}
+
+.menuAreaHidden{
+  @apply --baseMenuArea;
+  display: none;
 }
