@@ -14,10 +14,11 @@
   }
 
   --baseNum:{
-    width: 8rem;
+    width: 6rem;
     padding: var(--margin-S) 0;
     text-align: center;
     line-height: 1;
+    font-family: 'Roboto Condensed', sans-serif;
   }
 }
 

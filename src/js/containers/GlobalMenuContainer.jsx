@@ -81,7 +81,7 @@ const GlobalMenuContainer = (props) => {
 
   return (
     <div
-      className={menuAreaStyleClass(store.railwayDetail.isShow)}
+      className={menuAreaStyleClass(store.carComposition.isShow)}
       ref={slide(store.railwayId.current)}
     >
       <ul>

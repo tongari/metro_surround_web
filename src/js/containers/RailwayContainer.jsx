@@ -118,7 +118,7 @@ const showDetail = (store, bActions) => (
       success: (res) => {
         bActions.onFetchApiSuccess(res);
         bActions.onEndLoader();
-        bActions.onGoTransitRailwayDetail();
+        bActions.onGoTransitCarComposition();
       },
       fail: () => {
         (async() => {
@@ -146,7 +146,7 @@ const RailwayContainer = (props) => {
 
   return (
     <div
-      className={containerStyleClass(store.railwayDetail.isShow)}
+      className={containerStyleClass(store.carComposition.isShow)}
       style={bgColor(store.railwayId.current)}
     >
       <div

@@ -36,11 +36,17 @@ const railwayId = (state = { prev: 0, current: 0 }, action) => {
   }
 };
 
-const railwayDetail = (state = { isShow: false }, action) => {
+const carComposition = (state = { isShow: false }, action) => {
   switch (action.type) {
-    case actions.GO_TRANSIT_RAILWAY_DETAIL: {
+    case actions.GO_TRANSIT_CAR_COMPOSITION: {
       const result = Object.assign({}, state, {
         isShow: true,
+      });
+      return result;
+    }
+    case actions.GO_TRANSIT_RAILWAY: {
+      const result = Object.assign({}, state, {
+        isShow: false,
       });
       return result;
     }
@@ -73,7 +79,7 @@ const loader = (state = { isLoading: false }, action) => {
 const rootReducer = combineReducers({
   railwayApiData,
   railwayId,
-  railwayDetail,
+  carComposition,
   loader,
 });
 

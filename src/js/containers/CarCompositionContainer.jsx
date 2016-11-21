@@ -39,6 +39,17 @@ const CarCompositionList = (props) => {
   );
 };
 
+const onPrevRaiywayHandler = cb => (
+  (e) => {
+    e.preventDefault();
+    cb();
+  }
+);
+
+const containerStyleClass = isShow => (
+  (isShow) ? carCompositionCss.container : carCompositionCss.containerHidden
+);
+
 /**
  * CarCompositionContainer
  * @param props
@@ -53,8 +64,11 @@ const CarCompositionContainer = (props) => {
   } = props;
 
   return (
-    <div className={carCompositionCss.container}>
-      <CarCompositionTitle title={railwayConfig[store.railwayId.current].name} />
+    <div className={containerStyleClass(store.carComposition.isShow)}>
+      <CarCompositionTitle
+        title={railwayConfig[store.railwayId.current].name}
+        onPrevRaiyway={onPrevRaiywayHandler(bActions.onGoTransitRailway)}
+      />
       <CarCompositionDirection
         name={railwayConfig[store.railwayId.current].direction[0].name}
         color={railwayConfig[store.railwayId.current].color}

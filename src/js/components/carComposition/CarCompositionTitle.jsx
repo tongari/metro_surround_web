@@ -6,11 +6,12 @@ import svgCss from '../../../css/components/svg.css';
 const CarCompositionTitle = (props) => {
   const {
     title,
+    onPrevRaiyway,
   } = props;
 
   return (
     <h1>
-      <a href="" className={carCompositionCss.titleArea}>
+      <a href="" className={carCompositionCss.titleArea} onClick={onPrevRaiyway}>
         <i className={`${carCompositionCss.titleIcon} ${svgCss.white}`}>
           <ArrowprevIcon />
         </i>
