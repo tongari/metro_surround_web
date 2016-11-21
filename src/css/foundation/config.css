@@ -21,4 +21,5 @@
   --color-def : #333;
   --color-white : #fff;
   --border-color: #ddd;
+  --bg-gray: rgba(239,239,244,1);
 }

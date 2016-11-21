@@ -50,7 +50,7 @@ const jsConfig = ((env)=> {
     };
     const jsModule = {
       test: /\.jsx?$/,
-      exclude: /(node_modules)/,
+      exclude: /(node_modules)|(\.DS_Store$)/,
       loaders: ['babel-loader','eslint-loader']
     };
 

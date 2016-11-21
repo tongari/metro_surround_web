@@ -1,0 +1,101 @@
+@import "../foundation/config.css";
+:root{
+  --baseContainer: {
+  }
+  --baseDirectionIcon:{
+    width: 30px;
+    padding-left: var(--margin-L);
+  }
+}
+
+.container {
+  @apply --baseContainer;
+}
+
+.containerHidden{
+  @apply --baseContainer;
+  display: none;
+}
+
+.titleArea{
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--margin-S) 0;
+}
+
+.title{
+  width: 100%;
+  color: var(--color-white);
+  font-size: var(--font-size-LL);
+  line-height: 1;
+  text-align: center;
+  text-indent: -24px;
+}
+
+.titleIcon{
+  width: 22px;
+  padding-left: var(--margin-M);
+  margin-top: -4px;
+}
+
+.directionArea{
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-gray);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--margin-XS) 0;
+}
+
+.directionTitle{
+  font-size: var(--font-size-L);
+  line-height: 1;
+  padding-left: var(--margin-S);
+}
+
+.directionIcon{
+  @apply --baseDirectionIcon;
+  margin-top: -2px;
+}
+
+.directionReversIcon{
+  @apply --baseDirectionIcon;
+  transform: rotateX(-180deg);
+  margin-top: 2px;
+}
+
+.carCompositionItem{
+  display: flex;
+  align-items: center;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.carCompositionItemNum{
+  padding: var(--margin-S) var(--margin-M);
+  text-align: center;
+  line-height: 1;
+  font-size: 3rem;
+}
+
+.carCompositionItemMain{
+  flex-grow: 1;
+}
+
+.carCompositionItemText{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: var(--font-size-S);
+}
+
+.carCompositionItemTextBox{
+  display: inline-block;
+  padding: var(--margin-XS);
+  border: 1px solid var(--border-color);
+}
+
+.carCompositionItemNextIcon{
+  width: 12px;
+}

@@ -3,6 +3,14 @@ export default (() => (
     { id: 'Ginza',
       name: '銀座線',
       color: '255,144,0',
+      direction: [
+        {
+          name: '渋谷方面',
+        },
+        {
+          name: '浅草方面',
+        },
+      ],
       station: [
         { id: 'Shibuya', name: '渋谷', Lat: 35.658517, Long: 139.701334 },
         { id: 'OmoteSando', name: '表参道', Lat: 35.665247, Long: 139.712314 },
@@ -28,6 +36,20 @@ export default (() => (
     { id: 'Marunouchi',
       name: '丸の内線',
       color: '246,46,54',
+      direction: [
+        {
+          name: '荻窪方面',
+        },
+        {
+          name: '方南町方面',
+        },
+        {
+          name: '池袋方面',
+        },
+        {
+          name: '中野坂上方面',
+        },
+      ],
       station: [
         { id: 'Ogikubo', name: '荻窪', Lat: 35.704632, Long: 139.619981 },
         { id: 'MinamiAsagaya', name: '南阿佐ケ谷', Lat: 35.699624, Long: 139.63576 },
@@ -62,6 +84,14 @@ export default (() => (
     { id: 'Hibiya',
       name: '日比谷線',
       color: '181,181,172',
+      direction: [
+        {
+          name: '北千住方面',
+        },
+        {
+          name: '中目黒方面',
+        },
+      ],
       station: [
         { id: 'NakaMeguro', name: '中目黒', Lat: 35.644307, Long: 139.699157 },
         { id: 'Ebisu', name: '恵比寿', Lat: 35.64669, Long: 139.710106 },
@@ -89,6 +119,14 @@ export default (() => (
     { id: 'Tozai',
       name: '東西線',
       color: '0,155,191',
+      direction: [
+        {
+          name: '西船橋方面',
+        },
+        {
+          name: '中野方面',
+        },
+      ],
       station: [
         { id: 'Nakano', name: '中野', Lat: 35.706032, Long: 139.665652 },
         { id: 'Ochiai', name: '落合', Lat: 35.71074, Long: 139.686337 },
@@ -118,6 +156,17 @@ export default (() => (
     { id: 'Chiyoda',
       name: '千代田線',
       color: '0,187,133',
+      direction: [
+        {
+          name: '代々木上原方面',
+        },
+        {
+          name: '綾瀬方面',
+        },
+        {
+          name: '北綾瀬方面',
+        },
+      ],
       station: [
         { id: 'YoyogiUehara', name: '代々木上原', Lat: 35.669062, Long: 139.679678 },
         { id: 'YoyogiKoen', name: '代々木公園', Lat: 35.668954, Long: 139.691318 },
@@ -144,6 +193,14 @@ export default (() => (
     { id: 'Yurakucho',
       name: '有楽町線',
       color: '193,164,112',
+      direction: [
+        {
+          name: '和光市方面',
+        },
+        {
+          name: '新木場方面',
+        },
+      ],
       station: [
         { id: 'Wakoshi', name: '和光市', Lat: 35.788515, Long: 139.612343 },
         { id: 'ChikatetsuNarimasu', name: '地下鉄成増', Lat: 35.776557, Long: 139.631497 },
@@ -174,6 +231,14 @@ export default (() => (
     { id: 'Hanzomon',
       name: '半蔵門',
       color: '143,118,214',
+      direction: [
+        {
+          name: '押上方面',
+        },
+        {
+          name: '渋谷方面',
+        },
+      ],
       station: [
         { id: 'Shibuya', name: '渋谷', Lat: 35.658517, Long: 139.701334 },
         { id: 'OmoteSando', name: '表参道', Lat: 35.665247, Long: 139.712314 },
@@ -194,6 +259,14 @@ export default (() => (
     { id: 'Namboku',
       name: '南北線',
       color: '0,172,155',
+      direction: [
+        {
+          name: '赤羽岩淵方面',
+        },
+        {
+          name: '目黒方面',
+        },
+      ],
       station: [
         { id: 'Meguro', name: '目黒', Lat: 35.633998, Long: 139.715828 },
         { id: 'Shirokanedai', name: '白金台', Lat: 35.637917, Long: 139.726133 },
@@ -219,6 +292,14 @@ export default (() => (
     { id: 'Fukutoshin',
       name: '副都心線',
       color: '156,94,49',
+      direction: [
+        {
+          name: '和光市方面',
+        },
+        {
+          name: '渋谷方面',
+        },
+      ],
       station: [
         { id: 'Wakoshi', name: '和光市', Lat: 35.788515, Long: 139.612343 },
         { id: 'ChikatetsuNarimasu', name: '地下鉄成増', Lat: 35.776557, Long: 139.631497 },

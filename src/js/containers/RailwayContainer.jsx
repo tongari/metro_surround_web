@@ -6,7 +6,7 @@ import Railway from '../components/railway/Railway';
 import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
 import { debounce, clear } from '../domain/utils/debounce';
-import fetchRailwayApi from '../domain/api/railwayApi';
+import fetchCarCompositionApi from '../domain/api/carCompositionApi';
 import wait from '../domain/utils/wait';
 
 let dragStartX = 0;
@@ -109,7 +109,7 @@ const containerStyleClass = isShow => (
 const showDetail = (store, bActions) => (
   (index) => {
     const conf = railwayConfig[store.railwayId.current];
-    fetchRailwayApi({
+    fetchCarCompositionApi({
       railway: conf.id,
       station: conf.station[index].id,
       ready: () => {

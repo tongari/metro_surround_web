@@ -1,0 +1,82 @@
+@import "../foundation/config.css";
+
+:root{
+  --baseItem:{
+    display: table;
+    table-layout: fixed;
+    vertical-align: middle;
+    background-color: var(--color-white);
+
+    & >*{
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  --baseNum:{
+    width: 8rem;
+    padding: var(--margin-S) 0;
+    text-align: center;
+    line-height: 1;
+  }
+}
+
+.list{
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--color-white);
+}
+
+.item{
+  @apply --baseItem;
+  width: 100%;
+}
+
+.emptyItem{
+  @apply --baseItem;
+  width: 4rem;
+}
+
+.num{
+  @apply --baseNum;
+  font-size: 6rem;
+}
+.numSmall{
+  @apply --baseNum;
+  font-size: 2rem;
+}
+
+.body{
+  padding: var(--margin-XS) 0;
+  color: var(--color-def);
+}
+
+.textContainer{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: var(--font-size-S);
+  padding: var(--margin-XS);
+}
+
+.text{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  &:first-child {
+    padding-bottom: var(--margin-XS);
+  }
+}
+
+.textIcon{
+  display: inline-block;
+  padding: var(--margin-XS) var(--margin-S);
+  margin-right: var(--margin-S);
+  border: 1px solid #aaa;
+}
+
+.nextIcon{
+  width: 22px;
+  padding-right: var(--margin-M);
+}

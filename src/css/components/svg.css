@@ -17,12 +17,12 @@
   @apply --svgPath;
 };
 
-.red {
-  color: #f00;
+.white{
+  color: rgba(255,255,255,1);
   @apply --svgPath;
-};
+}
 
-.blue {
-  color: #00f;
+.gray{
+  color: rgba(104,104,104,1);
   @apply --svgPath;
-};
+}
