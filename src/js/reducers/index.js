@@ -50,10 +50,31 @@ const railwayDetail = (state = { isShow: false }, action) => {
   }
 };
 
+const loader = (state = { isLoading: false }, action) => {
+  switch (action.type) {
+    case actions.START_LOADING: {
+      const result = Object.assign({}, state, {
+        isLoading: true,
+      });
+      return result;
+    }
+    case actions.END_LOADING: {
+      const result = Object.assign({}, state, {
+        isLoading: false,
+      });
+      return result;
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 const rootReducer = combineReducers({
   railwayApiData,
   railwayId,
   railwayDetail,
+  loader,
 });
 
 export default rootReducer;

@@ -1,0 +1,77 @@
+:root{
+  --baseLoaderArea: {
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,.6);
+  }
+}
+
+.loaderArea {
+  @apply --baseLoaderArea;
+  animation: show 0.3s linear 0s 1 normal;
+  animation-fill-mode: forwards;
+
+  &:after{
+   content: ' ';
+   position: absolute;
+   z-index: 2;
+   top:0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   margin: auto;
+   display: inline-block;
+   width: 32px;
+   height: 32px;
+   border: 2px solid #fff;
+   border-radius: 50%;
+   border-top-width: 0;
+   animation: spin 0.75s infinite linear;
+  }
+
+}
+
+.loaderAreaHidden{
+  @apply --baseLoaderArea;
+  animation: hide 0.3s linear 0s 1 normal;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show {
+  0% {
+    height: 100%;
+    opacity: 0;
+  }
+  100% {
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+    height: 100%;
+  }
+  99% {
+    opacity: 0;
+    height: 100%;
+  }
+  100% {
+    opacity: 0;
+    height: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
