@@ -14,7 +14,7 @@ const svgColor = index => (
 const clickHandler = (showStationDetail, index) => (
   (e) => {
     e.preventDefault();
-    showStationDetail(index);
+    showStationDetail({ stationId: index });
   }
 );
 

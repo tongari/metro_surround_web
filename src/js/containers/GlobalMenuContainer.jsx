@@ -22,10 +22,6 @@ const tabColor = (index, current) => (
   }
 );
 
-const menuAreaStyleClass = isShow => (
-  (isShow) ? globalNavCss.menuAreaHidden : globalNavCss.menuArea
-);
-
 /**
  * slide global navigation
  * @param index_
@@ -61,43 +57,43 @@ const clickHandler = (tabId_, cb_) => {
  * @param current
  * @param cb
  */
+// <li key={index} style={tabColor(index, current)} ref={setSlidePosList}>
 const list = (index, current, cb) => (
-  <li key={index} style={tabColor(index, current)} ref={setSlidePosList}>
+  <li key={index} style={tabColor(index, current)}>
     <a href="" onClick={clickHandler(index, cb)}>{railwayConfig[index].name}</a>
   </li>
 );
 
 /**
  * GlobalMenuContainer
- * @param props
- * @returns {XML}
- * @constructor
  */
-const GlobalMenuContainer = (props) => {
-  const {
-    store,
-    bActions,
-  } = props;
+class GlobalMenuContainer extends React.Component {
+  render() {
+    const {
+      store,
+      bActions,
+    } = this.props;
 
-  return (
-    <div
-      className={menuAreaStyleClass(store.carComposition.isShow)}
-      ref={slide(store.railwayId.current)}
-    >
-      <ul>
-        {
-          railwayConfig.map(
-            (elm, index) => list(
-              index,
-              store.railwayId.current,
-              bActions.onChangeRailwayId
+    return (
+      <div
+        className={globalNavCss.menuArea}
+        ref={slide(store.railwayId.current)}
+      >
+        <ul>
+          {
+            railwayConfig.map(
+              (elm, index) => list(
+                index,
+                store.railwayId.current,
+                bActions.onChangeRailwayId
+              )
             )
-          )
-        }
-      </ul>
-    </div>
-  );
-};
+          }
+        </ul>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   store: state,

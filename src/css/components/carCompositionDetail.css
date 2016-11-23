@@ -1,0 +1,14 @@
+@import "../foundation/config.css";
+:root{
+  --baseContainer: {
+  }
+}
+
+.container {
+  @apply --baseContainer;
+}
+
+.containerHidden{
+  @apply --baseContainer;
+  display: none;
+}

@@ -5,9 +5,9 @@ import * as actions from './../actions/index';
 import Railway from '../components/railway/Railway';
 import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
+import showCarComposition from './logic/showCarComosition';
 import { debounce, clear } from '../domain/utils/debounce';
-import fetchCarCompositionApi from '../domain/api/carCompositionApi';
-import wait from '../domain/utils/wait';
+
 
 let dragStartX = 0;
 let dragStartY = 0;
@@ -102,74 +102,40 @@ const bgColor = index => (
   }
 );
 
-const containerStyleClass = isShow => (
-  (isShow) ? railwayCss.containerHidden : railwayCss.container
-);
-
-const showDetail = (store, bActions) => (
-  (index) => {
-    const conf = railwayConfig[store.railwayId.current];
-    fetchCarCompositionApi({
-      railway: conf.id,
-      station: conf.station[index].id,
-      ready: () => {
-        bActions.onStartLoader();
-      },
-      success: (res) => {
-        bActions.onFetchApiSuccess(res);
-        bActions.onEndLoader();
-        bActions.onGoTransitCarComposition();
-      },
-      fail: () => {
-        (async() => {
-          bActions.onEndLoader();
-          await wait(300);
-          window.alert('通信エラーが発生しました。\nお手数ですが再度、お試しください。');
-        })();
-      },
-    });
-  }
-);
-
 /**
  * RailwayContainer
- * @param props
- * @returns {XML}
- * @constructor
  */
+class RailwayContainer extends React.Component {
 
-const RailwayContainer = (props) => {
-  const {
-    store,
-    bActions,
-  } = props;
-
-  return (
-    <div
-      className={containerStyleClass(store.carComposition.isShow)}
-      style={bgColor(store.railwayId.current)}
-    >
+  render() {
+    const { store, bActions } = this.props;
+    return (
       <div
-        className={railwayCss.slider}
-        style={slide(store.railwayId.current)}
-        onTouchStart={touchStartHandler}
-        onTouchMove={touchMoveHandler(store.railwayId.current)}
-        onTouchEnd={touchEndHandler(store.railwayId.current, bActions.onChangeRailwayId)}
+        className={railwayCss.container}
+        style={bgColor(store.railwayId.current)}
       >
-        {
-          railwayConfig.map((elm, index) => (
-            <Railway
-              key={index}
-              index={index}
-              current={store.railwayId.current}
-              showStationDetail={showDetail(store, bActions, index)}
-            />
-          ))
-        }
+        <div
+          className={railwayCss.slider}
+          style={slide(store.railwayId.current)}
+          onTouchStart={touchStartHandler}
+          onTouchMove={touchMoveHandler(store.railwayId.current)}
+          onTouchEnd={touchEndHandler(store.railwayId.current, bActions.onChangeRailwayId)}
+        >
+          {
+            railwayConfig.map((elm, index) => (
+              <Railway
+                key={index}
+                index={index}
+                current={store.railwayId.current}
+                showStationDetail={showCarComposition(store, bActions)}
+              />
+            ))
+          }
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   store: state,

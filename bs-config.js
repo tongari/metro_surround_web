@@ -1,4 +1,4 @@
-
+var historyApi  = require('connect-history-api-fallback');
 /*
  |--------------------------------------------------------------------------
  | Browser-sync config file
@@ -26,7 +26,7 @@ module.exports = {
     },
     "proxy": false,
     "port": 3000,
-    "middleware": false,
+    "middleware": [historyApi()],
     "serveStatic": [],
     "ghostMode": {
         "clicks": true,
