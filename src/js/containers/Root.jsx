@@ -2,19 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import RailwayContainer from './RailwayContainer';
 import GlobalMenuContainer from './GlobalMenuContainer';
-import railwayConfig from '../config/railway';
-
-const setBodyBgColor = (index) => {
-  const body = document.querySelector('body');
-  body.style.backgroundColor = `rgba(${railwayConfig[index].color},1)`;
-};
 
 const Root = (props) => {
   const {
     store,
   } = props;
 
-  setBodyBgColor(store.railwayId.current);
+  // bodyBg(store.railwayId.current);
 
   return (
     <div>

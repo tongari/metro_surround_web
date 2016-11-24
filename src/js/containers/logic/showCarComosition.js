@@ -1,7 +1,8 @@
+import { browserHistory } from 'react-router';
 import railwayConfig from '../../config/railway';
 import fetchCarCompositionApi from '../../domain/api/carCompositionApi';
 import wait from '../../domain/utils/wait';
-import { browserHistory } from 'react-router';
+import queryCollection from '../../domain/utils/queryCollection';
 
 const showCarComposition = (store, bActions, cb = () => {}) => (
   ({ railwayId, stationId }) => {
@@ -17,8 +18,8 @@ const showCarComposition = (store, bActions, cb = () => {}) => (
       success: (res) => {
         bActions.onFetchApiSuccess(res);
         bActions.onEndLoader();
-        browserHistory.push(`/station?railway=${conf.id}&station=${conf.station[stationId].id}`);
-        cb(railwayId);
+        // browserHistory.push(`/station?railway=${conf.id}&station=${conf.station[stationId].id}`);
+        cb(railwayId, { railway: conf.id, station: conf.station[stationId].id });
       },
       fail: () => {
         (async() => {
@@ -31,4 +32,26 @@ const showCarComposition = (store, bActions, cb = () => {}) => (
   }
 );
 
-export default showCarComposition;
+const isFetchData = (store, bActions, cb) => {
+  if (!store.railwayApiData.data) {
+    const queryObj = queryCollection();
+
+    let railwayId = 0;
+    railwayConfig.forEach((item, index) => {
+      if (item.id === queryObj.railway) {
+        railwayId = index;
+      }
+    });
+    let stationId = 0;
+    railwayConfig[railwayId].station.forEach((item, index) => {
+      if (item.id === queryObj.station) {
+        stationId = index;
+      }
+    });
+    showCarComposition(store, bActions, (index_, opt) => {
+      cb(index_, opt);
+    })({ railwayId, stationId });
+  }
+};
+
+export { showCarComposition, isFetchData };

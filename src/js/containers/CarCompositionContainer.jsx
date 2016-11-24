@@ -1,10 +1,12 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import * as actions from './../actions/index';
 import railwayConfig from '../config/railway';
-import queryCollection from '../domain/utils/queryCollection';
-import showCarComposition from './logic/showCarComosition';
+import { isFetchData } from './logic/showCarComosition';
+import { bodyBg } from '../utils/view';
+import routePath from '../config/router';
 
 import CarCompositionTitle from '../components/carComposition/CarCompositionTitle';
 import CarCompositionDirection from '../components/carComposition/CarCompositionDirection';
@@ -42,33 +44,28 @@ const CarCompositionList = (props) => {
   );
 };
 
-const setBodyBgColor = (index) => {
-  const body = document.querySelector('body');
-  body.style.backgroundColor = `rgba(${railwayConfig[index].color},1)`;
-};
-
-const isFetchData = (store, bActions) => {
-  if (!store.railwayApiData.data) {
-    const queryObj = queryCollection();
-
-    let railwayId = 0;
-    railwayConfig.forEach((item, index) => {
-      if (item.id === queryObj.railway) {
-        railwayId = index;
-      }
-    });
-    let stationId = 0;
-    railwayConfig[railwayId].station.forEach((item, index) => {
-      if (item.id === queryObj.station) {
-        stationId = index;
-      }
-    });
-    showCarComposition(store, bActions, (index_) => {
-      bActions.onChangeRailwayId(index_);
-      setBodyBgColor(index_);
-    })({ railwayId, stationId });
-  }
-};
+// const isFetchData = (store, bActions) => {
+//   if (!store.railwayApiData.data) {
+//     const queryObj = queryCollection();
+//
+//     let railwayId = 0;
+//     railwayConfig.forEach((item, index) => {
+//       if (item.id === queryObj.railway) {
+//         railwayId = index;
+//       }
+//     });
+//     let stationId = 0;
+//     railwayConfig[railwayId].station.forEach((item, index) => {
+//       if (item.id === queryObj.station) {
+//         stationId = index;
+//       }
+//     });
+//     showCarComposition(store, bActions, (index_) => {
+//       bActions.onChangeRailwayId(index_);
+//       bodyBg(index_);
+//     })({ railwayId, stationId });
+//   }
+// };
 
 const containerStyleClass = isData => (
   (isData) ? carCompositionCss.container : carCompositionCss.containerHidden
@@ -81,7 +78,13 @@ const containerStyleClass = isData => (
 class CarCompositionContainer extends React.Component {
   componentDidMount() {
     const { store, bActions } = this.props;
-    isFetchData(store, bActions);
+    isFetchData(store, bActions,
+      (index_, opt) => {
+        browserHistory.push(`${routePath.STATION}?railway=${opt.railway}&station=${opt.station}`);
+        bActions.onChangeRailwayId(index_);
+        bodyBg(index_);
+      }
+    );
   }
 
   render() {

@@ -3,11 +3,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../actions/index';
 import railwayConfig from '../config/railway';
-import carCompositionCss from '../../css/components/carComposition.css';
+import { bodyBg } from '../utils/view';
+import queryCollection from '../domain/utils/queryCollection';
 
-const containerStyleClass = isShow => (
-  (isShow) ? carCompositionCss.container : carCompositionCss.containerHidden
-);
+import CarCompositionDetailTitle from '../components/carComposition/CarCompositionDetailTitle';
+import carCompositionCss from '../../css/components/carComposition.css';
 
 /**
  * CarCompositionDetailContainer
@@ -15,8 +15,15 @@ const containerStyleClass = isShow => (
 class CarCompositionDetailContainer extends React.Component {
   render() {
     const { store, bActions } = this.props;
+    const queryObj = queryCollection();
+    bodyBg(store.railwayId.current);
     return (
-      <div>CarCompositionDetailContainer</div>
+      <div className={carCompositionCss.detailContainer}>
+        <CarCompositionDetailTitle 
+          railwayId={store.railwayId.current}
+          carNum={queryObj.num}
+        />
+      </div>
     );
   }
 }

@@ -1,7 +1,6 @@
 /**
  *
- * @param millisecond
- * @returns {Promise}
+ * @returns {*}
  */
 const queryCollection = () => {
   const result = window.location.search.replace(/\?/, '').split('&')

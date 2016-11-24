@@ -9,6 +9,7 @@ import routerPath from './config/router';
 import App from './containers/App';
 import Root from './containers/Root';
 import CarCompositionContainer from './containers/CarCompositionContainer';
+import CarCompositionDetailContainer from './containers/CarCompositionDetailContainer';
 
 const store = configStore();
 const history = syncHistoryWithStore(browserHistory, store);
@@ -19,13 +20,12 @@ ReactDOM.render(
       <Route path="/" component={App}>
         <IndexRoute component={Root} />
         <Route path={routerPath.STATION} component={CarCompositionContainer} />
-        <Route path={routerPath.CAR_COMPOSITION} component={CarCompositionContainer} />
+        <Route path={routerPath.CAR_COMPOSITION} component={CarCompositionDetailContainer} />
       </Route>
     </Router>
   </Provider>,
   document.getElementById('app')
 );
-
 
 // const body = document.querySelector('body');
 // body.style.opacity = 0.5;
