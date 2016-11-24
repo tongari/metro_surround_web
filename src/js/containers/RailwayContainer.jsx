@@ -1,13 +1,13 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import * as actions from './../actions/index';
 import Railway from '../components/railway/Railway';
 import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
-import showCarComposition from './logic/showCarComosition';
+import { transferShowCarComposition } from './logic/showCarComosition';
 import { debounce, clear } from '../domain/utils/debounce';
-
 
 let dragStartX = 0;
 let dragStartY = 0;
@@ -118,7 +118,7 @@ class RailwayContainer extends React.Component {
                 key={index}
                 index={index}
                 current={store.railwayId.current}
-                showStationDetail={showCarComposition(store, bActions)}
+                showStationDetail={transferShowCarComposition(store, bActions)}
               />
             ))
           }

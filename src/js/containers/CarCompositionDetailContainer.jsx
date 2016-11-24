@@ -2,24 +2,31 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../actions/index';
-import railwayConfig from '../config/railway';
-import { bodyBg } from '../utils/view';
+import { directShowCarComposition } from './logic/showCarComosition';
 import queryCollection from '../domain/utils/queryCollection';
 
 import CarCompositionDetailTitle from '../components/carComposition/CarCompositionDetailTitle';
 import carCompositionCss from '../../css/components/carComposition.css';
 
+const containerStyleClass = isData => (
+  (isData) ? carCompositionCss.detailContainer : carCompositionCss.detailContainerHidden
+);
+
 /**
  * CarCompositionDetailContainer
  */
 class CarCompositionDetailContainer extends React.Component {
+  componentDidMount() {
+    const { store, bActions } = this.props;
+    directShowCarComposition(store, bActions);
+  }
+
   render() {
     const { store, bActions } = this.props;
     const queryObj = queryCollection();
-    bodyBg(store.railwayId.current);
     return (
-      <div className={carCompositionCss.detailContainer}>
-        <CarCompositionDetailTitle 
+      <div className={containerStyleClass(store.railwayApiData.data)}>
+        <CarCompositionDetailTitle
           railwayId={store.railwayId.current}
           carNum={queryObj.num}
         />
