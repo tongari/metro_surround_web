@@ -15,6 +15,13 @@ const surroundText = data => (
   ), '')
 );
 
+const transferText = data => (
+  data && data.reduce((prev, cur, index) => {
+    const addText = cur['odpt:railway'].name;
+    return (index === 0) ? addText : `${prev}、${addText}`;
+  }, '')
+);
+
 const CarCompositionItem = (props) => {
   const {
     carNum,
@@ -31,7 +38,7 @@ const CarCompositionItem = (props) => {
           <div className={itemCss.textContainer}>
             <p className={itemCss.text}>
               <span className={itemCss.textIcon}>乗り換え</span>
-              <span>11111</span>
+              <span>{transferText(transferData)}</span>
             </p>
             <p className={itemCss.text}>
               <span className={itemCss.textIcon}>周辺施設</span>

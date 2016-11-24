@@ -96,12 +96,6 @@ const touchEndHandler = (currentId_, cb_) => {
   };
 };
 
-const bgColor = index => (
-  {
-    backgroundColor: `rgba(${railwayConfig[index].color},1)`,
-  }
-);
-
 /**
  * RailwayContainer
  */
@@ -110,10 +104,7 @@ class RailwayContainer extends React.Component {
   render() {
     const { store, bActions } = this.props;
     return (
-      <div
-        className={railwayCss.container}
-        style={bgColor(store.railwayId.current)}
-      >
+      <div className={railwayCss.container}>
         <div
           className={railwayCss.slider}
           style={slide(store.railwayId.current)}

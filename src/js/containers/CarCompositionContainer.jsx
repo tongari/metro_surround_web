@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../actions/index';
 import railwayConfig from '../config/railway';
+import queryCollection from '../domain/utils/queryCollection';
 import showCarComposition from './logic/showCarComosition';
 
 import CarCompositionTitle from '../components/carComposition/CarCompositionTitle';
@@ -48,22 +49,17 @@ const setBodyBgColor = (index) => {
 
 const isFetchData = (store, bActions) => {
   if (!store.railwayApiData.data) {
-    const queryCollection = window.location.search.replace(/\?/, '').split('&')
-      .reduce((prev, cur) => {
-        const key = cur.split('=')[0];
-        const val = cur.split('=')[1];
-        return Object.assign(prev, { [key]: val });
-      }, {});
+    const queryObj = queryCollection();
 
     let railwayId = 0;
     railwayConfig.forEach((item, index) => {
-      if (item.id === queryCollection.railway) {
+      if (item.id === queryObj.railway) {
         railwayId = index;
       }
     });
     let stationId = 0;
     railwayConfig[railwayId].station.forEach((item, index) => {
-      if (item.id === queryCollection.station) {
+      if (item.id === queryObj.station) {
         stationId = index;
       }
     });
@@ -93,7 +89,7 @@ class CarCompositionContainer extends React.Component {
     return (
       <div className={containerStyleClass(store.railwayApiData.data)}>
         <CarCompositionTitle
-          title={railwayConfig[store.railwayId.current].name}
+          title={store.railwayApiData.data && store.railwayApiData.data.stationName}
         />
         <CarCompositionDirection
           name={railwayConfig[store.railwayId.current].direction[0].name}

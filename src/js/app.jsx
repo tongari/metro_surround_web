@@ -19,8 +19,13 @@ ReactDOM.render(
       <Route path="/" component={App}>
         <IndexRoute component={Root} />
         <Route path={routerPath.STATION} component={CarCompositionContainer} />
+        <Route path={routerPath.CAR_COMPOSITION} component={CarCompositionContainer} />
       </Route>
     </Router>
   </Provider>,
   document.getElementById('app')
 );
+
+
+// const body = document.querySelector('body');
+// body.style.opacity = 0.5;

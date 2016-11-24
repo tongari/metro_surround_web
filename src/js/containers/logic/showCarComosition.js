@@ -13,7 +13,6 @@ const showCarComposition = (store, bActions, cb = () => {}) => (
       station: conf.station[stationId].id,
       ready: () => {
         bActions.onStartLoader();
-        const body = document.querySelector('body');
       },
       success: (res) => {
         bActions.onFetchApiSuccess(res);

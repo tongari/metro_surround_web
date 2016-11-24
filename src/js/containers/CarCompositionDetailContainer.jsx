@@ -11,21 +11,15 @@ const containerStyleClass = isShow => (
 
 /**
  * CarCompositionDetailContainer
- * @param props
- * @returns {XML}
- * @constructor
  */
-
-const CarCompositionDetailContainer = (props) => {
-  const {
-    store,
-    bActions,
-  } = props;
-
-  return (
-    <div className={containerStyleClass(true)}>CarCompositionDetailContainer</div>
-  );
-};
+class CarCompositionDetailContainer extends React.Component {
+  render() {
+    const { store, bActions } = this.props;
+    return (
+      <div>CarCompositionDetailContainer</div>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   store: state,
