@@ -4,7 +4,6 @@ import fetchCarCompositionApi from '../../domain/api/carCompositionApi';
 import wait from '../../domain/utils/wait';
 import queryCollection from '../../domain/utils/queryCollection';
 import { bodyBg } from '../../utils/view';
-import routePath from '../../config/router';
 
 const doFetch = (store, bActions, railwayId, stationId, cb) => {
   const conf = railwayConfig[railwayId];
@@ -32,13 +31,13 @@ const doFetch = (store, bActions, railwayId, stationId, cb) => {
 };
 
 const getIdsFromQuery = ({ railway, station }) => {
-  let railwayId = 0;
+  let railwayId;
   railwayConfig.forEach((item, index) => {
     if (item.id === railway) {
       railwayId = index;
     }
   });
-  let stationId = 0;
+  let stationId;
   railwayConfig[railwayId].station.forEach((item, index) => {
     if (item.id === station) {
       stationId = index;

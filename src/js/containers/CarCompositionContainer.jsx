@@ -13,7 +13,7 @@ import CarCompositionEmptyItem from '../components/carComposition/CarComposition
 import carCompositionCss from '../../css/components/carComposition.css';
 
 const CarCompositionList = (props) => {
-  const { data, color } = props;
+  const { data, color, direction } = props;
   return (
     <ul>
       {
@@ -26,6 +26,7 @@ const CarCompositionList = (props) => {
                 color={color}
                 transferData={item['odpt:transferInformation']}
                 surroundData={item['odpt:surroundingArea']}
+                direction={direction}
               />
             );
           }
@@ -70,6 +71,7 @@ class CarCompositionContainer extends React.Component {
           <CarCompositionList
             data={store.railwayApiData.data.up}
             color={railwayConfig[store.railwayId.current].color}
+            direction="up"
           />
         }
         <CarCompositionDirection
@@ -81,6 +83,7 @@ class CarCompositionContainer extends React.Component {
           <CarCompositionList
             data={store.railwayApiData.data.down}
             color={railwayConfig[store.railwayId.current].color}
+            direction="down"
           />
         }
       </div>

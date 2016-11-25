@@ -35,6 +35,7 @@ const CarCompositionItem = (props) => {
   const {
     carNum,
     color,
+    direction,
     transferData,
     surroundData,
   } = props;
@@ -43,7 +44,7 @@ const CarCompositionItem = (props) => {
 
   return (
     <li className={itemCss.list}>
-      <Link to={`${routerPath.CAR_COMPOSITION}?railway=${queryObj.railway}&station=${queryObj.station}&num=${carNum}`} className={itemCss.item}>
+      <Link to={`${routerPath.CAR_COMPOSITION}?railway=${queryObj.railway}&station=${queryObj.station}&direction=${direction}&num=${carNum}`} className={itemCss.item}>
         <p className={itemCss.num} style={numberColor(color)}>{carNum}</p>
         <div className={itemCss.body}>
           <div className={itemCss.textContainer}>
