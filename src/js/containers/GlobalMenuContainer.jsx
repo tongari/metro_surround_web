@@ -5,10 +5,6 @@ import * as actions from './../actions/index';
 import globalNavCss from '../../css/components/globalNav.css';
 import railwayConfig from '../config/railway';
 
-
-const slidePosList = [];
-const setSlidePosList = elm => slidePosList.push(elm.offsetLeft);
-
 /**
  * set style tab color
  * @param index
@@ -21,19 +17,6 @@ const tabColor = (index, current) => (
     opacity: 1,
   }
 );
-
-/**
- * slide global navigation
- * @param index_
- * @returns {function(*)}
- */
-const slide = (index_) => {
-  const index = index_;
-  return (elm_) => {
-    const elm = elm_;
-    if (elm) elm.scrollLeft = slidePosList[index];
-  };
-};
 
 /**
  * bind clickHandler
@@ -52,22 +35,39 @@ const clickHandler = (tabId_, cb_) => {
 };
 
 /**
- * create list elment
- * @param index
- * @param current
- * @param cb
- */
-// <li key={index} style={tabColor(index, current)} ref={setSlidePosList}>
-const list = (index, current, cb) => (
-  <li key={index} style={tabColor(index, current)}>
-    <a href="" onClick={clickHandler(index, cb)}>{railwayConfig[index].name}</a>
-  </li>
-);
-
-/**
  * GlobalMenuContainer
  */
 class GlobalMenuContainer extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      listElms: [],
+      slidePosList: [],
+    };
+  }
+  componentDidMount() {
+    this.slidePosList = this.state.listElms.map(item => item.offsetLeft);
+  }
+
+  list(index, current, cb) {
+    return (
+      <li
+        key={index}
+        style={tabColor(index, current)}
+        ref={(elm) => { this.state.listElms.push(elm); }}
+      >
+        <a href="" onClick={clickHandler(index, cb)}>{railwayConfig[index].name}</a>
+      </li>
+    );
+  }
+
+  slide(index) {
+    return (elm_) => {
+      const elm = elm_;
+      if (elm) elm.scrollLeft = this.state.slidePosList[index];
+    };
+  }
+
   render() {
     const {
       store,
@@ -77,12 +77,12 @@ class GlobalMenuContainer extends React.Component {
     return (
       <div
         className={globalNavCss.menuArea}
-        ref={slide(store.railwayId.current)}
+        ref={this.slide(store.railwayId.current)}
       >
         <ul>
           {
             railwayConfig.map(
-              (elm, index) => list(
+              (elm, index) => this.list(
                 index,
                 store.railwayId.current,
                 bActions.onChangeRailwayId
