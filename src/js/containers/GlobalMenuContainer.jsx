@@ -46,7 +46,7 @@ class GlobalMenuContainer extends React.Component {
     };
   }
   componentDidMount() {
-    this.slidePosList = this.state.listElms.map(item => item.offsetLeft);
+    this.state.slidePosList = this.state.listElms.map(item => item.offsetLeft);
   }
 
   list(index, current, cb) {
