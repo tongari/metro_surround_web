@@ -29,10 +29,19 @@ const clickHandler = (tabId_, cb_) => {
   const cb = cb_;
   return (e) => {
     cb(tabId);
-    window.scrollTo(0, 0);
     e.preventDefault();
   };
 };
+
+const visibleStyle = isShow => (
+  (isShow) ? {
+    visibility: 'visible',
+    zIndex: '999',
+  } : {
+    visibility: 'hidden',
+    zIndex: '-1',
+  }
+);
 
 /**
  * GlobalMenuContainer
@@ -73,10 +82,12 @@ class GlobalMenuContainer extends React.Component {
       store,
       bActions,
     } = this.props;
+    const isShow = (store.routing.locationBeforeTransitions.pathname === '/');
 
     return (
       <div
         className={globalNavCss.menuArea}
+        style={visibleStyle(isShow)}
         ref={this.slide(store.railwayId.current)}
       >
         <ul>

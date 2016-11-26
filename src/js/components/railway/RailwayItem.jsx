@@ -11,32 +11,44 @@ const svgColor = index => (
   }
 );
 
+let isRender = false;
 const clickHandler = (showStationDetail, index) => (
   (e) => {
+    isRender = true;
     e.preventDefault();
     showStationDetail({ stationId: index });
   }
 );
 
-const RailwayItem = (props) => {
-  const {
-    railwayIndex,
-    index,
-    info,
-    showStationDetail,
-  } = props;
+class RailwayItem extends React.Component {
+  componentDidMount() {
+    isRender = false;
+  }
 
-  return (
-    <li className={railwayCss.list}>
-      <a href="" onClick={clickHandler(showStationDetail, index)}>
-        <i className={`${railwayCss.icon} ${svgCss.colorInherit}`} style={svgColor(railwayIndex)}>
-          <NumberingIcon />
-        </i>
-        <span className={`${typoCss.sizeLL} ${typoCss.bold}`}>{info.name}</span>
-        <span className={railwayCss.stationEn}>{info.id}</span>
-      </a>
-    </li>
-  );
-};
+  shouldComponentUpdate() {
+    return isRender;
+  }
+
+  render() {
+    const {
+      railwayIndex,
+      index,
+      info,
+      showStationDetail,
+    } = this.props;
+
+    return (
+      <li className={railwayCss.list}>
+        <a href="" onClick={clickHandler(showStationDetail, index)}>
+          <i className={`${railwayCss.icon} ${svgCss.colorInherit}`} style={svgColor(railwayIndex)}>
+            <NumberingIcon />
+          </i>
+          <span className={`${typoCss.sizeLL} ${typoCss.bold}`}>{info.name}</span>
+          <span className={railwayCss.stationEn}>{info.id}</span>
+        </a>
+      </li>
+    );
+  }
+}
 
 export default RailwayItem;

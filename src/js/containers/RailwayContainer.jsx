@@ -7,17 +7,19 @@ import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
 import { transferShowCarComposition } from './logic/showCarComosition';
 import { debounce, clear } from '../domain/utils/debounce';
+import { bodyBg } from '../utils/view';
 
 const getPrevPos = currentId => -1 * currentId * window.innerWidth;
-const slide = currentId => (
+const slide = (val, duration) => (
   {
-    transform: `translate3d(${getPrevPos(currentId)}px, 0, 0)`,
+    transform: `translate3d(${val}px, 0, 0)`,
     transitionProperty: 'transform',
     transitionTimingFunction: 'ease',
-    transitionDuration: '0.3s',
+    transitionDuration: duration,
   }
 );
 
+let sendRailwayId = 0;
 /**
  * RailwayContainer
  */
@@ -28,22 +30,38 @@ class RailwayContainer extends React.Component {
       dragStartX: 0,
       dragStartY: 0,
       xVal: 0,
+      duration: '0.3s',
       isVectY: false,
       isDrag: false,
       isSlideNone: false,
+      isUpdate: true,
     };
   }
 
-  shouldComponentUpdate() {
-    return true;
+  componentDidMount() {
+    this.setState({
+      xVal: getPrevPos(this.props.store.railwayId.current),
+    });
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      xVal: getPrevPos(this.props.store.railwayId.current),
+    });
   }
 
   touchStartHandler() {
     return (e) => {
-      this.state.dragStartX = e.touches[0].pageX;
-      this.state.dragStartY = e.touches[0].pageY;
+      this.setState({
+        dragStartX: e.touches[0].pageX,
+        dragStartY: e.touches[0].pageY,
+        duration: '0s',
+        isSlideNone: false,
+      });
       debounce(() => {
-        this.state.isSlideNone = true;
+        this.setState({
+          isSlideNone: true,
+        });
       }, 250);
     };
   }
@@ -57,15 +75,19 @@ class RailwayContainer extends React.Component {
       const moveY = Math.abs(currentY - this.state.dragStartY);
 
       if (this.state.isVectY) return;
-      if (moveX < moveY) this.state.isVectY = true;
+      if (moveX < moveY) {
+        this.setState({ isVectY: true });
+        return;
+      }
       if (moveX > 15) {
-        this.state.isDrag = true;
         e.preventDefault();
         const movePos = getPrevPos(currentId) + (currentX - this.state.dragStartX);
-        this.state.xVal = movePos;
-        const tgt = e.currentTarget;
-        tgt.style.transform = `translate3d(${this.state.xVal}px, 0, 0)`;
-        tgt.style.transitionDuration = '0s';
+        this.setState({
+          isDrag: true,
+          isUpdate: false,
+          xVal: movePos,
+          duration: '0s',
+        });
       }
     };
   }
@@ -74,37 +96,32 @@ class RailwayContainer extends React.Component {
     const currentId = currentId_;
     const cb = cb_;
     return (e) => {
-      this.state.isVectY = false;
+      this.setState({ isVectY: false });
       if (!this.state.isDrag) return;
       const currentX = e.changedTouches[0].pageX;
       const index = this.calcSlideIndex(currentX, currentId);
-      const tgt = e.currentTarget;
-      this.state.xVal = getPrevPos(index);
-      const slideStyle = slide(index);
-      tgt.style.transform = slideStyle.transform;
-      tgt.style.transitionProperty = slideStyle.transitionProperty;
-      tgt.style.transitionTimingFunction = slideStyle.transitionTimingFunction;
-      tgt.style.transitionDuration = slideStyle.transitionDuration;
+      clear();
+      this.setState({
+        xVal: getPrevPos(index),
+        duration: '0.3s',
+        isDrag: false,
+        isUpdate: true,
+        isSlideNone: false,
+      });
       cb(index);
-      this.state.isDrag = false;
-      window.scrollTo(0, 0);
+      sendRailwayId = index;
     };
   }
 
   calcSlideIndex(currentX_, currentId) {
-    clear();
     const tmp = getPrevPos(currentId) + (currentX_ - this.state.dragStartX);
     const tmpPer = (tmp / window.innerWidth) + currentId;
-
     let tmpId;
-    if (!this.state.isSlideNone && tmpPer < -0.1) tmpId = currentId + 1;
-    else if (!this.state.isSlideNone && tmpPer > 0.1) tmpId = currentId - 1;
+    if (!this.state.isSlideNone && tmpPer < -0.01) tmpId = currentId + 1;
+    else if (!this.state.isSlideNone && tmpPer > 0.01) tmpId = currentId - 1;
     else if (this.state.isSlideNone && tmpPer < -0.5) tmpId = currentId + 1;
     else if (this.state.isSlideNone && tmpPer > 0.5) tmpId = currentId - 1;
     else tmpId = currentId;
-
-    this.state.isSlideNone = false;
-
     let slideIndex = tmpId;
     if (slideIndex < 0) slideIndex = 0;
     if (slideIndex >= railwayConfig.length) slideIndex = railwayConfig.length - 1;
@@ -113,11 +130,15 @@ class RailwayContainer extends React.Component {
 
   render() {
     const { store, bActions } = this.props;
+    bodyBg(store.railwayId.current);
+    const slideVal = (this.state.isDrag) ? this.state.xVal : getPrevPos(store.railwayId.current);
+    sendRailwayId = store.railwayId.current;
+
     return (
       <div className={railwayCss.container}>
         <div
           className={railwayCss.slider}
-          style={slide(store.railwayId.current)}
+          style={slide(slideVal, this.state.duration)}
           onTouchStart={this.touchStartHandler()}
           onTouchMove={this.touchMoveHandler(store.railwayId.current)}
           onTouchEnd={this.touchEndHandler(store.railwayId.current, bActions.onChangeRailwayId)}
@@ -127,8 +148,11 @@ class RailwayContainer extends React.Component {
               <Railway
                 key={index}
                 index={index}
+                isUpdate={this.state.isUpdate}
                 current={store.railwayId.current}
-                showStationDetail={transferShowCarComposition(store, bActions)}
+                showStationDetail={({ stationId }) => {
+                  transferShowCarComposition(store, bActions, sendRailwayId)({ stationId });
+                }}
               />
             ))
           }

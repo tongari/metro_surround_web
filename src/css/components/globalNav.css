@@ -8,7 +8,7 @@
     padding-top: var(--margin-XS);
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
-    background-color: #000;
+    background-color: #000
   }
 }
 

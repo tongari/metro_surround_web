@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RailwayContainer from './RailwayContainer';
-import GlobalMenuContainer from './GlobalMenuContainer';
 import { bodyBg } from '../utils/view';
 
 const Root = (props) => {
@@ -13,7 +12,6 @@ const Root = (props) => {
 
   return (
     <div>
-      <GlobalMenuContainer />
       <RailwayContainer />
     </div>
   );

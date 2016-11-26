@@ -7,7 +7,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routerPath from './config/router';
 import App from './containers/App';
-import Root from './containers/Root';
+import RailwayContainer from './containers/RailwayContainer';
 import CarCompositionContainer from './containers/CarCompositionContainer';
 import CarCompositionDetailContainer from './containers/CarCompositionDetailContainer';
 
@@ -18,7 +18,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-        <IndexRoute component={Root} />
+        <IndexRoute component={RailwayContainer} />
         <Route path={routerPath.STATION} component={CarCompositionContainer} />
         <Route path={routerPath.CAR_COMPOSITION} component={CarCompositionDetailContainer} />
       </Route>

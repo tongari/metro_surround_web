@@ -15,7 +15,8 @@
     "global-require":0,
     "import/no-dynamic-require":0,
     "react/jsx-boolean-value": 0,
-    "import/imports-first":0
+    "import/imports-first":0,
+    "react/no-did-mount-set-state": 0,
   },
   "env": {
     "browser": true,

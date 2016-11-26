@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import * as actions from './../actions/index';
 import railwayConfig from '../config/railway';
 import { directShowCarComposition } from './logic/showCarComosition';
+import { bodyBg } from '../utils/view';
 
 import CarCompositionTitle from '../components/carComposition/CarCompositionTitle';
 import CarCompositionDirection from '../components/carComposition/CarCompositionDirection';
@@ -54,6 +55,7 @@ class CarCompositionContainer extends React.Component {
   componentDidMount() {
     const { store, bActions } = this.props;
     directShowCarComposition(store, bActions);
+    // bodyBg(store.railwayId.current);
   }
 
   render() {

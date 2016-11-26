@@ -54,9 +54,9 @@ const getIdsFromQuery = ({ railway, station }) => {
 /*-------------------
 export function
 --------------------*/
-const transferShowCarComposition = (store, bActions) => (
+const transferShowCarComposition = (store, bActions, railwayId) => (
   ({ stationId }) => {
-    const railwayId = store.railwayId.current;
+    // const railwayId = store.railwayId.current;
     doFetch(store, bActions, railwayId, stationId, ({ railway, station }) => {
       browserHistory.push(`/station?railway=${railway}&station=${station}`);
       bodyBg(railwayId);

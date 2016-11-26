@@ -9,37 +9,44 @@ const titleColor = index => (
   }
 );
 
-const visibleStyle = (index, current) => (
+const containerStyle = (index, current) => (
   {
-    height: (index === current) ? 'auto' : '1px',
+    height: (window.innerHeight - 61),
   }
 );
 
-const Railway = (props) => {
-  const {
-    index,
-    current,
-    showStationDetail,
-  } = props;
+class Railway extends React.Component {
 
-  return (
-    <div style={visibleStyle(index, current)}>
-      <h1 className={`${railwayCss.title}`} style={titleColor(index)}>
-        駅を選んでください
-      </h1>
-      <ul>
-        {railwayConfig[index].station && railwayConfig[index].station.map((info, index_) => (
-          <RailwayItem
-            key={index_}
-            railwayIndex={index}
-            index={index_}
-            info={info}
-            showStationDetail={showStationDetail}
-          />)
-        )}
-      </ul>
-    </div>
-  );
-};
+  shouldComponentUpdate() {
+    return this.props.isUpdate;
+  }
+
+  render() {
+    const {
+      index,
+      current,
+      showStationDetail,
+    } = this.props;
+
+    return (
+      <div style={containerStyle(index, current)}>
+        <h1 className={`${railwayCss.title}`} style={titleColor(index)}>
+          駅を選んでください
+        </h1>
+        <ul>
+          {railwayConfig[index].station && railwayConfig[index].station.map((info, index_) => (
+            <RailwayItem
+              key={index_}
+              railwayIndex={index}
+              index={index_}
+              info={info}
+              showStationDetail={showStationDetail}
+            />)
+          )}
+        </ul>
+      </div>
+    );
+  }
+}
 
 export default Railway;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import GlobalMenuContainer from './GlobalMenuContainer';
 import loaderCss from '../../css/components/loader.css';
 
 const loaderStyle = isLoading => (
@@ -14,6 +15,7 @@ const App = (props) => {
 
   return (
     <div>
+      <GlobalMenuContainer />
       {children}
       <div className={loaderStyle(store.loader.isLoading)} />
     </div>
