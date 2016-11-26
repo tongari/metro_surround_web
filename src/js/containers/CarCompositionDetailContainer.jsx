@@ -65,11 +65,11 @@ const surroundInfoList = (data, direction, index) => {
 class CarCompositionDetailContainer extends React.Component {
   componentDidMount() {
     const { store, bActions } = this.props;
-    directShowCarComposition(store, bActions);
+    directShowCarComposition(store.railwayApiData.data, bActions);
   }
 
   render() {
-    const { store, bActions } = this.props;
+    const { store } = this.props;
     const queryObj = queryCollection();
     const carNum = queryObj.num;
     const index = queryObj.num - 1;

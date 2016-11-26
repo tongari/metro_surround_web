@@ -19,7 +19,8 @@ const slide = (val, duration) => (
   }
 );
 
-let sendRailwayId = 0;
+
+let sendRailwayId;
 /**
  * RailwayContainer
  */
@@ -109,7 +110,6 @@ class RailwayContainer extends React.Component {
         isSlideNone: false,
       });
       cb(index);
-      sendRailwayId = index;
     };
   }
 
@@ -151,7 +151,7 @@ class RailwayContainer extends React.Component {
                 isUpdate={this.state.isUpdate}
                 current={store.railwayId.current}
                 showStationDetail={({ stationId }) => {
-                  transferShowCarComposition(store, bActions, sendRailwayId)({ stationId });
+                  transferShowCarComposition(bActions, sendRailwayId)({ stationId });
                 }}
               />
             ))

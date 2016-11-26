@@ -11,22 +11,16 @@ const svgColor = index => (
   }
 );
 
-let isRender = false;
 const clickHandler = (showStationDetail, index) => (
   (e) => {
-    isRender = true;
     e.preventDefault();
     showStationDetail({ stationId: index });
   }
 );
 
 class RailwayItem extends React.Component {
-  componentDidMount() {
-    isRender = false;
-  }
-
   shouldComponentUpdate() {
-    return isRender;
+    return false;
   }
 
   render() {

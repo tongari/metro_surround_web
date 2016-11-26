@@ -5,7 +5,7 @@ import wait from '../../domain/utils/wait';
 import queryCollection from '../../domain/utils/queryCollection';
 import { bodyBg } from '../../utils/view';
 
-const doFetch = (store, bActions, railwayId, stationId, cb) => {
+const doFetch = (bActions, railwayId, stationId, cb) => {
   const conf = railwayConfig[railwayId];
   const railway = conf.id;
   const station = conf.station[stationId].id;
@@ -54,20 +54,19 @@ const getIdsFromQuery = ({ railway, station }) => {
 /*-------------------
 export function
 --------------------*/
-const transferShowCarComposition = (store, bActions, railwayId) => (
+const transferShowCarComposition = (bActions, railwayId) => (
   ({ stationId }) => {
-    // const railwayId = store.railwayId.current;
-    doFetch(store, bActions, railwayId, stationId, ({ railway, station }) => {
+    doFetch(bActions, railwayId, stationId, ({ railway, station }) => {
       browserHistory.push(`/station?railway=${railway}&station=${station}`);
       bodyBg(railwayId);
     });
   }
 );
 
-const directShowCarComposition = (store, bActions) => {
-  if (!store.railwayApiData.data) {
+const directShowCarComposition = (data, bActions) => {
+  if (!data) {
     const { railwayId, stationId } = getIdsFromQuery(queryCollection());
-    doFetch(store, bActions, railwayId, stationId, () => {
+    doFetch(bActions, railwayId, stationId, () => {
       bActions.onChangeRailwayId(railwayId);
       bodyBg(railwayId);
     });
