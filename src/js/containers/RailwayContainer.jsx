@@ -35,20 +35,7 @@ class RailwayContainer extends React.Component {
       isVectY: false,
       isDrag: false,
       isSlideNone: false,
-      isUpdate: true,
     };
-  }
-
-  componentDidMount() {
-    this.setState({
-      xVal: getPrevPos(this.props.store.railwayId.current),
-    });
-  }
-
-  componentWillReceiveProps() {
-    this.setState({
-      xVal: getPrevPos(this.props.store.railwayId.current),
-    });
   }
 
   touchStartHandler() {
@@ -85,7 +72,6 @@ class RailwayContainer extends React.Component {
         const movePos = getPrevPos(currentId) + (currentX - this.state.dragStartX);
         this.setState({
           isDrag: true,
-          isUpdate: false,
           xVal: movePos,
           duration: '0s',
         });
@@ -106,7 +92,6 @@ class RailwayContainer extends React.Component {
         xVal: getPrevPos(index),
         duration: '0.3s',
         isDrag: false,
-        isUpdate: true,
         isSlideNone: false,
       });
       cb(index);
@@ -148,7 +133,6 @@ class RailwayContainer extends React.Component {
               <Railway
                 key={index}
                 index={index}
-                isUpdate={this.state.isUpdate}
                 current={store.railwayId.current}
                 showStationDetail={({ stationId }) => {
                   transferShowCarComposition(bActions, sendRailwayId)({ stationId });

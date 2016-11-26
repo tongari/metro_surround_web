@@ -18,7 +18,7 @@ const containerStyle = (index, current) => (
 class Railway extends React.Component {
 
   shouldComponentUpdate() {
-    return this.props.isUpdate;
+    return false;
   }
 
   render() {
