@@ -19,8 +19,6 @@ const slide = (val, duration) => (
   }
 );
 
-
-let sendRailwayId;
 /**
  * RailwayContainer
  */
@@ -113,11 +111,20 @@ class RailwayContainer extends React.Component {
     return slideIndex;
   }
 
+  showStationHandler() {
+    return ({ stationId }) => {
+      transferShowCarComposition(
+        this.props.bActions,
+        this.props.store.railwayId.current,
+        stationId
+      );
+    };
+  }
+
   render() {
     const { store, bActions } = this.props;
     bodyBg(store.railwayId.current);
     const slideVal = (this.state.isDrag) ? this.state.xVal : getPrevPos(store.railwayId.current);
-    sendRailwayId = store.railwayId.current;
 
     return (
       <div className={railwayCss.container}>
@@ -134,9 +141,7 @@ class RailwayContainer extends React.Component {
                 key={index}
                 index={index}
                 current={store.railwayId.current}
-                showStationDetail={({ stationId }) => {
-                  transferShowCarComposition(bActions, sendRailwayId)({ stationId });
-                }}
+                showStationDetail={this.showStationHandler()}
               />
             ))
           }
