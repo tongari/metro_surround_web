@@ -18,7 +18,7 @@ const containerStyleClass = isData => (
 let statusMenuHeight = 50;
 const containerStyle = () => (
   {
-    paddingBottom: (statusMenuHeight),
+    paddingBottom: statusMenuHeight,
   }
 );
 

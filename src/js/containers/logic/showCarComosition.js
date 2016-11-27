@@ -56,7 +56,7 @@ export function
 const transferShowCarComposition = (bActions, railwayId, stationId) => {
   doFetch(bActions, railwayId, stationId, ({ railway, station }) => {
     browserHistory.push(`/station?railway=${railway}&station=${station}`);
-    bodyBg(railwayId);
+    bodyBg();
   });
 };
 
@@ -65,7 +65,7 @@ const directShowCarComposition = (data, bActions) => {
     const { railwayId, stationId } = getIdsFromQuery(queryCollection());
     doFetch(bActions, railwayId, stationId, () => {
       bActions.onChangeRailwayId(railwayId);
-      bodyBg(railwayId);
+      bodyBg();
     });
   }
 };

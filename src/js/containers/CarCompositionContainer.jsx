@@ -51,7 +51,7 @@ const containerStyleClass = isData => (
 let statusMenuHeight = 50;
 const containerStyle = () => (
   {
-    paddingBottom: (statusMenuHeight),
+    marginBottom: statusMenuHeight,
   }
 );
 
@@ -72,6 +72,7 @@ class CarCompositionContainer extends React.Component {
       <div className={containerStyleClass(store.railwayApiData.data)} style={containerStyle()}>
         <CarCompositionTitle
           title={store.railwayApiData.data && store.railwayApiData.data.stationName}
+          railwayId={store.railwayId.current}
         />
         <CarCompositionDirection
           name={railwayConfig[store.railwayId.current].direction[0].name}
