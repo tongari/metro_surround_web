@@ -44,6 +44,10 @@
     padding: var(--margin-L);
     cursor: pointer;
   }
+
+  &:last-child{
+    border-bottom: none;
+  }
 }
 
 .stationEn {

@@ -26,3 +26,14 @@
   color: rgba(104,104,104,1);
   @apply --svgPath;
 }
+
+.lightGray{
+  color: rgba(146,146,146,1);
+  @apply --svgPath;
+}
+
+.blue{
+  color: rgba(0,111,255,1);
+  @apply --svgPath;
+}
+

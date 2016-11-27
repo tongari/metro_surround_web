@@ -140,7 +140,6 @@ class RailwayContainer extends React.Component {
               <Railway
                 key={index}
                 index={index}
-                current={store.railwayId.current}
                 showStationDetail={this.showStationHandler()}
               />
             ))

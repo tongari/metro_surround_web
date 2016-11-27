@@ -15,6 +15,13 @@ const containerStyleClass = isData => (
   (isData) ? carCompositionCss.detailContainer : carCompositionCss.detailContainerHidden
 );
 
+let statusMenuHeight = 50;
+const containerStyle = () => (
+  {
+    paddingBottom: (statusMenuHeight),
+  }
+);
+
 const transferInfoTitle = (data, direction, index) => {
   if (data && data[direction][index]['odpt:transferInformation']) {
     return (
@@ -66,6 +73,8 @@ class CarCompositionDetailContainer extends React.Component {
   componentDidMount() {
     const { store, bActions } = this.props;
     directShowCarComposition(store.railwayApiData.data, bActions);
+    const statusMenu = document.querySelector('#js-statusMenu');
+    statusMenuHeight = statusMenu.offsetHeight;
   }
 
   render() {
@@ -76,7 +85,7 @@ class CarCompositionDetailContainer extends React.Component {
     const direction = queryObj.direction;
 
     return (
-      <div className={containerStyleClass(store.railwayApiData.data)}>
+      <div className={containerStyleClass(store.railwayApiData.data)} style={containerStyle()}>
         <CarCompositionDetailTitle
           railwayId={store.railwayId.current}
           carNum={carNum}

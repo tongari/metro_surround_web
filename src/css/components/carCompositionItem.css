@@ -27,6 +27,9 @@
   width: 100%;
   border-bottom: 1px solid var(--border-color);
   background-color: var(--color-white);
+  &:last-child{
+    border-bottom: none;
+  }
 }
 
 .item{
@@ -78,6 +81,7 @@
   border: 1px solid #aaa;
   background-color: var(--color-white);
   font-size: var(--font-size-S);
+  font-weight: normal;
 }
 
 .nextIcon{

@@ -9,13 +9,22 @@ const titleColor = index => (
   }
 );
 
-const containerStyle = (index, current) => (
+let railwayMenuHeight = 61;
+let statusMenuHeight = 50;
+const containerStyle = () => (
   {
-    height: (window.innerHeight - 61),
+    height: (window.innerHeight - railwayMenuHeight - statusMenuHeight),
   }
 );
 
 class Railway extends React.Component {
+
+  componentDidMount() {
+    const railwayMenu = document.querySelector('#js-railwayMenu');
+    const statusMenu = document.querySelector('#js-statusMenu');
+    railwayMenuHeight = railwayMenu.offsetHeight;
+    statusMenuHeight = statusMenu.offsetHeight;
+  }
 
   shouldComponentUpdate() {
     return false;
@@ -24,12 +33,11 @@ class Railway extends React.Component {
   render() {
     const {
       index,
-      current,
       showStationDetail,
     } = this.props;
 
     return (
-      <div style={containerStyle(index, current)}>
+      <div style={containerStyle()}>
         <h1 className={`${railwayCss.title}`} style={titleColor(index)}>
           駅を選んでください
         </h1>

@@ -44,9 +44,9 @@ const visibleStyle = isShow => (
 );
 
 /**
- * GlobalMenuContainer
+ * RailwayMenuContainer
  */
-class GlobalMenuContainer extends React.Component {
+class RailwayMenuContainer extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -86,6 +86,7 @@ class GlobalMenuContainer extends React.Component {
 
     return (
       <div
+        id="js-railwayMenu"
         className={globalNavCss.menuArea}
         style={visibleStyle(isShow)}
         ref={this.slide(store.railwayId.current)}
@@ -112,4 +113,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   bActions: bindActionCreators(actions, dispatch),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(GlobalMenuContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RailwayMenuContainer);
