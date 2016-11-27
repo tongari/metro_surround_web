@@ -1,5 +1,5 @@
 import React from 'react';
-import { DirectionIcon } from '../icon/Icon';
+import { DirectionIcon, DownDirectionIcon } from '../icon/Icon';
 import carCompositionCss from '../../../css/components/carComposition.css';
 import svgCss from '../../../css/components/svg.css';
 
@@ -10,7 +10,7 @@ const svgColor = color => (
 );
 
 const setIcon = isDown => (
-  (isDown) ? carCompositionCss.directionReversIcon : carCompositionCss.directionIcon
+  (isDown) ? <DownDirectionIcon /> : <DirectionIcon />
 );
 
 const CarCompositionDirection = (props) => {
@@ -22,8 +22,8 @@ const CarCompositionDirection = (props) => {
 
   return (
     <h2 className={carCompositionCss.directionArea}>
-      <i className={`${setIcon(isDown)} ${svgCss.colorInherit}`} style={svgColor(color)}>
-        <DirectionIcon />
+      <i className={`${carCompositionCss.directionIcon} ${svgCss.colorInherit}`} style={svgColor(color)}>
+        {setIcon(isDown)}
       </i>
       <p className={carCompositionCss.directionTitle}>{name}</p>
     </h2>

@@ -3,10 +3,6 @@
   --baseContainer: {
     background-color: rgba(239,239,244,1);
   }
-  --baseDirectionIcon:{
-    width: 30px;
-    padding-left: var(--margin-L);
-  }
 }
 
 .container {
@@ -56,14 +52,9 @@
 }
 
 .directionIcon{
-  @apply --baseDirectionIcon;
+  width: 30px;
+  padding-left: var(--margin-L);
   margin-top: -2px;
-}
-
-.directionReversIcon{
-  @apply --baseDirectionIcon;
-  transform: rotateX(-180deg);
-  margin-top: 2px;
 }
 
 .carCompositionItem{
