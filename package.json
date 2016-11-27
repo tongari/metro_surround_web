@@ -10,8 +10,7 @@
     "prod": "npm run svg && NODE_ENV=prod npm run deploy",
     "dev": "npm run svg && npm run watch & npm run server",
     "clean": "rimraf ./dist",
-    "svg": "rimraf ./src/asset/svg && gulp svg",
-    "postinstall": "npm run prod"
+    "svg": "rimraf ./src/asset/svg && gulp svg"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1"
