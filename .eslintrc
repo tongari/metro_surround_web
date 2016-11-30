@@ -15,7 +15,8 @@
     "global-require":0,
     "import/no-dynamic-require":0,
     "react/jsx-boolean-value": 0,
-    "import/imports-first":0
+    "import/imports-first":0,
+    "import/prefer-default-export":0
   },
   "env": {
     "browser": true,

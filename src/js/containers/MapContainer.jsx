@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../actions/index';
+import { stationList, nearStationList } from '../domain/search/station';
 
 const containerStyle = () => (
   {
@@ -23,11 +24,14 @@ const makeMap = () => {
 const getCurrentPosition = () => {
   navigator.geolocation.getCurrentPosition(
     (res) => {
+      const lat = res.coords.latitude;
+      const lng = res.coords.longitude;
       map.setCenter({
-        lat: res.coords.latitude,
-        lng: res.coords.longitude,
+        lat,
+        lng,
       });
       map.setZoom(16);
+      console.log(nearStationList(lat, lng, stationList()));
     },
     (error) => {
       let errorText = '現在値が取得できませんでした。\nお手数ですが再度、お試しください。';
@@ -56,8 +60,7 @@ class MapContainer extends React.Component {
   }
 
   render() {
-    const { store, bActions } = this.props;
-
+    // const { store, bActions } = this.props;
     return (
       <div id="gMap" style={containerStyle()} />
     );
