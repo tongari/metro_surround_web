@@ -58,6 +58,10 @@ class RailwayMenuContainer extends React.Component {
     this.state.slidePosList = this.state.listElms.map(item => item.offsetLeft);
   }
 
+  // shouldComponentUpdate() {
+  //   return !this.props.store.dragState.isDrag;
+  // }
+
   list(index, current, cb) {
     return (
       <li

@@ -8,26 +8,30 @@ import { RailwayIcon, MapIcon, HelpIcon } from '../components/icon/Icon';
 import css from '../../css/components/statusMenu.css';
 import svgCss from '../../css/components/svg.css';
 
+
+const linkStyle = (pathName, uName) => {
+  if (pathName === uName) {
+    return svgCss.blue;
+  }
+  return svgCss.lightGray;
+};
+
 /**
  * StatusMenuContainer
  */
 class StatusMenuContainer extends React.Component {
-  // constructor() {
-  //   super();
-  // }
-  // componentDidMount() {
-  //
-  // }
+  shouldComponentUpdate() {
+    return !this.props.store.dragState.isDrag;
+  }
 
   render() {
     const { store, bActions } = this.props;
-
     return (
       <nav id="js-statusMenu" className={css.menuArea}>
         <ul>
           <li>
             <Link to="/">
-              <i className={`${css.icon} ${svgCss.lightGray}`}>
+              <i className={`${css.icon} ${linkStyle(store.routing.locationBeforeTransitions.pathname, '/')}`}>
                 <RailwayIcon />
               </i>
               <p>路線</p>
@@ -35,7 +39,7 @@ class StatusMenuContainer extends React.Component {
           </li>
           <li>
             <Link to={routePath.MAP}>
-              <i className={`${css.icon} ${svgCss.lightGray}`}>
+              <i className={`${css.icon} ${linkStyle(store.routing.locationBeforeTransitions.pathname, routePath.MAP)}`}>
                 <MapIcon />
               </i>
               <p>地図</p>
@@ -43,7 +47,7 @@ class StatusMenuContainer extends React.Component {
           </li>
           <li>
             <Link to={routePath.HELP}>
-              <i className={`${css.icon} ${svgCss.lightGray}`}>
+              <i className={`${css.icon} ${linkStyle(store.routing.locationBeforeTransitions.pathname, routePath.HELP)}`}>
                 <HelpIcon />
               </i>
               <p>ヘルプ</p>

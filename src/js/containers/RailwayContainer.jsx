@@ -52,9 +52,10 @@ class RailwayContainer extends React.Component {
     };
   }
 
-  touchMoveHandler(currentId_) {
+  touchMoveHandler(currentId_, onDragMove) {
     const currentId = currentId_;
     return (e) => {
+      onDragMove();
       const currentX = e.changedTouches[0].pageX;
       const currentY = e.changedTouches[0].pageY;
       const moveX = Math.abs(currentX - this.state.dragStartX);
@@ -77,10 +78,11 @@ class RailwayContainer extends React.Component {
     };
   }
 
-  touchEndHandler(currentId_, cb_) {
+  touchEndHandler(currentId_, cb_, onDragEnd) {
     const currentId = currentId_;
     const cb = cb_;
     return (e) => {
+      onDragEnd();
       this.setState({ isVectY: false });
       if (!this.state.isDrag) return;
       const currentX = e.changedTouches[0].pageX;
@@ -132,8 +134,12 @@ class RailwayContainer extends React.Component {
           className={railwayCss.slider}
           style={slide(slideVal, this.state.duration)}
           onTouchStart={this.touchStartHandler()}
-          onTouchMove={this.touchMoveHandler(store.railwayId.current)}
-          onTouchEnd={this.touchEndHandler(store.railwayId.current, bActions.onChangeRailwayId)}
+          onTouchMove={this.touchMoveHandler(store.railwayId.current, bActions.onDragMove)}
+          onTouchEnd={this.touchEndHandler(
+            store.railwayId.current,
+            bActions.onChangeRailwayId,
+            bActions.onDragEnd
+          )}
         >
           {
             railwayConfig.map((elm, index) => (

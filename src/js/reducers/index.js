@@ -57,10 +57,31 @@ const loader = (state = { isLoading: false }, action) => {
   }
 };
 
+const dragState = (state = { isDrag: false }, action) => {
+  switch (action.type) {
+    case actions.DRAG_MOVE: {
+      const result = Object.assign({}, state, {
+        isDrag: true,
+      });
+      return result;
+    }
+    case actions.DRAG_END: {
+      const result = Object.assign({}, state, {
+        isDrag: false,
+      });
+      return result;
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 const rootReducer = combineReducers({
   railwayApiData,
   railwayId,
   loader,
+  dragState,
   routing: routerReducer,
 });
 
