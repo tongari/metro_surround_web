@@ -3,7 +3,7 @@ import railwayConfig from '../../config/railway';
 import fetchCarCompositionApi from '../../domain/api/carCompositionApi';
 import wait from '../../domain/utils/wait';
 import queryCollection from '../../domain/utils/queryCollection';
-import { bodyBg } from '../../utils/view';
+import { bodyBg } from '../../domain/utils/view';
 
 const doFetch = (bActions, railwayId, stationId, cb) => {
   const conf = railwayConfig[railwayId];

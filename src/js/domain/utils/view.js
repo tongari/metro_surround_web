@@ -1,4 +1,4 @@
-import railwayConfig from '../config/railway';
+import railwayConfig from '../../config/railway';
 /**
  *
  * @returns {*}

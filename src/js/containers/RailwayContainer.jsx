@@ -7,7 +7,7 @@ import railwayCss from '../../css/components/railway.css';
 import railwayConfig from '../config/railway';
 import { transferShowCarComposition } from './logic/showCarComosition';
 import { debounce, clear } from '../domain/utils/debounce';
-import { bodyBg } from '../utils/view';
+import { bodyBg } from '../domain/utils/view';
 
 const getPrevPos = currentId => -1 * currentId * window.innerWidth;
 const slide = (val, duration) => (
