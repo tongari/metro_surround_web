@@ -13,13 +13,19 @@ const containerStyle = () => (
 
 let map;
 const makeMap = () => {
-  map = new window.google.maps.Map(document.getElementById('gMap'), {
+  map = new window.google.maps.Map(document.querySelector('#gMap'), {
     center: { lat: 35.681298, lng: 139.7662469 }, // default point tokyo station
     zoom: 8,
     mapTypeControl: false,
     streetViewControl: false,
   });
 };
+
+const ballon = stationName => (
+  new window.google.maps.InfoWindow({
+    content: `<p>${stationName}</p>`,
+  })
+);
 
 const stationCollection = (lat, lng) => nearStationList(lat, lng, stationList());
 
@@ -46,9 +52,19 @@ const adjustInitialMapView = ({ current, near }) => {
   map.fitBounds(bounds);
 };
 
+let showBallon;
+const pinClickHandler = (item) => {
+  item.addListener('click', () => {
+    if (showBallon) showBallon.close();
+    showBallon = ballon(item.title);
+    showBallon.open(map, item);
+  });
+};
+
 const setStationMarkers = (list) => {
   list.forEach((item) => {
     item.setMap(map);
+    pinClickHandler(item);
   });
 };
 
@@ -111,7 +127,9 @@ class MapContainer extends React.Component {
 
   render() {
     return (
-      <div id="gMap" style={containerStyle()} />
+      <div>
+        <div id="gMap" style={containerStyle()} />
+      </div>
     );
   }
 }
