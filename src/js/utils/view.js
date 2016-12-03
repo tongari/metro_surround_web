@@ -12,7 +12,4 @@ const bodyBg = (index) => {
   }
 };
 
-const hoge = () => {
-};
-
-export { bodyBg, hoge };
+export { bodyBg };

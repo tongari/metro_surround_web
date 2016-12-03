@@ -14,26 +14,70 @@ const containerStyle = () => (
 let map;
 const makeMap = () => {
   map = new window.google.maps.Map(document.getElementById('gMap'), {
-    center: { lat: 35.681298, lng: 139.7662469 },
+    center: { lat: 35.681298, lng: 139.7662469 }, // default point tokyo station
     zoom: 8,
     mapTypeControl: false,
     streetViewControl: false,
   });
 };
 
-const getCurrentPosition = () => {
+const stationCollection = (lat, lng) => nearStationList(lat, lng, stationList());
+
+const stationMarkerList = list => (
+  list.map((item) => {
+    const lat = item.Lat;
+    const lng = item.Long;
+    return new window.google.maps.Marker({
+      map,
+      position: { lat, lng },
+      title: item.name,
+    });
+  })
+);
+
+const adjustInitialMapView = ({ current, near }) => {
+  const bounds = new window.google.maps.LatLngBounds();
+  const adjustLat = (current.lat() - near.lat()) + current.lat();
+  const adjustLng = (current.lng() - near.lng()) + current.lng();
+  const adjustPoint = new window.google.maps.LatLng(adjustLat, adjustLng);
+  bounds.extend(current);
+  bounds.extend(near);
+  bounds.extend(adjustPoint);
+  map.fitBounds(bounds);
+};
+
+const setStationMarkers = (list) => {
+  list.forEach((item) => {
+    item.setMap(map);
+  });
+};
+
+const setCurrentPin = (lat, lng) => {
+  map.setCenter({ lat, lng });
+  const pin = new window.google.maps.Marker({
+    map,
+    position: { lat, lng },
+    title: '現在地',
+  });
+};
+
+const getCurrentPosition = (onStart, onEnd) => {
+  onStart();
   navigator.geolocation.getCurrentPosition(
     (res) => {
+      onEnd();
       const lat = res.coords.latitude;
       const lng = res.coords.longitude;
-      map.setCenter({
-        lat,
-        lng,
+      setCurrentPin(lat, lng);
+      const markers = stationMarkerList(stationCollection(lat, lng));
+      setStationMarkers(markers);
+      adjustInitialMapView({
+        current: new window.google.maps.LatLng(lat, lng),
+        near: markers[0].position,
       });
-      map.setZoom(16);
-      console.log(nearStationList(lat, lng, stationList()));
     },
     (error) => {
+      onEnd();
       let errorText = '現在値が取得できませんでした。\nお手数ですが再度、お試しください。';
       if (error.code === 1) {
         errorText = '位置情報の取得が許可されませんでした。';
@@ -55,12 +99,17 @@ const isGeoLocation = () => navigator.geolocation;
 class MapContainer extends React.Component {
 
   componentDidMount() {
+    const { bActions } = this.props;
     makeMap();
-    if (isGeoLocation()) getCurrentPosition();
+    if (isGeoLocation()) {
+      getCurrentPosition(
+        bActions.onStartLoader,
+        bActions.onEndLoader
+      );
+    }
   }
 
   render() {
-    // const { store, bActions } = this.props;
     return (
       <div id="gMap" style={containerStyle()} />
     );
