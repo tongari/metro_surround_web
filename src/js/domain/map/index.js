@@ -28,7 +28,7 @@ const nearStationList = (lat, lng, list) => {
     return Object.assign({}, { id, name, Lat, Long, distance });
   });
   const sortList = _.sortBy(addDistanceList, 'distance');
-  const limitDistanceList = sortList.filter(item => (item.distance <= 5000));
+  const limitDistanceList = sortList.filter(item => (item.distance <= 2000));
   return (limitDistanceList.length > 20) ? limitDistanceList.slice(0, 20) : limitDistanceList;
 };
 
@@ -55,22 +55,26 @@ const stationMarkerList = list => (
     const lat = item.Lat;
     const lng = item.Long;
     return new window.google.maps.Marker({
-      map,
       position: { lat, lng },
       title: item.name,
+      animation: window.google.maps.Animation.DROP,
     });
   })
 );
 
-const adjustInitialMapView = ({ current, near }) => {
+const adjustInitialMapView = (curLat, curLng, list) => {
   const bounds = new window.google.maps.LatLngBounds();
-  const adjustLat = (current.lat() - near.lat()) + current.lat();
-  const adjustLng = (current.lng() - near.lng()) + current.lng();
+  list.forEach((item) => {
+    bounds.extend(item.position);
+  });
+  const currentPoint = new window.google.maps.LatLng(curLat, curLng);
+  const adjustLat = (curLat - list[0].position.lat()) + curLat;
+  const adjustLng = (curLng - list[0].position.lng()) + curLng;
   const adjustPoint = new window.google.maps.LatLng(adjustLat, adjustLng);
-  bounds.extend(current);
-  bounds.extend(near);
+  bounds.extend(currentPoint);
   bounds.extend(adjustPoint);
   map.fitBounds(bounds);
+  map.panTo(new window.google.maps.LatLng(curLat, curLng));
 };
 
 let showBallon;
@@ -83,8 +87,11 @@ const pinClickHandler = (item) => {
 };
 
 const setStationMarkers = (list) => {
-  list.forEach((item) => {
-    item.setMap(map);
+  list.forEach((item, index) => {
+    const time = 50 * (index + 1);
+    setTimeout(() => {
+      item.setMap(map);
+    }, time);
     pinClickHandler(item);
   });
 };
@@ -105,13 +112,12 @@ const getCurrentPosition = (onStart, onEnd) => {
       onEnd();
       const lat = res.coords.latitude;
       const lng = res.coords.longitude;
+      // const lat = 35.681298;
+      // const lng = 139.7662469;
       setCurrentPin(lat, lng);
       const markers = stationMarkerList(stationCollection(lat, lng));
       setStationMarkers(markers);
-      adjustInitialMapView({
-        current: new window.google.maps.LatLng(lat, lng),
-        near: markers[0].position,
-      });
+      adjustInitialMapView(lat, lng, markers);
     },
     (error) => {
       onEnd();
