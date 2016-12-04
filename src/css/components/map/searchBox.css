@@ -1,0 +1,36 @@
+@import "../../foundation/config.css";
+
+.container{
+  width: 100%;
+  position: fixed;
+  z-index: 999;
+  bottom: 50px;
+  left: 0;
+  background-color: rgba(0, 0, 0, 1);
+
+  & > ul{
+    position: relative;
+    display: flex;
+    padding: var(--margin-L);
+  }
+
+  & > ul > li{
+    flex-basis:50%;
+    &:last-child{
+      text-align: right;
+    }
+  }
+  & > ul > li > *{
+    display: block;
+    font-size: var(--font-size-S);
+    color: var(--color-white);
+  }
+}
+
+.icon{
+  & >* {
+    height: 20px;
+    padding-right: var(--margin-XS);
+  }
+}
+

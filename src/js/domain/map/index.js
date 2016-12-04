@@ -1,6 +1,16 @@
 import _ from 'lodash';
 import railwayConfig from '../../config/railway';
 
+/**
+ * caution effective!!
+ */
+let map;
+let curCenterLat;
+let curCenterLng;
+let showBallon;
+let markers;
+let currentMarker;
+
 const stationList = () => {
   const result = [];
   const station = railwayConfig.map(item => item.station);
@@ -32,7 +42,6 @@ const nearStationList = (lat, lng, list, distance_) => {
   return (limitDistanceList.length > 20) ? limitDistanceList.slice(0, 20) : limitDistanceList;
 };
 
-let map;
 const makeMap = () => {
   map = new window.google.maps.Map(document.querySelector('#gMap'), {
     center: { lat: 35.681298, lng: 139.7662469 }, // default point tokyo station
@@ -79,7 +88,6 @@ const adjustInitialMapView = (curLat, curLng, list) => {
   map.panTo(new window.google.maps.LatLng(curLat, curLng));
 };
 
-let showBallon;
 const pinClickHandler = (item) => {
   item.addListener('click', () => {
     if (showBallon) showBallon.close();
@@ -100,16 +108,29 @@ const setStationMarkers = (list) => {
 
 const setCurrentPin = (lat, lng) => {
   map.setCenter({ lat, lng });
-  const pin = new window.google.maps.Marker({
+  currentMarker = new window.google.maps.Marker({
     map,
     position: { lat, lng },
     title: '現在地',
   });
 };
 
-let curCenterLat;
-let curCenterLng;
-const getCurrentPosition = (onStart, onEnd) => {
+const clearMarkers = () => {
+  if (markers) {
+    markers.forEach((item) => {
+      item.setMap(null);
+      markers = [];
+    });
+  }
+
+  if (currentMarker) {
+    currentMarker.setMap(null);
+    currentMarker = null;
+  }
+};
+
+
+const searchCurrentPoint = (onStart, onEnd) => {
   onStart();
   navigator.geolocation.getCurrentPosition(
     (res) => {
@@ -118,8 +139,9 @@ const getCurrentPosition = (onStart, onEnd) => {
       const lng = res.coords.longitude;
       // const lat = 35.681298;
       // const lng = 139.7662469;
+      clearMarkers();
       setCurrentPin(lat, lng);
-      const markers = stationMarkerList(stationCollection(lat, lng, 5000));
+      markers = stationMarkerList(stationCollection(lat, lng, 5000));
       const rangePoints = stationCollection(lat, lng, 2000);
       setStationMarkers(markers);
       adjustInitialMapView(lat, lng, rangePoints);
@@ -146,4 +168,17 @@ const isGeoLocation = () => navigator.geolocation;
 
 const moveToCenter = () => map.panTo(new window.google.maps.LatLng(curCenterLat, curCenterLng));
 
-export { getCurrentPosition, isGeoLocation, makeMap, moveToCenter };
+const searchCenter = () => {
+  const centerPoint = map.getCenter();
+  clearMarkers();
+  setCurrentPin(centerPoint.lat(), centerPoint.lng());
+  markers = stationMarkerList(stationCollection(centerPoint.lat(), centerPoint.lng(), 5000));
+  const rangePoints = stationCollection(centerPoint.lat(), centerPoint.lng(), 2000);
+  setStationMarkers(markers);
+  adjustInitialMapView(centerPoint.lat(), centerPoint.lng(), rangePoints);
+
+  curCenterLat = centerPoint.lat();
+  curCenterLng = centerPoint.lng();
+};
+
+export { searchCurrentPoint, isGeoLocation, makeMap, moveToCenter, searchCenter };
