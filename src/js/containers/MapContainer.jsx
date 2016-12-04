@@ -13,13 +13,10 @@ const containerStyle = ({ width, height }) => (
   }
 );
 
-const currentPositionSearch = (onStart = () => {}, onEnd = () => {}) => {
+const currentPositionSearch = (onStart, onEnd) => {
   if (isGeoLocation()) {
     return () => {
-      searchCurrentPoint(
-        onStart,
-        onEnd
-      );
+      searchCurrentPoint(onStart, onEnd);
     };
   }
   return null;
