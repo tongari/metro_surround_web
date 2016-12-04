@@ -6,6 +6,7 @@ export const START_LOADING = Symbol('startLoading');
 export const END_LOADING = Symbol('endLoading');
 export const DRAG_MOVE = Symbol('dragMove');
 export const DRAG_END = Symbol('dragEnd');
+export const ON_RESIZE = Symbol('onResize');
 
 export const onFetchApiSuccess = value => ({ type: API_SUCCESS, value });
 export const onFetchApiFail = () => ({ type: API_FAIL, value: 'FAIL' });
@@ -15,4 +16,5 @@ export const onStartLoader = () => ({ type: START_LOADING });
 export const onEndLoader = () => ({ type: END_LOADING });
 export const onDragMove = () => ({ type: DRAG_MOVE });
 export const onDragEnd = () => ({ type: DRAG_END });
+export const onResize = value => ({ type: ON_RESIZE, value });
 

@@ -2,12 +2,13 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../actions/index';
-import { makeMap, isGeoLocation, getCurrentPosition } from '../domain/map/index';
+import { makeMap, isGeoLocation, getCurrentPosition, moveToCenter } from '../domain/map/index';
+import { debounce } from '../domain/utils/debounce';
 
-const containerStyle = () => (
+const containerStyle = ({ width, height }) => (
   {
-    width: window.innerWidth,
-    height: window.innerHeight - 50,
+    width,
+    height: height - 50,
   }
 );
 
@@ -25,12 +26,22 @@ class MapContainer extends React.Component {
         bActions.onEndLoader
       );
     }
+    window.addEventListener('resize', () => {
+      bActions.onResize({ width: window.innerWidth, height: window.innerHeight });
+      debounce(() => {
+        moveToCenter();
+      }, 250);
+    });
   }
 
   render() {
+    const { store } = this.props;
+    const screenSize = (store.screenSize.width === 0)
+      ? { width: window.innerWidth, height: window.innerHeight }
+      : store.screenSize;
     return (
       <div>
-        <div id="gMap" style={containerStyle()} />
+        <div id="gMap" style={containerStyle(screenSize)} />
       </div>
     );
   }

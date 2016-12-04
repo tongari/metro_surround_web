@@ -77,11 +77,27 @@ const dragState = (state = { isDrag: false }, action) => {
   }
 };
 
+const screenSize = (state = { width: 0, height: 0 }, action) => {
+  switch (action.type) {
+    case actions.ON_RESIZE: {
+      const result = Object.assign({}, state, {
+        width: action.value.width,
+        height: action.value.height,
+      });
+      return result;
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 const rootReducer = combineReducers({
   railwayApiData,
   railwayId,
   loader,
   dragState,
+  screenSize,
   routing: routerReducer,
 });
 

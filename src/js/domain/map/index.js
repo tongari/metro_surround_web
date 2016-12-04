@@ -18,7 +18,7 @@ const betweenDistance = (startLat, startLng, endLat, endLng) => (
   )
 );
 
-const nearStationList = (lat, lng, list) => {
+const nearStationList = (lat, lng, list, distance_) => {
   const addDistanceList = list.map((item) => {
     const distance = betweenDistance(lat, lng, item.Lat, item.Long);
     const id = item.id;
@@ -28,7 +28,7 @@ const nearStationList = (lat, lng, list) => {
     return Object.assign({}, { id, name, Lat, Long, distance });
   });
   const sortList = _.sortBy(addDistanceList, 'distance');
-  const limitDistanceList = sortList.filter(item => (item.distance <= 2000));
+  const limitDistanceList = sortList.filter(item => (item.distance <= distance_));
   return (limitDistanceList.length > 20) ? limitDistanceList.slice(0, 20) : limitDistanceList;
 };
 
@@ -48,7 +48,9 @@ const ballon = stationName => (
   })
 );
 
-const stationCollection = (lat, lng) => nearStationList(lat, lng, stationList());
+const stationCollection = (lat, lng, distance_) => (
+  nearStationList(lat, lng, stationList(), distance_)
+);
 
 const stationMarkerList = list => (
   list.map((item) => {
@@ -65,11 +67,11 @@ const stationMarkerList = list => (
 const adjustInitialMapView = (curLat, curLng, list) => {
   const bounds = new window.google.maps.LatLngBounds();
   list.forEach((item) => {
-    bounds.extend(item.position);
+    bounds.extend(new window.google.maps.LatLng(item.Lat, item.Long));
   });
   const currentPoint = new window.google.maps.LatLng(curLat, curLng);
-  const adjustLat = (curLat - list[0].position.lat()) + curLat;
-  const adjustLng = (curLng - list[0].position.lng()) + curLng;
+  const adjustLat = (curLat - list[0].Lat) + curLat;
+  const adjustLng = (curLng - list[0].Long) + curLng;
   const adjustPoint = new window.google.maps.LatLng(adjustLat, adjustLng);
   bounds.extend(currentPoint);
   bounds.extend(adjustPoint);
@@ -105,6 +107,8 @@ const setCurrentPin = (lat, lng) => {
   });
 };
 
+let curCenterLat;
+let curCenterLng;
 const getCurrentPosition = (onStart, onEnd) => {
   onStart();
   navigator.geolocation.getCurrentPosition(
@@ -115,9 +119,13 @@ const getCurrentPosition = (onStart, onEnd) => {
       // const lat = 35.681298;
       // const lng = 139.7662469;
       setCurrentPin(lat, lng);
-      const markers = stationMarkerList(stationCollection(lat, lng));
+      const markers = stationMarkerList(stationCollection(lat, lng, 5000));
+      const rangePoints = stationCollection(lat, lng, 2000);
       setStationMarkers(markers);
-      adjustInitialMapView(lat, lng, markers);
+      adjustInitialMapView(lat, lng, rangePoints);
+
+      curCenterLat = lat;
+      curCenterLng = lng;
     },
     (error) => {
       onEnd();
@@ -136,4 +144,6 @@ const getCurrentPosition = (onStart, onEnd) => {
 
 const isGeoLocation = () => navigator.geolocation;
 
-export { getCurrentPosition, isGeoLocation, makeMap };
+const moveToCenter = () => map.panTo(new window.google.maps.LatLng(curCenterLat, curCenterLng));
+
+export { getCurrentPosition, isGeoLocation, makeMap, moveToCenter };
