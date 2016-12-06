@@ -4,12 +4,14 @@ import railwayConfig from '../../config/railway';
 /**
  * caution effective!!
  */
-let map;
-let curCenterLat;
-let curCenterLng;
-let showBallon;
-let markers;
-let currentMarker;
+const state = {
+  map: null,
+  curCenterLat: 0,
+  curCenterLng: 0,
+  showBallon: null,
+  markers: [],
+  currentMarker: null,
+};
 
 const stationList = () => {
   const result = [];
@@ -43,7 +45,7 @@ const nearStationList = (lat, lng, list, distance_) => {
 };
 
 const makeMap = () => {
-  map = new window.google.maps.Map(document.querySelector('#gMap'), {
+  state.map = new window.google.maps.Map(document.querySelector('#gMap'), {
     center: { lat: 35.681298, lng: 139.7662469 }, // default point tokyo station
     zoom: 8,
     mapTypeControl: false,
@@ -84,15 +86,15 @@ const adjustInitialMapView = (curLat, curLng, list) => {
   const adjustPoint = new window.google.maps.LatLng(adjustLat, adjustLng);
   bounds.extend(currentPoint);
   bounds.extend(adjustPoint);
-  map.fitBounds(bounds);
-  map.panTo(new window.google.maps.LatLng(curLat, curLng));
+  state.map.fitBounds(bounds);
+  state.map.panTo(new window.google.maps.LatLng(curLat, curLng));
 };
 
 const pinClickHandler = (item) => {
   item.addListener('click', () => {
-    if (showBallon) showBallon.close();
-    showBallon = ballon(item.title);
-    showBallon.open(map, item);
+    if (state.showBallon) state.showBallon.close();
+    state.showBallon = ballon(item.title);
+    state.showBallon.open(state.map, item);
   });
 };
 
@@ -100,32 +102,32 @@ const setStationMarkers = (list) => {
   list.forEach((item, index) => {
     const time = 50 * (index + 1);
     setTimeout(() => {
-      item.setMap(map);
+      item.setMap(state.map);
     }, time);
     pinClickHandler(item);
   });
 };
 
 const setCurrentPin = (lat, lng) => {
-  map.setCenter({ lat, lng });
-  currentMarker = new window.google.maps.Marker({
-    map,
+  state.map.setCenter({ lat, lng });
+  state.currentMarker = new window.google.maps.Marker({
+    map: state.map,
     position: { lat, lng },
     title: '現在地',
   });
 };
 
 const clearMarkers = () => {
-  if (markers) {
-    markers.forEach((item) => {
+  if (state.markers) {
+    state.markers.forEach((item) => {
       item.setMap(null);
-      markers = [];
+      state.markers = [];
     });
   }
 
-  if (currentMarker) {
-    currentMarker.setMap(null);
-    currentMarker = null;
+  if (state.currentMarker) {
+    state.currentMarker.setMap(null);
+    state.currentMarker = null;
   }
 };
 
@@ -141,13 +143,13 @@ const searchCurrentPoint = (onStart, onEnd) => {
       // const lng = 139.7662469;
       clearMarkers();
       setCurrentPin(lat, lng);
-      markers = stationMarkerList(stationCollection(lat, lng, 5000));
+      state.markers = stationMarkerList(stationCollection(lat, lng, 5000));
       const rangePoints = stationCollection(lat, lng, 2000);
-      setStationMarkers(markers);
+      setStationMarkers(state.markers);
       adjustInitialMapView(lat, lng, rangePoints);
 
-      curCenterLat = lat;
-      curCenterLng = lng;
+      state.curCenterLat = lat;
+      state.curCenterLng = lng;
     },
     (error) => {
       onEnd();
@@ -166,19 +168,21 @@ const searchCurrentPoint = (onStart, onEnd) => {
 
 const isGeoLocation = () => navigator.geolocation;
 
-const moveToCenter = () => map.panTo(new window.google.maps.LatLng(curCenterLat, curCenterLng));
+const moveToCenter = () => (
+  state.map.panTo(new window.google.maps.LatLng(state.curCenterLat, state.curCenterLng))
+);
 
 const searchCenter = () => {
-  const centerPoint = map.getCenter();
+  const centerPoint = state.map.getCenter();
   clearMarkers();
   setCurrentPin(centerPoint.lat(), centerPoint.lng());
-  markers = stationMarkerList(stationCollection(centerPoint.lat(), centerPoint.lng(), 5000));
+  state.markers = stationMarkerList(stationCollection(centerPoint.lat(), centerPoint.lng(), 5000));
   const rangePoints = stationCollection(centerPoint.lat(), centerPoint.lng(), 2000);
-  setStationMarkers(markers);
+  setStationMarkers(state.markers);
   adjustInitialMapView(centerPoint.lat(), centerPoint.lng(), rangePoints);
 
-  curCenterLat = centerPoint.lat();
-  curCenterLng = centerPoint.lng();
+  state.curCenterLat = centerPoint.lat();
+  state.curCenterLng = centerPoint.lng();
 };
 
 export { searchCurrentPoint, isGeoLocation, makeMap, moveToCenter, searchCenter };
