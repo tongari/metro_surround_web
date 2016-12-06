@@ -75,8 +75,12 @@ const jsConfig = ((env)=> {
       test: /\.svg$/, loader: 'babel?presets[]=es2015,presets[]=react!svg-react'
     };
 
+    const imgModule = {
+      test: /\.(jpe?g|png|gif)$/i, loaders: ['file-loader?name=../img/[name].[ext]']
+    };
+
     return {
-      loaders: [rp, svgModule, jsModule, cssModule]
+      loaders: [rp, svgModule, jsModule, cssModule, imgModule]
     };
   })(env);
 

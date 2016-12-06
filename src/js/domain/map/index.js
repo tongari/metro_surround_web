@@ -1,5 +1,7 @@
+import { browserHistory } from 'react-router';
 import _ from 'lodash';
 import railwayConfig from '../../config/railway';
+import routePath from '../../config/router';
 
 /**
  * caution effective!!
@@ -37,7 +39,8 @@ const nearStationList = (lat, lng, list, distance_) => {
     const name = item.name;
     const Lat = item.Lat;
     const Long = item.Long;
-    return Object.assign({}, { id, name, Lat, Long, distance });
+    const railwayId = item.railwayId;
+    return Object.assign({}, { id, name, Lat, Long, distance, railwayId });
   });
   const sortList = _.sortBy(addDistanceList, 'distance');
   const limitDistanceList = sortList.filter(item => (item.distance <= distance_));
@@ -53,9 +56,33 @@ const makeMap = () => {
   });
 };
 
-const ballon = stationName => (
+const setBallonClickHandler = () => {
+  const ballonItem = document.querySelector('.js-ballon');
+  ballonItem.addEventListener('click', (e) => {
+    e.preventDefault();
+    browserHistory.push('/');
+  });
+};
+
+const setNumberingColor = (color) => {
+  const numbering = document.querySelector('.js-ballon-numbering');
+  numbering.style.borderColor = color;
+};
+
+const numberingColor = railwayId => `rgba(${railwayConfig[railwayId].color},1)`;
+const trimDistance = distance => Math.round(distance);
+
+const ballon = (stationName, distance) => (
   new window.google.maps.InfoWindow({
-    content: `<p>${stationName}</p>`,
+    content: `<a href="#" class="js-ballon" style="color: #000;">
+                <div style="display: table; width: 100%;">
+                  <div style="display: table-cell; width: 18px; vertical-align: middle;">
+                    <i style="display:inline-block; width:18px; height: 18px; border: 2px solid; #000; border-radius: 50%; vertical-align: middle;" class="js-ballon-numbering"></i>
+                  </div>
+                  <p style="display: table-cell; vertical-align: middle; padding: 0.2em 0 0 0.5em;">${stationName}</p>
+                </div>
+              <p style="margin-top: 8px;">およそ${distance}m先</p>
+             </a>`,
   })
 );
 
@@ -64,13 +91,19 @@ const stationCollection = (lat, lng, distance_) => (
 );
 
 const stationMarkerList = list => (
-  list.map((item) => {
+  list.map((item, index) => {
     const lat = item.Lat;
     const lng = item.Long;
+    const icon = require('../../../asset/img/pin.png');
     return new window.google.maps.Marker({
       position: { lat, lng },
       title: item.name,
+      id: item.id,
+      railwayId: item.railwayId,
+      distance: item.distance,
       animation: window.google.maps.Animation.DROP,
+      icon,
+      zIndex: (900 + index),
     });
   })
 );
@@ -92,9 +125,15 @@ const adjustInitialMapView = (curLat, curLng, list) => {
 
 const pinClickHandler = (item) => {
   item.addListener('click', () => {
-    if (state.showBallon) state.showBallon.close();
-    state.showBallon = ballon(item.title);
+    if (state.showBallon) {
+      state.showBallon.close();
+    }
+    state.showBallon = ballon(item.title, trimDistance(item.distance));
     state.showBallon.open(state.map, item);
+    setTimeout(setBallonClickHandler, 250);
+    setTimeout(() => {
+      setNumberingColor(numberingColor(item.railwayId));
+    }, 250);
   });
 };
 
@@ -110,10 +149,17 @@ const setStationMarkers = (list) => {
 
 const setCurrentPin = (lat, lng) => {
   state.map.setCenter({ lat, lng });
+
+  const icon = new window.google.maps.MarkerImage(require('../../../asset/img/current-pin.png'),
+    new window.google.maps.Size(40, 40),
+    new window.google.maps.Point(0, 0),
+    new window.google.maps.Point(20, 40),
+  );
   state.currentMarker = new window.google.maps.Marker({
     map: state.map,
     position: { lat, lng },
     title: '現在地',
+    icon,
   });
 };
 
@@ -139,8 +185,6 @@ const searchCurrentPoint = (onStart, onEnd) => {
       onEnd();
       const lat = res.coords.latitude;
       const lng = res.coords.longitude;
-      // const lat = 35.681298;
-      // const lng = 139.7662469;
       clearMarkers();
       setCurrentPin(lat, lng);
       state.markers = stationMarkerList(stationCollection(lat, lng, 5000));
