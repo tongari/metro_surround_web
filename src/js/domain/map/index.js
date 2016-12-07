@@ -66,25 +66,55 @@ const setBallonClickHandler = () => {
 
 const setNumberingColor = (color) => {
   const numbering = document.querySelector('.js-ballon-numbering');
-  numbering.style.borderColor = color;
+  if (numbering) numbering.style.borderColor = color;
 };
 
 const numberingColor = railwayId => `rgba(${railwayConfig[railwayId].color},1)`;
 const trimDistance = distance => Math.round(distance);
 
-const ballon = (stationName, distance) => (
+const ballonNumbering = (isSameStation, stationName) => {
+  if (isSameStation) {
+    return (
+      `<p style="display: table-cell; vertical-align: middle; padding: 0.2em 0 0 0;">${stationName}</p>`
+    );
+  }
+  return (
+      `<div style="display: table-cell; width: 18px; vertical-align: middle;">
+        <i style="display:inline-block; width:18px; height: 18px; border: 2px solid; #000; border-radius: 50%; vertical-align: middle;" class="js-ballon-numbering"></i>
+      </div>
+      <p style="display: table-cell; vertical-align: middle; padding: 0.2em 0 0 0.5em;">${stationName}</p>`
+  );
+};
+
+const ballon = (stationName, distance, isSameStation) => (
   new window.google.maps.InfoWindow({
     content: `<a href="#" class="js-ballon" style="color: #000;">
                 <div style="display: table; width: 100%;">
-                  <div style="display: table-cell; width: 18px; vertical-align: middle;">
-                    <i style="display:inline-block; width:18px; height: 18px; border: 2px solid; #000; border-radius: 50%; vertical-align: middle;" class="js-ballon-numbering"></i>
-                  </div>
-                  <p style="display: table-cell; vertical-align: middle; padding: 0.2em 0 0 0.5em;">${stationName}</p>
+                  ${ballonNumbering(isSameStation, stationName)}
                 </div>
               <p style="margin-top: 8px;">およそ${distance}m先</p>
              </a>`,
   })
 );
+
+const removeSameStation = (list) => {
+  const result = [];
+  list.forEach((item_) => {
+    const item = item_;
+    const checkList = result.filter((checkItem_) => {
+      const checkItem = checkItem_;
+      if (checkItem.id === item.id) {
+        checkItem.isSameStation = true;
+        return item;
+      }
+      return null;
+    });
+    if (checkList.length === 0) {
+      result.push(item);
+    }
+  });
+  return result;
+};
 
 const stationCollection = (lat, lng, distance_) => (
   nearStationList(lat, lng, stationList(), distance_)
@@ -128,7 +158,7 @@ const pinClickHandler = (item) => {
     if (state.showBallon) {
       state.showBallon.close();
     }
-    state.showBallon = ballon(item.title, trimDistance(item.distance));
+    state.showBallon = ballon(item.title, trimDistance(item.distance), item.isSameStation);
     state.showBallon.open(state.map, item);
     setTimeout(setBallonClickHandler, 250);
     setTimeout(() => {
@@ -189,7 +219,7 @@ const searchCurrentPoint = (onStart, onEnd) => {
       setCurrentPin(lat, lng);
       state.markers = stationMarkerList(stationCollection(lat, lng, 5000));
       const rangePoints = stationCollection(lat, lng, 2000);
-      setStationMarkers(state.markers);
+      setStationMarkers(removeSameStation(state.markers));
       adjustInitialMapView(lat, lng, rangePoints);
 
       state.curCenterLat = lat;
