@@ -23,7 +23,7 @@ const createIconImport = (list) => {
 
 const createIconComponents = (list) => {
   return list.reduce((prev,cur)=>{
-    return prev+ '\n'+ "const "+ trimFileName(cur) +"Icon = () => <"+ trimFileName(cur) +" />;"
+    return prev+ '\n'+ "export const "+ trimFileName(cur) +"Icon = () => <"+ trimFileName(cur) +" />;"
   },'');
 };
 
@@ -43,7 +43,7 @@ gulp.task('svg',()=>{
       return paths[paths.length-1].replace(/\.svg/,'');
     });
 
-    const addIconComponent = `${createIconImport(list)}\n${createIconComponents(list)}\n\n${createExportComponents(list)}`;
+    const addIconComponent = `${createIconImport(list)}\n${createIconComponents(list)}`;
 
     gulp.src('./src/resource/svg/template.jsx')
       .pipe(footer(`${addIconComponent}\n`))

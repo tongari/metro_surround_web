@@ -3,4 +3,3 @@ webpack.config.babel.js
 bs-config.js
 gulpfile.babel.js
 dist/
-src/js/components/icon/Icon.jsx
