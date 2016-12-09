@@ -50,17 +50,18 @@ const getIdsFromQuery = ({ railway, station }) => {
   };
 };
 
-/*-------------------
-export function
---------------------*/
-const transferShowCarComposition = (bActions, railwayId, stationId) => {
+/** --------------------------------------------------
+ * export method
+ --------------------------------------------------*/
+
+export const transferShowCarComposition = (bActions, railwayId, stationId) => {
   doFetch(bActions, railwayId, stationId, ({ railway, station }) => {
     browserHistory.push(`/station?railway=${railway}&station=${station}`);
     bodyBg();
   });
 };
 
-const directShowCarComposition = (data, bActions) => {
+export const directShowCarComposition = (data, bActions) => {
   if (!data) {
     const { railwayId, stationId } = getIdsFromQuery(queryCollection());
     doFetch(bActions, railwayId, stationId, () => {
@@ -69,5 +70,3 @@ const directShowCarComposition = (data, bActions) => {
     });
   }
 };
-
-export { transferShowCarComposition, directShowCarComposition };

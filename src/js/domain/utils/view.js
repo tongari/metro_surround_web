@@ -3,7 +3,7 @@ import railwayConfig from '../../config/railway';
  *
  * @returns {*}
  */
-const bodyBg = (index) => {
+export const bodyBg = (index) => {
   const body = document.querySelector('body');
   if (isNaN(index)) {
     body.style.backgroundColor = 'rgba(239,239,244,1)';
@@ -11,5 +11,3 @@ const bodyBg = (index) => {
     body.style.backgroundColor = `rgba(${railwayConfig[index].color},1)`;
   }
 };
-
-export { bodyBg };

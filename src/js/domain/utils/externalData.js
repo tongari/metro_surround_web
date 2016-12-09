@@ -4,7 +4,7 @@
  * @returns {Promise}
  * @constructor
  */
-const fetch = url => (
+export const fetch = url => (
   new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -21,7 +21,3 @@ const fetch = url => (
     xhr.send(null);
   })
 );
-
-const save = () => 'save is data';
-
-export { fetch, save };
