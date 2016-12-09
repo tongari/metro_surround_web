@@ -100,13 +100,23 @@ const jsConfig = ((env)=> {
   })(webpack);
 
   const plugins = [
-    new WebpackBuildNotifierPlugin(),
     new CopyWebpackPlugin([
       {from: `${PATH.src}/html`, to: path.join(__dirname, 'dist')},
       {from: `${PATH.src}/asset/img`, to: path.join(__dirname, 'dist/img')}
     ]),
     new ExtractTextPlugin('[name].css')
   ];
+
+  if(env === 'prod'){
+    plugins.unshift(
+      new webpack.DefinePlugin({ 'process.env': { 'NODE_ENV': '"production"' } }),
+      new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } })
+    );
+  } else {
+    plugins.unshift(
+      new WebpackBuildNotifierPlugin()
+    );
+  }
 
   const resolve = {
     extensions: ['', '.js', '.jsx']
