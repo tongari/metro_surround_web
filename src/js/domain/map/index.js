@@ -2,6 +2,7 @@ import { browserHistory } from 'react-router';
 import _ from 'lodash';
 import railwayConfig from '../../config/railway';
 import routePath from '../../config/router';
+import css from '../../../css/components/map/infoWindow.css';
 
 /**
  * caution effective!!
@@ -79,20 +80,20 @@ const ballonNumbering = (isSameStation, stationName) => {
     );
   }
   return (
-      `<div style="display: table-cell; width: 18px; vertical-align: middle;">
-        <i style="display:inline-block; width:18px; height: 18px; border: 2px solid; #000; border-radius: 50%; vertical-align: middle;" class="js-ballon-numbering"></i>
+      `<div class="${css.iconBox}">
+        <i class="${css.icon} js-ballon-numbering"></i>
       </div>
-      <p style="display: table-cell; vertical-align: middle; padding: 0.2em 0 0 0.5em;">${stationName}</p>`
+      <p class="${css.station}">${stationName}</p>`
   );
 };
 
 const ballon = (stationName, distance, isSameStation) => (
   new window.google.maps.InfoWindow({
-    content: `<a href="#" class="js-ballon" style="color: #000;">
-                <div style="display: table; width: 100%;">
+    content: `<a href="#" class="${css.container} js-ballon">
+                <div class="${css.body}">
                   ${ballonNumbering(isSameStation, stationName)}
                 </div>
-              <p style="margin-top: 8px;">およそ${distance}m先</p>
+              <p class="${css.distance}">およそ${distance}m先</p>
              </a>`,
   })
 );

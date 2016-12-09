@@ -1,0 +1,30 @@
+@import "../../foundation/config.css";
+
+.container{
+  color: var(--color-def);
+}
+.body{
+  display: flex;
+  align-items: center;
+}
+
+.iconBox{
+  width: 18px;
+}
+
+.icon{
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.station{
+  padding: 0.2em 0 0 0.5em;
+}
+
+.distance{
+  margin-top: var(--margin-S);
+}
