@@ -1,11 +1,6 @@
 @import "../../foundation/config.css";
 
 .container{
-  width: 100%;
-  position: fixed;
-  z-index: 999;
-  bottom: 50px;
-  left: 0;
   background-color: rgba(0, 0, 0, 1);
 
   & > ul{

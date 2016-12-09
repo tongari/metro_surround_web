@@ -28,7 +28,7 @@ const setStationInfo = (lat, lng) => {
  * export method
  --------------------------------------------------*/
 
-export const searchCurrentPoint = (onStart, onEnd) => {
+export const searchCurrentPoint = (onStart, onEnd, onUpdate) => {
   onStart();
   navigator.geolocation.getCurrentPosition(
     (res) => {
@@ -36,6 +36,7 @@ export const searchCurrentPoint = (onStart, onEnd) => {
       const lat = res.coords.latitude;
       const lng = res.coords.longitude;
       setStationInfo(lat, lng);
+      onUpdate(vm.stationCollection(lat, lng, 5000));
     },
     (error) => {
       onEnd();
@@ -52,10 +53,13 @@ export const searchCurrentPoint = (onStart, onEnd) => {
   );
 };
 
-export const searchCenter = () => {
-  const centerPoint = state.map.getCenter();
-  setStationInfo(centerPoint.lat(), centerPoint.lng());
-};
+export const searchCenter = onUpdate => (
+  () => {
+    const centerPoint = state.map.getCenter();
+    setStationInfo(centerPoint.lat(), centerPoint.lng());
+    onUpdate(vm.stationCollection(centerPoint.lat(), centerPoint.lng(), 5000));
+  }
+);
 
 export const isGeoLocation = () => navigator.geolocation;
 

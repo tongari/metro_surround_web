@@ -1,0 +1,47 @@
+@import "../../foundation/config.css";
+
+.container{
+  width: calc(100% - 20px);
+  position: fixed;
+  z-index: 999;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: stretch;
+}
+
+.infoBox{
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--margin-XS) var(--margin-S);
+  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--color-def);
+}
+
+.distanceInfo{
+  display: flex;
+}
+
+.arrowIcon{
+  width: 16px;
+  padding-left: 8px;
+  & > *{
+    width: 8px;
+  }
+}
+
+.listIconBox{
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 1);
+  margin-left: var(--margin-XS);
+}
+
+.listIcon{
+  width: 20px;
+}
+

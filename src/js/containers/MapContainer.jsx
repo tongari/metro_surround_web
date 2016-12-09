@@ -5,6 +5,7 @@ import * as actions from './../actions/index';
 import { makeMap, isGeoLocation, searchCurrentPoint, moveToCenter, searchCenter } from '../domain/map/index';
 import { debounce } from '../domain/utils/debounce';
 import SearchBox from '../components/map/SearchBox';
+import NearStationBox from '../components/map/NearStationBox';
 
 const containerStyle = ({ width, height }) => (
   {
@@ -13,10 +14,10 @@ const containerStyle = ({ width, height }) => (
   }
 );
 
-const currentPositionSearch = (onStart, onEnd) => {
+const currentPositionSearch = (onStart, onEnd, onUpdate) => {
   if (isGeoLocation()) {
     return () => {
-      searchCurrentPoint(onStart, onEnd);
+      searchCurrentPoint(onStart, onEnd, onUpdate);
     };
   }
   return null;
@@ -32,7 +33,10 @@ class MapContainer extends React.Component {
     makeMap();
     currentPositionSearch(
       bActions.onStartLoader,
-      bActions.onEndLoader
+      bActions.onEndLoader,
+      (data) => {
+        bActions.onChangeNearStationList(data);
+      }
     )();
     window.addEventListener('resize', () => {
       bActions.onResize({ width: window.innerWidth, height: window.innerHeight });
@@ -50,9 +54,25 @@ class MapContainer extends React.Component {
     return (
       <div>
         <div id="gMap" style={containerStyle(screenSize)} />
+        {store.nearStationList.data && <NearStationBox
+          station={store.nearStationList.data[0].name}
+          stationEn={store.nearStationList.data[0].id}
+          distance={Math.round(store.nearStationList.data[0].distance)}
+        />}
         <SearchBox
-          onCurrentSearch={currentPositionSearch(bActions.onStartLoader, bActions.onEndLoader)}
-          onCenterSearch={searchCenter}
+          onCurrentSearch={
+            currentPositionSearch(
+              bActions.onStartLoader,
+              bActions.onEndLoader,
+              (data) => {
+                bActions.onChangeNearStationList(data);
+              }
+            )}
+          onCenterSearch={searchCenter(
+            (data) => {
+              bActions.onChangeNearStationList(data);
+            }
+          )}
         />
       </div>
     );

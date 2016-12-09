@@ -92,12 +92,27 @@ const screenSize = (state = { width: 0, height: 0 }, action) => {
   }
 };
 
+const nearStationList = (state = {}, action) => {
+  switch (action.type) {
+    case actions.CHANGE_NEAR_STATION_LIST: {
+      const result = Object.assign({}, state, {
+        data: action.value,
+      });
+      return result;
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 const rootReducer = combineReducers({
   railwayApiData,
   railwayId,
   loader,
   dragState,
   screenSize,
+  nearStationList,
   routing: routerReducer,
 });
 
