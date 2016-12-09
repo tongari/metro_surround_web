@@ -208,6 +208,16 @@ const clearMarkers = () => {
   }
 };
 
+const setStationInfo = (lat, lng) => {
+  clearMarkers();
+  setCurrentPin(lat, lng);
+  state.markers = stationMarkerList(stationCollection(lat, lng, 5000));
+  const rangePoints = stationCollection(lat, lng, 2000);
+  setStationMarkers(removeSameStation(state.markers));
+  adjustInitialMapView(lat, lng, rangePoints);
+  state.curCenterLat = lat;
+  state.curCenterLng = lng;
+};
 
 const searchCurrentPoint = (onStart, onEnd) => {
   onStart();
@@ -216,15 +226,7 @@ const searchCurrentPoint = (onStart, onEnd) => {
       onEnd();
       const lat = res.coords.latitude;
       const lng = res.coords.longitude;
-      clearMarkers();
-      setCurrentPin(lat, lng);
-      state.markers = stationMarkerList(stationCollection(lat, lng, 5000));
-      const rangePoints = stationCollection(lat, lng, 2000);
-      setStationMarkers(removeSameStation(state.markers));
-      adjustInitialMapView(lat, lng, rangePoints);
-
-      state.curCenterLat = lat;
-      state.curCenterLng = lng;
+      setStationInfo(lat, lng);
     },
     (error) => {
       onEnd();
@@ -241,23 +243,15 @@ const searchCurrentPoint = (onStart, onEnd) => {
   );
 };
 
+const searchCenter = () => {
+  const centerPoint = state.map.getCenter();
+  setStationInfo(centerPoint.lat(), centerPoint.lng());
+};
+
 const isGeoLocation = () => navigator.geolocation;
 
 const moveToCenter = () => (
   state.map.panTo(new window.google.maps.LatLng(state.curCenterLat, state.curCenterLng))
 );
-
-const searchCenter = () => {
-  const centerPoint = state.map.getCenter();
-  clearMarkers();
-  setCurrentPin(centerPoint.lat(), centerPoint.lng());
-  state.markers = stationMarkerList(stationCollection(centerPoint.lat(), centerPoint.lng(), 5000));
-  const rangePoints = stationCollection(centerPoint.lat(), centerPoint.lng(), 2000);
-  setStationMarkers(state.markers);
-  adjustInitialMapView(centerPoint.lat(), centerPoint.lng(), rangePoints);
-
-  state.curCenterLat = centerPoint.lat();
-  state.curCenterLng = centerPoint.lng();
-};
 
 export { searchCurrentPoint, isGeoLocation, makeMap, moveToCenter, searchCenter };
