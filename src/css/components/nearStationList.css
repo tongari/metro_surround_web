@@ -1,0 +1,58 @@
+@import "../foundation/config.css";
+
+.titleArea{
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--margin-S) 0;
+}
+
+.title{
+  width: 100%;
+  color: var(--color-white);
+  font-size: var(--font-size-LL);
+  line-height: 1;
+  text-align: center;
+  text-indent: -24px;
+}
+
+.titleIcon{
+  width: 22px;
+  padding-left: var(--margin-M);
+  margin-top: -4px;
+}
+
+.list{
+  border-bottom: 1px solid var(--border-color);
+  background-color: rgba(255, 255, 255, 1);
+
+& > a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-def);
+  padding: var(--margin-S) var(--margin-L);
+  cursor: pointer;
+}
+
+&:last-child{
+   border-bottom: none;
+ }
+}
+
+.stationEn {
+  display: inline-block;
+  font-size: var(--font-size-XS);
+  font-weight: bold;
+  text-indent: 0.2rem;
+}
+
+.icon{
+  display: inline-block;
+  width: 40px;
+  padding-right: var(--margin-M);
+}
+
+.distance{
+  flex-grow: 1;
+}

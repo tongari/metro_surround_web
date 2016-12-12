@@ -8,10 +8,16 @@ import SearchBox from '../components/map/SearchBox';
 import NearStationBox from '../components/map/NearStationBox';
 import NearStationList from '../components/map/NearStationList';
 
-const containerStyle = ({ width, height }) => (
+const mapContainerStyle = ({ width, height }) => (
   {
     width,
     height: height - 50 - 53,
+  }
+);
+
+const containerStyle = isVisible => (
+  {
+    display: (isVisible) ? 'none' : 'block',
   }
 );
 
@@ -23,6 +29,20 @@ const currentPositionSearch = (onStart, onEnd, onUpdate) => {
   }
   return null;
 };
+
+const showNearStationList = bActions => (
+  (e) => {
+    e.preventDefault();
+    bActions.showNearStationList();
+  }
+);
+
+const hideNearStationList = bActions => (
+  (e) => {
+    e.preventDefault();
+    bActions.hideNearStationList();
+  }
+);
 
 /**
  * MapContainer
@@ -52,30 +72,39 @@ class MapContainer extends React.Component {
     const screenSize = (store.screenSize.width === 0)
       ? { width: window.innerWidth, height: window.innerHeight }
       : store.screenSize;
+    
     return (
       <div>
-        <div id="gMap" style={containerStyle(screenSize)} />
-        {store.nearStationList.data && <NearStationBox
-          station={store.nearStationList.data[0].name}
-          stationEn={store.nearStationList.data[0].id}
-          distance={Math.round(store.nearStationList.data[0].distance)}
-        />}
-        <SearchBox
-          onCurrentSearch={
-            currentPositionSearch(
-              bActions.onStartLoader,
-              bActions.onEndLoader,
+        <div style={containerStyle(store.visibleNearStationList.isVisible)}>
+          <div id="gMap" style={mapContainerStyle(screenSize)} />
+          {store.nearStationList.data && <NearStationBox
+            station={store.nearStationList.data[0].name}
+            stationEn={store.nearStationList.data[0].id}
+            distance={Math.round(store.nearStationList.data[0].distance)}
+            showNearStationList={showNearStationList(bActions)}
+          />}
+          <SearchBox
+            onCurrentSearch={
+              currentPositionSearch(
+                bActions.onStartLoader,
+                bActions.onEndLoader,
+                (data) => {
+                  bActions.onChangeNearStationList(data);
+                }
+              )}
+            onCenterSearch={searchCenter(
               (data) => {
                 bActions.onChangeNearStationList(data);
               }
             )}
-          onCenterSearch={searchCenter(
-            (data) => {
-              bActions.onChangeNearStationList(data);
-            }
-          )}
-        />
-        {store.nearStationList.data && <NearStationList stationList={store.nearStationList.data} />}
+          />
+        </div>
+        {store.nearStationList.data &&
+        <NearStationList
+          stationList={store.nearStationList.data}
+          isVisible={store.visibleNearStationList.isVisible}
+          hideNearStationList={hideNearStationList(bActions)}
+        />}
       </div>
     );
   }

@@ -48,6 +48,18 @@
   line-height: var(--font-size-XL);
 }
 
+.lineOne{
+  line-height: 1;
+}
+
 .bold{
   font-weight: bold;
+}
+
+.alignC{
+  text-align: center;
+}
+
+.alignR{
+  text-align: right;
 }

@@ -8,6 +8,8 @@ export const DRAG_MOVE = Symbol('dragMove');
 export const DRAG_END = Symbol('dragEnd');
 export const ON_RESIZE = Symbol('onResize');
 export const CHANGE_NEAR_STATION_LIST = Symbol('changeNearStationList');
+export const SHOW_NEAR_STATION_LIST = Symbol('showNearStationList');
+export const HIDE_NEAR_STATION_LIST = Symbol('hideNearStationList');
 
 export const onFetchApiSuccess = value => ({ type: API_SUCCESS, value });
 export const onFetchApiFail = () => ({ type: API_FAIL, value: 'FAIL' });
@@ -19,4 +21,6 @@ export const onDragMove = () => ({ type: DRAG_MOVE });
 export const onDragEnd = () => ({ type: DRAG_END });
 export const onResize = value => ({ type: ON_RESIZE, value });
 export const onChangeNearStationList = value => ({ type: CHANGE_NEAR_STATION_LIST, value });
+export const showNearStationList = () => ({ type: SHOW_NEAR_STATION_LIST });
+export const hideNearStationList = () => ({ type: HIDE_NEAR_STATION_LIST });
 
