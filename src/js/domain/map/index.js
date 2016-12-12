@@ -18,7 +18,6 @@ const setStationInfo = (lat, lng) => {
   state.markers = vm.stationMarkerList(vm.stationCollection(lat, lng, 5000));
   const rangePoints = vm.stationCollection(lat, lng, 2000);
   view.setStationMarkers(state.map, vm.removeSameStation(state.markers));
-
   view.adjustInitialMapView(state.map, lat, lng, rangePoints);
   state.curCenterLat = lat;
   state.curCenterLng = lng;

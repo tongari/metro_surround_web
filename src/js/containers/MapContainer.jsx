@@ -6,6 +6,7 @@ import { makeMap, isGeoLocation, searchCurrentPoint, moveToCenter, searchCenter 
 import { debounce } from '../domain/utils/debounce';
 import SearchBox from '../components/map/SearchBox';
 import NearStationBox from '../components/map/NearStationBox';
+import NearStationList from '../components/map/NearStationList';
 
 const containerStyle = ({ width, height }) => (
   {
@@ -74,6 +75,7 @@ class MapContainer extends React.Component {
             }
           )}
         />
+        {store.nearStationList.data && <NearStationList stationList={store.nearStationList.data} />}
       </div>
     );
   }
