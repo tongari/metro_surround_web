@@ -3,6 +3,13 @@ import railwayConfig from '../../config/railway';
 import routePath from '../../config/router';
 import css from '../../../css/components/map/infoWindow.css';
 
+/**
+ * caution effective!!
+ */
+const state = {
+  showBallon: null,
+};
+
 const setBallonClickHandler = () => {
   const ballonItem = document.querySelector('.js-ballon');
   ballonItem.addEventListener('click', (e) => {
@@ -22,7 +29,7 @@ const trimDistance = distance => Math.round(distance);
 const ballonNumbering = (isSameStation, stationName) => {
   if (isSameStation) {
     return (
-      `<p class="${css.station}">${stationName}</p>`
+      `<p style="padding-top: 0.2em;">${stationName}</p>`
     );
   }
   return (
@@ -44,14 +51,14 @@ const ballon = (stationName, distance, isSameStation) => (
   })
 );
 
-const pinClickHandler = (map, item, showBallon_) => {
-  let showBallon = showBallon_;
+const pinClickHandler = (map, item) => {
   item.addListener('click', () => {
-    if (showBallon) {
-      showBallon.close();
+    if (state.showBallon) {
+      state.showBallon.close();
     }
-    showBallon = ballon(item.title, trimDistance(item.distance), item.isSameStation);
-    showBallon.open(map, item);
+    state.showBallon = ballon(item.title, trimDistance(item.distance), item.isSameStation);
+    state.showBallon.open(map, item);
+
     setTimeout(setBallonClickHandler, 250);
     setTimeout(() => {
       setNumberingColor(numberingColor(item.railwayId));
@@ -77,13 +84,13 @@ export const adjustInitialMapView = (map, curLat, curLng, list) => {
   map.panTo(new window.google.maps.LatLng(curLat, curLng));
 };
 
-export const setStationMarkers = (map, list, showBallon) => {
+export const setStationMarkers = (map, list) => {
   list.forEach((item, index) => {
     const time = 50 * (index + 1);
     setTimeout(() => {
       item.setMap(map);
     }, time);
-    pinClickHandler(map, item, showBallon);
+    pinClickHandler(map, item);
   });
 };
 

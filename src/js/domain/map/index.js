@@ -8,17 +8,17 @@ const state = {
   map: null,
   curCenterLat: 0,
   curCenterLng: 0,
-  showBallon: null,
   markers: [],
   currentMarker: null,
 };
 
 const setStationInfo = (lat, lng) => {
   view.clearMarkers(state.markers, state.currentMarker);
-  view.setCurrentPin(state.map, lat, lng);
+  state.currentMarker = view.setCurrentPin(state.map, lat, lng);
   state.markers = vm.stationMarkerList(vm.stationCollection(lat, lng, 5000));
   const rangePoints = vm.stationCollection(lat, lng, 2000);
-  view.setStationMarkers(state.map, vm.removeSameStation(state.markers), state.showBallon);
+  view.setStationMarkers(state.map, vm.removeSameStation(state.markers));
+
   view.adjustInitialMapView(state.map, lat, lng, rangePoints);
   state.curCenterLat = lat;
   state.curCenterLng = lng;
