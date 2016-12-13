@@ -144,7 +144,10 @@ class MapContainer extends React.Component {
           distance={store.nearStationList.data[0].distance}
           railwayId={store.nearStationList.data[0].railwayId}
           station={store.nearStationList.data[0].name}
+          lat={store.nearStationList.data[0].Lat}
+          lng={store.nearStationList.data[0].Long}
           hideNearStation={hideNearStation(bActions)}
+          screenSize={screenSize}
         />}
       </div>
     );
