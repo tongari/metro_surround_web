@@ -1,0 +1,59 @@
+@import "../../foundation/config.css";
+
+.titleArea{
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--margin-S) 0;
+}
+
+.title{
+  width: 100%;
+  color: var(--color-white);
+  font-size: var(--font-size-LL);
+  line-height: 1;
+  text-align: center;
+  text-indent: -24px;
+}
+
+.titleIcon{
+  width: 22px;
+  padding-left: var(--margin-M);
+  margin-top: -4px;
+}
+
+.list{
+  border-bottom: 1px solid var(--border-color);
+  background-color: rgba(255, 255, 255, 1);
+
+  & > * {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    justify-content: space-between;
+    color: var(--color-def);
+    padding: var(--margin-L);
+    cursor: pointer;
+  }
+  &:first-child{
+     margin-bottom: var(--margin-L);
+     border-bottom: none;
+  }
+  &:last-child{
+    border-bottom: none;
+  }
+}
+
+.icon{
+  display: inline-block;
+  width: 40px;
+  padding-right: var(--margin-M);
+}
+
+.nextIcon{
+  width: 8px;
+}
+
+.toLinkIcon{
+  width: 16px;
+}

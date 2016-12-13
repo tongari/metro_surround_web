@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowprevIcon } from '../icon/Icon';
-import css from '../../../css/components/nearStationList.css';
+import css from '../../../css/components/map/nearStationList.css';
 import svgCss from '../../../css/components/svg.css';
 
 const titleAreaStyle = () => (

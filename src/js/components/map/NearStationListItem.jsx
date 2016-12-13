@@ -2,7 +2,7 @@ import React from 'react';
 import { NumberingIcon } from '../icon/Icon';
 import typoCss from '../../../css/components/typography.css';
 import svgCss from '../../../css/components/svg.css';
-import css from '../../../css/components/nearStationList.css';
+import css from '../../../css/components/map/nearStationList.css';
 import railwayConfig from '../../config/railway';
 
 const svgColor = index => (

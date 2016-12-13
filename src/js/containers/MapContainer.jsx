@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -7,6 +8,7 @@ import { debounce } from '../domain/utils/debounce';
 import SearchBox from '../components/map/SearchBox';
 import NearStationBox from '../components/map/NearStationBox';
 import NearStationList from '../components/map/NearStationList';
+import NearStation from '../components/map/NearStation';
 import { bodyBg } from '../domain/utils/view';
 
 const mapContainerStyle = ({ width, height }) => (
@@ -49,6 +51,20 @@ const hideNearStationList = bActions => (
   }
 );
 
+const showNearStation = bActions => (
+  (e) => {
+    e.preventDefault();
+    bActions.showNearStation();
+  }
+);
+
+const hideNearStation = bActions => (
+  (e) => {
+    e.preventDefault();
+    bActions.hideNearStation();
+  }
+);
+
 /**
  * MapContainer
  */
@@ -82,13 +98,23 @@ class MapContainer extends React.Component {
 
     return (
       <div>
-        <div style={containerStyle(store.visibleNearStationList.isVisible)}>
+        <div
+          style={
+            containerStyle(
+              _.includes([
+                store.visibleNearStationList.isVisible,
+                store.visibleNearStation.isVisible,
+              ], true)
+            )
+          }
+        >
           <div id="gMap" style={mapContainerStyle(screenSize)} />
           {store.nearStationList.data && <NearStationBox
             station={store.nearStationList.data[0].name}
             stationEn={store.nearStationList.data[0].id}
             distance={Math.round(store.nearStationList.data[0].distance)}
             showNearStationList={showNearStationList(bActions)}
+            showNearStation={showNearStation(bActions)}
           />}
           <SearchBox
             onCurrentSearch={
@@ -111,6 +137,14 @@ class MapContainer extends React.Component {
           stationList={store.nearStationList.data}
           isVisible={store.visibleNearStationList.isVisible}
           hideNearStationList={hideNearStationList(bActions)}
+        />}
+        {store.nearStationList.data &&
+        <NearStation
+          isVisible={store.visibleNearStation.isVisible}
+          distance={store.nearStationList.data[0].distance}
+          railwayId={store.nearStationList.data[0].railwayId}
+          station={store.nearStationList.data[0].name}
+          hideNearStation={hideNearStation(bActions)}
         />}
       </div>
     );

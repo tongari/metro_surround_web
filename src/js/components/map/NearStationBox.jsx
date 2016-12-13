@@ -5,10 +5,10 @@ import svgCss from '../../../css/components/svg.css';
 import typoCss from '../../../css/components/typography.css';
 
 const NearStationBox = (props) => {
-  const { station, stationEn, distance, showNearStationList } = props;
+  const { station, stationEn, distance, showNearStationList, showNearStation } = props;
   return (
     <div className={css.container}>
-      <a href="" className={css.infoBox}>
+      <a href="" className={css.infoBox} onClick={showNearStation}>
         <div>
           <p className={`${typoCss.sizeL} ${typoCss.bold}`}>{station}</p>
           <p className={`${typoCss.sizeS} ${typoCss.bold}`}>{stationEn}</p>
