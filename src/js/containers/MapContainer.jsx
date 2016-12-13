@@ -7,6 +7,7 @@ import { debounce } from '../domain/utils/debounce';
 import SearchBox from '../components/map/SearchBox';
 import NearStationBox from '../components/map/NearStationBox';
 import NearStationList from '../components/map/NearStationList';
+import { bodyBg } from '../domain/utils/view';
 
 const mapContainerStyle = ({ width, height }) => (
   {
@@ -17,7 +18,11 @@ const mapContainerStyle = ({ width, height }) => (
 
 const containerStyle = isVisible => (
   {
-    display: (isVisible) ? 'none' : 'block',
+    visibility: (isVisible) ? 'hidden' : 'visible',
+    position: 'absolute',
+    zIndex: -1,
+    width: '100%',
+    height: '100%',
   }
 );
 
@@ -65,6 +70,8 @@ class MapContainer extends React.Component {
         moveToCenter();
       }, 250);
     });
+
+    bodyBg();
   }
 
   render() {
@@ -72,7 +79,7 @@ class MapContainer extends React.Component {
     const screenSize = (store.screenSize.width === 0)
       ? { width: window.innerWidth, height: window.innerHeight }
       : store.screenSize;
-    
+
     return (
       <div>
         <div style={containerStyle(store.visibleNearStationList.isVisible)}>

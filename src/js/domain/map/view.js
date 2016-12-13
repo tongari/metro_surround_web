@@ -73,17 +73,17 @@ export const adjustInitialMapView = (map, curLat, curLng, list) => {
   const bounds = new window.google.maps.LatLngBounds();
   const currentPoint = new window.google.maps.LatLng(curLat, curLng);
 
-  const nearPoint = (list.length === 0) ?
-    new window.google.maps.LatLng(list[0].position.lat(), list[0].position.lng()) :
-    new window.google.maps.LatLng(list[1].position.lat(), list[1].position.lng());
+  const nearPoint = (list.length > 1) ?
+    new window.google.maps.LatLng(list[1].position.lat(), list[1].position.lng()) :
+    new window.google.maps.LatLng(list[0].position.lat(), list[0].position.lng());
 
-  const adjustLat = (list.length === 0) ?
-  (curLat - list[0].position.lat()) + curLat :
-  (curLat - list[1].position.lat()) + curLat;
+  const adjustLat = (list.length > 1) ?
+  (curLat - list[1].position.lat()) + curLat :
+  (curLat - list[0].position.lat()) + curLat;
 
-  const adjustLng = (list.length === 0) ?
-  (curLng - list[0].position.lng()) + curLng :
-  (curLng - list[1].position.lng()) + curLng;
+  const adjustLng = (list.length > 1) ?
+  (curLng - list[1].position.lng()) + curLng :
+  (curLng - list[0].position.lng()) + curLng;
 
   const adjustPoint = new window.google.maps.LatLng(adjustLat, adjustLng);
 
