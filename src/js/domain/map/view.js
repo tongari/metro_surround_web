@@ -71,14 +71,24 @@ const pinClickHandler = (map, item) => {
  --------------------------------------------------*/
 export const adjustInitialMapView = (map, curLat, curLng, list) => {
   const bounds = new window.google.maps.LatLngBounds();
-  list.forEach((item) => {
-    bounds.extend(new window.google.maps.LatLng(item.Lat, item.Long));
-  });
   const currentPoint = new window.google.maps.LatLng(curLat, curLng);
-  const adjustLat = (curLat - list[0].Lat) + curLat;
-  const adjustLng = (curLng - list[0].Long) + curLng;
+
+  const nearPoint = (list.length === 0) ?
+    new window.google.maps.LatLng(list[0].position.lat(), list[0].position.lng()) :
+    new window.google.maps.LatLng(list[1].position.lat(), list[1].position.lng());
+
+  const adjustLat = (list.length === 0) ?
+  (curLat - list[0].position.lat()) + curLat :
+  (curLat - list[1].position.lat()) + curLat;
+
+  const adjustLng = (list.length === 0) ?
+  (curLng - list[0].position.lng()) + curLng :
+  (curLng - list[1].position.lng()) + curLng;
+
   const adjustPoint = new window.google.maps.LatLng(adjustLat, adjustLng);
+
   bounds.extend(currentPoint);
+  bounds.extend(nearPoint);
   bounds.extend(adjustPoint);
   map.fitBounds(bounds);
   map.panTo(new window.google.maps.LatLng(curLat, curLng));

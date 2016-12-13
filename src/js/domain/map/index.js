@@ -13,14 +13,20 @@ const state = {
 };
 
 const setStationInfo = (lat, lng) => {
+  state.curCenterLat = lat;
+  state.curCenterLng = lng;
   view.clearMarkers(state.markers, state.currentMarker);
   state.currentMarker = view.setCurrentPin(state.map, lat, lng);
   state.markers = vm.stationMarkerList(vm.stationCollection(lat, lng, 5000));
-  const rangePoints = vm.stationCollection(lat, lng, 2000);
-  view.setStationMarkers(state.map, vm.removeSameStation(state.markers));
+  if (state.markers.length === 0) return;
+  const rangePoints = vm.removeSameStation(state.markers);
+  view.setStationMarkers(state.map, rangePoints);
   view.adjustInitialMapView(state.map, lat, lng, rangePoints);
-  state.curCenterLat = lat;
-  state.curCenterLng = lng;
+};
+
+const isNoNearStation = list => (list.length === 0);
+const alertNoNearStation = (isNoStation) => {
+  if (isNoStation) window.alert('検索地点周辺には\n東京メトロの駅がありませんでした。');
 };
 
 /** --------------------------------------------------
@@ -35,7 +41,9 @@ export const searchCurrentPoint = (onStart, onEnd, onUpdate) => {
       const lat = res.coords.latitude;
       const lng = res.coords.longitude;
       setStationInfo(lat, lng);
-      onUpdate(vm.stationCollection(lat, lng, 5000));
+      const isNoStation = isNoNearStation(state.markers);
+      if (!isNoStation) onUpdate(vm.stationCollection(lat, lng, 5000));
+      alertNoNearStation(isNoStation);
     },
     (error) => {
       onEnd();
@@ -56,7 +64,9 @@ export const searchCenter = onUpdate => (
   () => {
     const centerPoint = state.map.getCenter();
     setStationInfo(centerPoint.lat(), centerPoint.lng());
-    onUpdate(vm.stationCollection(centerPoint.lat(), centerPoint.lng(), 5000));
+    const isNoStation = isNoNearStation(state.markers);
+    if (!isNoStation) onUpdate(vm.stationCollection(centerPoint.lat(), centerPoint.lng(), 5000));
+    alertNoNearStation(isNoStation);
   }
 );
 
