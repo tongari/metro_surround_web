@@ -6,7 +6,6 @@ import css from '../../../css/components/map/nearStationList.css';
 const containerStyle = isVisible => (
   {
     display: (isVisible) ? 'block' : 'none',
-    height: window.innerHeight - 50,
   }
 );
 
