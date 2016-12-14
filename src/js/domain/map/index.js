@@ -2,7 +2,7 @@ import * as view from './view';
 import * as vm from './viewModel';
 
 /**
- * caution effective!!
+ * caution side effect!!!
  */
 const state = {
   map: null,

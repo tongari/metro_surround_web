@@ -72,7 +72,7 @@ class NearStation extends React.Component {
             </a>
           </li>
           <li className={css.list}>
-            <a href="">
+            <a href={`http://maps.apple.com/maps?saddr=&daddr=${lat},${lng}&z=16`}>
               <span>地図アプリで行き方を調べる</span>
               <i className={`${css.toLinkIcon} ${svgCss.gray}`}>
                 <ToLinkIcon />

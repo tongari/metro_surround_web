@@ -1,5 +1,5 @@
 /**
- * caution effective!!
+ * caution side effect!!!
  */
 const state = {
   map: null,

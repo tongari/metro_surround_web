@@ -1,10 +1,9 @@
 import { browserHistory } from 'react-router';
 import railwayConfig from '../../config/railway';
-import routePath from '../../config/router';
 import css from '../../../css/components/map/infoWindow.css';
 
 /**
- * caution effective!!
+ * caution side effect!!!
  */
 const state = {
   showBallon: null,
