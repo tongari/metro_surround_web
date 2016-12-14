@@ -65,7 +65,7 @@ export const stationMarkerList = list => (
   list.map((item, index) => {
     const lat = item.Lat;
     const lng = item.Long;
-    const icon = require('../../../asset/img/pin.png');
+    // const icon = require('../../../asset/img/pin.png');
     return new window.google.maps.Marker({
       position: { lat, lng },
       title: item.name,
@@ -73,7 +73,7 @@ export const stationMarkerList = list => (
       railwayId: item.railwayId,
       distance: item.distance,
       animation: window.google.maps.Animation.DROP,
-      icon,
+      // icon,
       zIndex: (900 + index),
     });
   })
