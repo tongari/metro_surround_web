@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -14,20 +15,22 @@ import MapContainer from './containers/MapContainer';
 
 const store = configStore();
 const history = syncHistoryWithStore(browserHistory, store);
+const isUrlMath = _.includes(routerPath, window.location.pathname);
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={App}>
-        <IndexRoute component={RailwayContainer} />
-        <Route path={routerPath.STATION} component={CarCompositionContainer} />
-        <Route path={routerPath.CAR_COMPOSITION} component={CarCompositionDetailContainer} />
-        <Route path={routerPath.MAP} component={MapContainer} />
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('app')
-);
-
-// const body = document.querySelector('body');
-// body.style.opacity = 0.5;
+if (isUrlMath) {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router history={history}>
+        <Route path="/" component={App}>
+          <IndexRoute component={RailwayContainer} />
+          <Route path={routerPath.STATION} component={CarCompositionContainer} />
+          <Route path={routerPath.CAR_COMPOSITION} component={CarCompositionDetailContainer} />
+          <Route path={routerPath.MAP} component={MapContainer} />
+        </Route>
+      </Router>
+    </Provider>,
+    document.getElementById('app')
+  );
+} else {
+  window.location.href = '/';
+}
