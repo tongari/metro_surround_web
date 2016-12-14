@@ -65,6 +65,14 @@ const hideNearStation = bActions => (
   }
 );
 
+const hideNearStationToNearStationList = bActions => (
+  (e) => {
+    e.preventDefault();
+    bActions.hideNearStation();
+    bActions.showNearStationList();
+  }
+);
+
 /**
  * MapContainer
  */
@@ -143,16 +151,38 @@ class MapContainer extends React.Component {
           stationList={store.nearStationList.data}
           isVisible={store.visibleNearStationList.isVisible}
           hideNearStationList={hideNearStationList(bActions)}
+          showNearStation={(params) => {
+            bActions.hideNearStationList();
+            bActions.showNearStation(params);
+          }}
         />}
         {store.nearStationList.data &&
         <NearStation
           isVisible={store.visibleNearStation.isVisible}
-          distance={store.nearStationList.data[0].distance}
-          railwayId={store.nearStationList.data[0].railwayId}
-          station={store.nearStationList.data[0].name}
-          lat={store.nearStationList.data[0].Lat}
-          lng={store.nearStationList.data[0].Long}
-          hideNearStation={hideNearStation(bActions)}
+
+          distance={(store.visibleNearStation.data)
+          ? store.visibleNearStation.data.distance
+          : store.nearStationList.data[0].distance}
+
+          railwayId={(store.visibleNearStation.data)
+          ? store.visibleNearStation.data.railwayId
+          : store.nearStationList.data[0].railwayId}
+
+          station={(store.visibleNearStation.data)
+          ? store.visibleNearStation.data.name
+          : store.nearStationList.data[0].name}
+
+          lat={(store.visibleNearStation.data)
+          ? store.visibleNearStation.data.Lat
+          : store.nearStationList.data[0].Lat}
+
+          lng={(store.visibleNearStation.data)
+          ? store.visibleNearStation.data.Long
+          : store.nearStationList.data[0].Long}
+
+          hideNearStation={(store.visibleNearStation.data)
+          ? hideNearStationToNearStationList(bActions)
+          : hideNearStation(bActions)}
           screenSize={screenSize}
         />}
       </div>

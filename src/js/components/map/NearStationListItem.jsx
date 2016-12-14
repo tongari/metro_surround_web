@@ -11,17 +11,24 @@ const svgColor = index => (
   }
 );
 
+const clickHandler = ({ name, id, distance, railwayId, Lat, Long, showNearStation }) => (
+  (e) => {
+    e.preventDefault();
+    showNearStation({ name, id, distance, railwayId, Lat, Long });
+  }
+);
+
 const NearStationListItem = (props) => {
-  const { station, stationEn, distance, railwayId } = props;
+  const { name, id, distance, railwayId } = props;
   return (
     <li className={css.list}>
-      <a href="">
+      <a href="" onClick={clickHandler(props)}>
         <i className={`${css.icon} ${svgCss.colorInherit}`} style={svgColor(railwayId)}>
           <NumberingIcon />
         </i>
         <div>
-          <p className={`${typoCss.sizeLL} ${typoCss.bold} ${typoCss.lineOne}`}>{station}</p>
-          <p className={`${css.stationEn} ${typoCss.lineOne}`}>{stationEn}</p>
+          <p className={`${typoCss.sizeLL} ${typoCss.bold} ${typoCss.lineOne}`}>{name}</p>
+          <p className={`${css.stationEn} ${typoCss.lineOne}`}>{id}</p>
         </div>
         <p className={`${typoCss.alignR} ${css.distance}`}>およそ{Math.round(distance)}m先</p>
       </a>

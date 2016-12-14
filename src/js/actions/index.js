@@ -25,6 +25,6 @@ export const onResize = value => ({ type: ON_RESIZE, value });
 export const onChangeNearStationList = value => ({ type: CHANGE_NEAR_STATION_LIST, value });
 export const showNearStationList = () => ({ type: SHOW_NEAR_STATION_LIST });
 export const hideNearStationList = () => ({ type: HIDE_NEAR_STATION_LIST });
-export const showNearStation = () => ({ type: SHOW_NEAR_STATION });
+export const showNearStation = value => ({ type: SHOW_NEAR_STATION, value });
 export const hideNearStation = () => ({ type: HIDE_NEAR_STATION });
 

@@ -1,5 +1,13 @@
 @import "../../foundation/config.css";
 
+.container{
+  position: absolute;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-scrolling: touch;
+}
+
+
 .titleArea{
   position: relative;
   display: flex;

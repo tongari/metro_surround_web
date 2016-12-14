@@ -126,17 +126,19 @@ const visibleNearStationList = (state = { isVisible: false }, action) => {
   }
 };
 
-const visibleNearStation = (state = { isVisible: false }, action) => {
+const visibleNearStation = (state = { isVisible: false, data: null }, action) => {
   switch (action.type) {
     case actions.SHOW_NEAR_STATION: {
       const result = Object.assign({}, state, {
         isVisible: true,
+        data: action.value,
       });
       return result;
     }
     case actions.HIDE_NEAR_STATION: {
       const result = Object.assign({}, state, {
         isVisible: false,
+        data: null,
       });
       return result;
     }

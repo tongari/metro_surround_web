@@ -11,6 +11,8 @@ const containerStyle = isVisible => (
     visibility: (isVisible) ? 'visible' : 'hidden',
     position: 'absolute',
     zIndex: -1,
+    top: 0,
+    left: 0,
   }
 );
 
