@@ -3,11 +3,8 @@ import { ArrownextIcon, ToLinkIcon } from '../icon/Icon';
 import NearStationTitle from './NearStationTitle';
 import css from '../../../css/components/map/nearStation.css';
 import svgCss from '../../../css/components/svg.css';
+import { makeMap, makeMarker, moveToCenter } from '../../domain/map/station';
 
-const state = {
-  map: null,
-  marker: null,
-};
 
 const containerStyle = isVisible => (
   {
@@ -17,21 +14,6 @@ const containerStyle = isVisible => (
   }
 );
 
-const makeMap = () => (
-  new window.google.maps.Map(document.querySelector('#gStationMap'), {
-    center: { lat: 35.681298, lng: 139.7662469 },
-    zoom: 17,
-    mapTypeControl: false,
-    streetViewControl: false,
-  })
-);
-
-const setMap = () => {
-  if (!state.map) {
-    state.map = makeMap();
-  }
-};
-
 const mapStyle = ({ width }) => (
   {
     width,
@@ -39,32 +21,13 @@ const mapStyle = ({ width }) => (
   }
 );
 
-const makeMarker = (lat, lng) => (
-  new window.google.maps.Marker({
-    position: { lat, lng },
-  })
-);
-
-const setMarker = (lat = 35.681298, lng = 139.7662469) => {
-  if (!state.marker) {
-    state.marker = makeMarker(lat, lng);
-    state.marker.setMap(state.map);
-  }
-};
-
-const moveToCenter = (lat, lng) => {
-  if (state.map) {
-    state.map.panTo(new window.google.maps.LatLng(lat, lng));
-    state.marker.setPosition(new window.google.maps.LatLng(lat, lng));
-  }
-};
-
 class NearStation extends React.Component {
   componentDidMount() {
     const { lat, lng } = this.props;
-    setMap();
-    setMarker(lat, lng);
+    makeMap();
+    makeMarker(lat, lng);
   }
+
   render() {
     const {
       isVisible,

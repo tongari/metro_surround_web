@@ -90,6 +90,12 @@ class MapContainer extends React.Component {
     bodyBg();
   }
 
+  componentWillUnmount() {
+    const { bActions } = this.props;
+    bActions.hideNearStation();
+    bActions.hideNearStationList();
+  }
+
   render() {
     const { store, bActions } = this.props;
     const screenSize = (store.screenSize.width === 0)
