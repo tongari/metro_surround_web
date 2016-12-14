@@ -40,6 +40,7 @@ class NearStation extends React.Component {
       lng,
       hideNearStation,
       screenSize,
+      getCurrentPoint,
     } = this.props;
 
     moveToCenter(lat, lng);
@@ -72,7 +73,7 @@ class NearStation extends React.Component {
             </a>
           </li>
           <li className={css.list}>
-            <a href={`http://maps.apple.com/maps?saddr=&daddr=${lat},${lng}&z=16`}>
+            <a href={`http://maps.apple.com/maps?saddr=${getCurrentPoint().lat},${getCurrentPoint().lng}&daddr=${lat},${lng}`}>
               <span>地図アプリで行き方を調べる</span>
               <i className={`${css.toLinkIcon} ${svgCss.gray}`}>
                 <ToLinkIcon />

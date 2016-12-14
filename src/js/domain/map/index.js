@@ -79,3 +79,10 @@ export const moveToCenter = () => (
 export const makeMap = () => {
   state.map = view.makeMap();
 };
+
+export const getCurrentPoint = () => (
+  {
+    lat: state.curCenterLat,
+    lng: state.curCenterLng,
+  }
+);

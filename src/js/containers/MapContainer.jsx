@@ -3,7 +3,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../actions/index';
-import { makeMap, isGeoLocation, searchCurrentPoint, moveToCenter, searchCenter } from '../domain/map/index';
+import { makeMap, isGeoLocation, searchCurrentPoint, moveToCenter, searchCenter, getCurrentPoint } from '../domain/map/index';
 import { debounce } from '../domain/utils/debounce';
 import SearchBox from '../components/map/SearchBox';
 import NearStationBox from '../components/map/NearStationBox';
@@ -184,6 +184,7 @@ class MapContainer extends React.Component {
           ? hideNearStationToNearStationList(bActions)
           : hideNearStation(bActions)}
           screenSize={screenSize}
+          getCurrentPoint={getCurrentPoint}
         />}
       </div>
     );
