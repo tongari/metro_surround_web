@@ -184,7 +184,6 @@ class MapContainer extends React.Component {
           ? hideNearStationToNearStationList(bActions)
           : hideNearStation(bActions)}
           screenSize={screenSize}
-          getCurrentPoint={getCurrentPoint}
         />}
       </div>
     );

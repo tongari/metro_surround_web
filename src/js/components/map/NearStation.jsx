@@ -3,6 +3,7 @@ import { ArrownextIcon, ToLinkIcon } from '../icon/Icon';
 import NearStationTitle from './NearStationTitle';
 import css from '../../../css/components/map/nearStation.css';
 import svgCss from '../../../css/components/svg.css';
+import { invokeNativeMap } from '../../domain/map/index';
 import { makeMap, makeMarker, moveToCenter } from '../../domain/map/station';
 
 
@@ -23,6 +24,7 @@ const mapStyle = ({ width }) => (
   }
 );
 
+
 class NearStation extends React.Component {
   componentDidMount() {
     const { lat, lng } = this.props;
@@ -40,7 +42,6 @@ class NearStation extends React.Component {
       lng,
       hideNearStation,
       screenSize,
-      getCurrentPoint,
     } = this.props;
 
     moveToCenter(lat, lng);
@@ -73,7 +74,7 @@ class NearStation extends React.Component {
             </a>
           </li>
           <li className={css.list}>
-            <a href={`http://maps.apple.com/maps?saddr=${getCurrentPoint().lat},${getCurrentPoint().lng}&daddr=${lat},${lng}`}>
+            <a href={invokeNativeMap(lat, lng)} target="_new">
               <span>地図アプリで行き方を調べる</span>
               <i className={`${css.toLinkIcon} ${svgCss.gray}`}>
                 <ToLinkIcon />

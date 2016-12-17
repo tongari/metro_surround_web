@@ -1,5 +1,6 @@
 import * as view from './view';
 import * as vm from './viewModel';
+import { isIOS } from '../utils/ua';
 
 /**
  * caution side effect!!!
@@ -86,3 +87,8 @@ export const getCurrentPoint = () => (
     lng: state.curCenterLng,
   }
 );
+
+export const invokeNativeMap = (lat, lng) => {
+  const url = (isIOS()) ? 'http://maps.apple.com/maps' : 'http://maps.google.com/maps';
+  return `${url}?saddr=${getCurrentPoint().lat},${getCurrentPoint().lng}&daddr=${lat},${lng}`;
+};
