@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import * as actions from './../actions/index';
+import { invokeNativeMap } from '../domain/map/index';
+import { makeMap, makeMarker, moveToCenter } from '../domain/map/station';
 import NearStation from '../components/map/NearStation';
 
 const hideNearStation = onHideNearStation => (
@@ -17,6 +19,11 @@ const hideNearStation = onHideNearStation => (
  * NearStationContainer
  */
 class NearStationContainer extends React.Component {
+  componentDidMount() {
+    const { store } = this.props;
+    makeMap();
+    makeMarker(store.visibleNearStation.data.Lat, store.visibleNearStation.data.Long);
+  }
 
   componentWillUnmount() {
     const { bActions } = this.props;
@@ -25,23 +32,27 @@ class NearStationContainer extends React.Component {
 
   render() {
     const { store, bActions } = this.props;
-    const screenSize = (store.screenSize.width === 0)
-      ? { width: window.innerWidth, height: window.innerHeight }
-      : store.screenSize;
 
-    return (
-      <div>
-        {store.visibleNearStation.data && <NearStation
-          distance={store.visibleNearStation.data.distance}
-          railwayId={store.visibleNearStation.data.railwayId}
-          name={store.visibleNearStation.data.name}
-          Lat={store.visibleNearStation.data.Lat}
-          Long={store.visibleNearStation.data.Long}
-          hideNearStation={hideNearStation(bActions.hideNearStation)}
-          screenSize={screenSize}
-        />}
-      </div>
-    );
+    if (store.visibleNearStation.data) {
+      const screenSize = (store.screenSize.width === 0)
+        ? { width: window.innerWidth, height: window.innerHeight }
+        : store.screenSize;
+      const Lat = store.visibleNearStation.data.Lat;
+      const Long = store.visibleNearStation.data.Long;
+      moveToCenter(Lat, Long);
+
+      return (
+        <div>
+          {store.visibleNearStation.data && <NearStation
+            hideNearStation={hideNearStation(bActions.hideNearStation)}
+            screenSize={screenSize}
+            invokeNativeMap={invokeNativeMap(Lat, Long)}
+            {...store.visibleNearStation.data}
+          />}
+        </div>
+      );
+    }
+    return null;
   }
 }
 

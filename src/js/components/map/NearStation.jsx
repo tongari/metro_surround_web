@@ -3,9 +3,6 @@ import { ArrownextIcon, ToLinkIcon } from '../icon/Icon';
 import NearStationTitle from './NearStationTitle';
 import css from '../../../css/components/map/nearStation.css';
 import svgCss from '../../../css/components/svg.css';
-import { invokeNativeMap } from '../../domain/map/index';
-import { makeMap, makeMarker, moveToCenter } from '../../domain/map/station';
-
 
 const mapStyle = ({ width }) => (
   {
@@ -16,24 +13,16 @@ const mapStyle = ({ width }) => (
 
 
 class NearStation extends React.Component {
-  componentDidMount() {
-    const { Lat, Long } = this.props;
-    makeMap();
-    makeMarker(Lat, Long);
-  }
-
   render() {
     const {
       distance,
       railwayId,
       name,
-      Lat,
-      Long,
+      invokeNativeMap,
       hideNearStation,
       screenSize,
     } = this.props;
 
-    moveToCenter(Lat, Long);
     return (
       <div>
         <NearStationTitle
@@ -63,7 +52,7 @@ class NearStation extends React.Component {
             </a>
           </li>
           <li className={css.list}>
-            <a href={invokeNativeMap(Lat, Long)} target="_new">
+            <a href={invokeNativeMap} target="_new">
               <span>地図アプリで行き方を調べる</span>
               <i className={`${css.toLinkIcon} ${svgCss.gray}`}>
                 <ToLinkIcon />
