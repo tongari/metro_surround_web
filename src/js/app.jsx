@@ -12,6 +12,8 @@ import RailwayContainer from './containers/RailwayContainer';
 import CarCompositionContainer from './containers/CarCompositionContainer';
 import CarCompositionDetailContainer from './containers/CarCompositionDetailContainer';
 import MapContainer from './containers/MapContainer';
+import NearStationListContainer from './containers/NearStationListContainer';
+import NearStationContainer from './containers/NearStationContainer';
 
 const store = configStore();
 const history = syncHistoryWithStore(browserHistory, store);
@@ -26,6 +28,8 @@ if (isUrlMath) {
           <Route path={routerPath.STATION} component={CarCompositionContainer} />
           <Route path={routerPath.CAR_COMPOSITION} component={CarCompositionDetailContainer} />
           <Route path={routerPath.MAP} component={MapContainer} />
+          <Route path={routerPath.NEAR_STATION_LIST} component={NearStationListContainer} />
+          <Route path={routerPath.NEAR_STATION} component={NearStationContainer} />
         </Route>
       </Router>
     </Provider>,

@@ -3,17 +3,12 @@ import NearStationListItem from './NearStationListItem';
 import NearStationListTitle from './NearStationListTitle';
 import css from '../../../css/components/map/nearStationList.css';
 
-const containerStyle = isVisible => (
-  {
-    display: (isVisible) ? 'block' : 'none',
-  }
-);
 
 const NearStationList = (props) => {
-  const { stationList, isVisible, hideNearStationList, showNearStation } = props;
+  const { stationList, hideSelf, showNearStation } = props;
   return (
-    <div className={css.container} style={containerStyle(isVisible)}>
-      <NearStationListTitle hideNearStationList={hideNearStationList} />
+    <div className={css.container}>
+      <NearStationListTitle hideSelf={hideSelf} />
       <ul>
         {
           stationList && stationList.map((item, index) => (

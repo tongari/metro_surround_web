@@ -7,16 +7,6 @@ import { invokeNativeMap } from '../../domain/map/index';
 import { makeMap, makeMarker, moveToCenter } from '../../domain/map/station';
 
 
-const containerStyle = isVisible => (
-  {
-    visibility: (isVisible) ? 'visible' : 'hidden',
-    position: 'absolute',
-    zIndex: -1,
-    top: 0,
-    left: 0,
-  }
-);
-
 const mapStyle = ({ width }) => (
   {
     width,
@@ -27,29 +17,28 @@ const mapStyle = ({ width }) => (
 
 class NearStation extends React.Component {
   componentDidMount() {
-    const { lat, lng } = this.props;
+    const { Lat, Long } = this.props;
     makeMap();
-    makeMarker(lat, lng);
+    makeMarker(Lat, Long);
   }
 
   render() {
     const {
-      isVisible,
       distance,
       railwayId,
-      station,
-      lat,
-      lng,
+      name,
+      Lat,
+      Long,
       hideNearStation,
       screenSize,
     } = this.props;
 
-    moveToCenter(lat, lng);
+    moveToCenter(Lat, Long);
     return (
-      <div style={containerStyle(isVisible)}>
+      <div>
         <NearStationTitle
           railwayId={railwayId}
-          station={station}
+          station={name}
           hideNearStation={hideNearStation}
         />
         <div id="gStationMap" style={mapStyle(screenSize)} />
@@ -74,7 +63,7 @@ class NearStation extends React.Component {
             </a>
           </li>
           <li className={css.list}>
-            <a href={invokeNativeMap(lat, lng)} target="_new">
+            <a href={invokeNativeMap(Lat, Long)} target="_new">
               <span>地図アプリで行き方を調べる</span>
               <i className={`${css.toLinkIcon} ${svgCss.gray}`}>
                 <ToLinkIcon />
